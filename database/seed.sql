@@ -1,0 +1,21 @@
+TRUNCATE TABLE movies RESTART IDENTITY;
+
+INSERT INTO movies (title, category, director, producer, synopsis, trailerUrl, ratingCode, showDate, releaseDate, status) VALUES
+    ('Inception', 'Sci-Fi', 'Christopher Nolan', 'Emma Thomas', 'A thief who steals corporate secrets through the use of dream-sharing technology.', 'https://www.youtube.com/watch?v=YoHD9XEInc0', 'PG-13', '2024-09-01', '2010-07-16', 'Currently Running'),
+    ('The Dark Knight', 'Action', 'Christopher Nolan', 'Charles Roven', 'When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.', 'https://www.youtube.com/watch?v=EXeTwQWrcwY', 'PG-13', '2024-09-02', '2008-07-18', 'Currently Running'),
+    ('Avengers: Endgame', 'Action', 'Anthony Russo, Joe Russo', 'Kevin Feige', 'After the devastating events of Avengers: Infinity War, the universe is in ruins.', 'https://www.youtube.com/watch?v=TcMBFSGVi1c', 'PG-13', '2024-09-03', '2019-04-26', 'Currently Running'),
+    ('Parasite', 'Thriller', 'Bong Joon-ho', 'Kwak Sin-ae', 'Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.', 'https://www.youtube.com/watch?v=PhPROyE0OaM', 'R', '2024-09-04', '2019-05-30', 'Currently Running'),
+    ('Dune', 'Sci-Fi', 'Denis Villeneuve', 'Mary Parent', 'A noble family becomes embroiled in a war for control over the galaxy''s most valuable asset.', 'https://www.youtube.com/watch?v=n9xhJrPXop4', 'PG-13', '2024-09-06', '2021-10-22', 'Currently Running'),
+    ('The Godfather', 'Crime', 'Francis Ford Coppola', 'Albert S. Ruddy', 'An organized crime dynasty''s aging patriarch transfers control of his clandestine empire to his reluctant son.', 'https://www.youtube.com/watch?v=sY1S34973zA', 'R', '2024-09-07', '1972-03-24', 'Currently Running'),
+    ('Forrest Gump', 'Drama', 'Robert Zemeckis', 'Wendy Finerman', 'The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal, and other historical events unfold through the perspective of an Alabama man.', 'https://www.youtube.com/watch?v=bLvqoHBptjg', 'PG-13', '2024-09-08', '1994-07-06', 'Currently Running'),
+    ('The Shawshank Redemption', 'Drama', 'Frank Darabont', 'Niki Marvin', 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', 'https://www.youtube.com/watch?v=6hB3S9bIaco', 'R', '2024-09-09', '1994-09-23', 'Currently Running'),
+    ('Killers of the Flower Moon', 'Crime', 'Martin Scorsese', 'Dan Friedkin', 'In 1920s Oklahoma, the Osage Nation became incredibly wealthy from oil, and members of the tribe began to be murdered under mysterious circumstances.', 'https://www.youtube.com/watch?v=7cx9nCHsemc', 'R', '2024-09-18', '2023-10-20', 'Coming Soon'),
+    ('The Hunger Games: The Ballad of Songbirds and Snakes', 'Adventure', 'Francis Lawrence', 'Nina Jacobson', 'Set 64 years before the original Hunger Games, the story follows Coriolanus Snow, who is a mentor to a tribute.', 'https://www.youtube.com/watch?v=RDE6Uz73A7g', 'PG-13', '2024-09-19', '2023-11-17', 'Coming Soon'),
+    ('Furiosa', 'Action', 'George Miller', 'Doug Mitchell', 'A prequel to Mad Max: Fury Road, focusing on the backstory of the character Furiosa.', 'https://www.youtube.com/watch?v=XJMuhwVlca4', 'R', '2024-09-20', '2024-05-24', 'Coming Soon'),
+    ('Fantastic Beasts: The Secrets of Dumbledore', 'Fantasy', 'David Yates', 'David Heyman', 'Albus Dumbledore assigns Newt Scamander to lead a team of wizards and witches to thwart Grindelwald’s plans.', 'https://www.youtube.com/watch?v=Y9dr2zw-TXQ', 'PG-13', '2024-09-21', '2022-04-15', 'Coming Soon'),
+    ('The Nun II', 'Horror', 'Michael Chaves', 'Peter Safran', 'Set in 1956 France, a priest is murdered and a nun uncovers the sinister origins of a demonic entity.', 'https://www.youtube.com/watch?v=QF-oyCwaArU', 'R', '2024-09-23', '2023-09-08', 'Coming Soon');
+
+TRUNCATE TABLE admins RESTART IDENTITY;
+
+INSERT INTO admins (username, password_hash, email, first_name, last_name) VALUES
+    ('admin_user', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'admin@fakemovietheater.com', 'Admin', 'User');

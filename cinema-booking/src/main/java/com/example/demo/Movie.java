@@ -8,7 +8,7 @@ public class Movie {
 
     private String title;
     private String category;
-    private String cast;
+    private String cast_members; //F: changed from "cast" since its reserved by SQL 
     private String director;
     private String producer;
     private String synopsis;
@@ -17,7 +17,7 @@ public class Movie {
     private String ratingCode; // MPAA-US film rating code
     private LocalDate showDate;
     private LocalDate releaseDate; // For Coming Soon movies
-    private String status; // Currently Running or Coming Soon
+    private String status; // Currently Running or Coming Soon () //F: added a third "Archived" status, for movies no longer airing
 
     // Getters and Setters
 }
