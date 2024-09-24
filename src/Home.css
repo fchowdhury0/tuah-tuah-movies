@@ -1,0 +1,276 @@
+.home {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  }
+  .home .div {
+  background-color: #000000;
+  height: 1117px;
+  overflow: hidden;
+  position: relative;
+  width: 1728px;
+  }
+  .home .frame {
+  background-color: #807777;
+  display: flex;
+  justify-content: space-between;
+  height: 167px;
+
+  overflow: hidden;
+  position: absolute;
+  top: 48px;
+  width: 1759px;
+  }
+  .home .text-wrapper {
+  color: #ffffff;
+  font-family: "Inter-ExtraBold", Helvetica;
+  font-size: 30px;
+  font-weight: 800;
+  left: auto;
+  right: 0;
+  line-height: normal;
+  position: static;
+  top: 70px;
+  white-space: nowrap;
+  width: 698px;
+  }
+  .home .text-wrapper-2 {
+  color: #ffffff;
+  font-family: "Inter-ExtraBold", Helvetica;
+  font-size: 64px;
+  font-weight: 800;
+  left: auto;
+  line-height: normal;
+  position: static;
+  top: 70px;
+  white-space: nowrap;
+  width: 698px;
+  }
+  .home .p {
+  color: #ffffff;
+  font-family: "Inter-ExtraBold", Helvetica;
+  font-size: 24px;
+  font-weight: 800;
+  left: 968px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: right;
+  top: 120px;
+  width: 475px;
+  }
+  .home .round-button-wrapper {
+  align-items: center;
+  border-radius: 5px;
+  display: inline-flex;
+  gap: 16px;
+  justify-content: center;
+  left: 1130px;
+  overflow: hidden;
+  padding: 16px;
+  position: absolute;
+  top: 0;
+  }
+  .home .hover-false {
+  flex: 0 0 auto !important;
+  }
+  .home .round-button-instance-wrapper {
+  align-items: center;
+  border-radius: 5px;
+  display: inline-flex;
+  gap: 16px;
+  justify-content: center;
+  left: 1267px;
+  overflow: hidden;
+  padding: 16px;
+  position: absolute;
+  top: 0;
+  }
+  .home .frame-2 {
+  background-color: #ffffff;
+  height: 966px;
+  left: 97px;
+  position: absolute;
+  top: 233px;
+  width: 1535px;
+  }
+  .home .overlap {
+  height: 565px;
+  left: 62px;
+  position: absolute;
+  top: 48px;
+  width: 251px;
+  }
+  .home .frame-3 {
+
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 370px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .frame-4 {
+  height: 565px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .image {
+  height: 370px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .text-wrapper-3 {
+  color: #000000;
+  font-family: "Inter-ExtraBold", Helvetica;
+  font-size: 36px;
+  font-weight: 800;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 375px;
+  white-space: nowrap;
+  width: 251px;
+  }
+  .home .button-instance {
+  display: flex !important;
+  height: 42px !important;
+  left: 36px !important;
+  position: absolute !important;
+  top: 476px !important;
+  width: 178px !important;
+  }
+  .home .design-component-instance-node {
+  margin-top: unset !important;
+  }
+  .home .overlap-group {
+  height: 565px;
+  left: 932px;
+  position: absolute;
+  top: 49px;
+  width: 251px;
+  }
+  .home .frame-5 {
+  
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 370px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .frame-6 {
+  height: 565px;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .text-wrapper-4 {
+  color: #000000;
+  font-family: "Inter-ExtraBold", Helvetica;
+  font-size: 36px;
+  font-weight: 800;
+  left: 5px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 375px;
+  white-space: nowrap;
+  width: 251px;
+  }
+  .home .overlap-group-wrapper {
+  height: 565px;
+  left: 347px;
+  overflow: hidden;
+  position: absolute;
+  top: 48px;
+  width: 256px;
+  }
+  .home .overlap-group-2 {
+  height: 565px;
+  left: -5px;
+  position: relative;
+  }
+  .home .img {
+  height: 370px;
+  left: 5px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .overlap-2 {
+  height: 566px;
+  left: 637px;
+  position: absolute;
+  top: 48px;
+  width: 256px;
+  }
+  .home .frame-7 {
+  height: 565px;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 1px;
+  width: 251px;
+  }
+  .home .text-wrapper-5 {
+  color: #000000;
+  font-family: "Inter-ExtraBold", Helvetica;
+  font-size: 36px;
+  font-weight: 800;
+  left: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 374px;
+  white-space: nowrap;
+  width: 251px;
+  }
+  .home .frame-8 {
+
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 370px;
+  left: 5px;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .overlap-3 {
+  height: 566px;
+  left: 1222px;
+  position: absolute;
+  top: 48px;
+  width: 256px;
+  }
+  .home .frame-9 {
+ 
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 370px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 251px;
+  }
+  .home .frame-10 {
+  height: 565px;
+  left: 5px;
+  overflow: hidden;
+  position: absolute;
+  top: 1px;
+  width: 251px;
+  }
