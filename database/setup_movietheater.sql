@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS movies CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS admins CASCADE;
+
+
 CREATE TABLE IF NOT EXISTS movies (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -8,6 +13,8 @@ CREATE TABLE IF NOT EXISTS movies (
     synopsis TEXT,
     reviews TEXT, 
     trailerUrl VARCHAR(255),
+	posterUrl VARCHAR(255),
+  	imdb_id VARCHAR(20) UNIQUE,
     ratingCode VARCHAR(10),
     showDate DATE,
     releaseDate DATE,
