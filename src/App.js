@@ -9,7 +9,7 @@ const App = () => {
   const [movies, setMovies] = useState([3]);
   return (
     <div className="app">
-      <h1>Movies</h1>
+      <h1>Hawk Tuah Movies</h1>
 
 
      <div className="container">
