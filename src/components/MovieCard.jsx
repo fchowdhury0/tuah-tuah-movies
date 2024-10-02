@@ -2,33 +2,20 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const MovieCard = () => {
-    const [movieData, setMovieData] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:3001/movies')
-        .then((res) => res.json())
-        .then(data => setMovieData(data.rows))
-        .catch(err => console.log(err));        
-    }, []);
-
-    if (!movieData || movieData.length === 0) {
-        return <div>Loading...</div>;
-      }    
-    
-
+const MovieCard = (movie) => {
 return (
     <div className="movie">
         <div>
-            <p>Movie Title</p>
+            <p>{movie.movie.title}</p>
         </div>
 
         <div>
-            <img src={movieData[0].posterurl} alt="Movie Poster" />
+            <img src={movie.movie.posterurl} alt="Movie Poster" />
         </div>
 
         <div>
-            <span>Now Showing</span>
-            <h3>{movieData[0].title}</h3>
+            <span>{movie.movie.status}</span>
+            <h3>{movie.title}</h3>
         </div>
     </div>
 

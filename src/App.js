@@ -6,14 +6,27 @@ import { useState } from 'react';
 
 
 const App = () => {
-  const [movies, setMovies] = useState([3]);
+  const [movieData, setMovieData] = useState([]);
+  useEffect(() => {
+      fetch('http://localhost:3001/movies')
+      .then((res) => res.json())
+      .then(data => setMovieData(data.rows))
+      .catch(err => console.log(err));        
+  }, []);
+
+  if (!movieData || movieData.length === 0) {
+      return <div>Loading...</div>;
+    } 
+    console.log(movieData);
   return (
     <div className="app">
       <h1>Hawk Tuah Movies</h1>
 
 
      <div className="container">
-          <MovieCard/>
+        {movieData.map((movie) => (
+          <MovieCard movie = {movie} />
+        ))}
       </div>
     </div>
   );
