@@ -128,13 +128,16 @@ h1 {
   box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
 }
 
+/*this is the movie title upon hover*/
 .movie div:nth-of-type(1) {
   position: absolute;
-  padding: 16px;
+  padding: 20px;
+  text-align: center;
+  font-size: larger;
   width: 100%;
   opacity: 0;
-  top: 0;
-  color: #f9d3b4;
+  top: 50;
+  color: #ffffff;
 }
 
 .movie:hover {
@@ -154,7 +157,8 @@ h1 {
 
 .movie div:nth-of-type(3) {
   z-index: 2;
-  background-color: #343739;
+  opacity: .9;
+  background-color: #1889d5;
   padding: 16px 24px 24px 24px;
 
   position: absolute;
