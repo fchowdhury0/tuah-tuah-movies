@@ -1,4 +1,4 @@
-import { default as React, default as React, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard';
 import SearchIcon from './components/search.svg';
