@@ -1,17 +1,25 @@
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import React from 'react'; 
-import MovieCard from './components/MovieCard'; 
-import { useEffect } from 'react';
-import { useState } from 'react';
+import MovieCard from './components/MovieCard';
 
 
 const App = () => {
   const [movieData, setMovieData] = useState([]);
   useEffect(() => {
-      fetch('http://localhost:3001/movies')
-      .then((res) => res.json())
-      .then(data => setMovieData(data.rows))
-      .catch(err => console.log(err));        
+    fetch('http://localhost:8081/api/movies')
+    .then((res) => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log('Fetched data:', data);
+        setMovieData(data.rows || data); // Adjust based on response structure
+    })
+    .catch(err => {
+        console.error('Fetch error:', err);
+    });
   }, []);
 
   if (!movieData || movieData.length === 0) {
