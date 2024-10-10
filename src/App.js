@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard';
-
+import SearchIcon from './components/search.svg';
 
 const App = () => {
-  const [movieData, setMovieData] = useState([]);
+  const [movieData, setMovieData] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
+  const DATABASE_URL = 'http://localhost:3001/movies';
+
   useEffect(() => {
     fetch('http://localhost:8081/api/movies')
     .then((res) => {
@@ -21,19 +24,51 @@ const App = () => {
         console.error('Fetch error:', err);
     });
   }, []);
+  console.log(movieData)
+
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+    setSearchTerm(value);
+    filterMovies(value);
+    console.log(searchTerm)
+    console.log(filterMovies(value))
+  }
+
+  const filterMovies = (searchTerm) => {
+    const filteredMovies = movieData.filter((movie) =>
+      movie.title.includes(searchTerm)
+    );
+    setMovieData(filteredMovies)
+  }
 
   if (!movieData || movieData.length === 0) {
-      return <div>Loading...</div>;
-    } 
-    console.log(movieData);
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="app">
       <h1>Hawk Tuah Movies</h1>
 
+      <div className="search">
+        <input
+          placeholder="Search for a movie"
+          value = {searchTerm}
+          onChange={(e) =>             
+            setSearchTerm(e.target.value)
+          }
+        />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick = {handleInputChange}
+        />
+      </div>
 
-     <div className="container">
+      
+      <div className="container">
         {movieData.map((movie) => (
-          <MovieCard movie = {movie} />
+          <MovieCard 
+          movie={movie} />
         ))}
       </div>
     </div>
