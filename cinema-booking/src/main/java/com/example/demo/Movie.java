@@ -54,111 +54,111 @@ public class Movie {
         this.imdbId = imdbId;
         this.posterUrl = posterUrl;
     }
-
+    
     // Getters and Setters
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) { 
-        this.id = id; 
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getTitle() { 
-        return title; 
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitle(String title) { 
-        this.title = title; 
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getCategory() { 
-        return category; 
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategory(String category) { 
-        this.category = category; 
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getCastMembers() { 
-        return castMembers; 
+    public String getCastMembers() {
+        return castMembers;
     }
 
-    public void setCastMembers(String castMembers) { 
-        this.castMembers = castMembers; 
+    public void setCastMembers(String castMembers) {
+        this.castMembers = castMembers;
     }
 
-    public String getDirector() { 
-        return director; 
+    public String getDirector() {
+        return director;
     }
 
-    public void setDirector(String director) { 
-        this.director = director; 
+    public void setDirector(String director) {
+        this.director = director;
     }
 
-    public String getProducer() { 
-        return producer; 
+    public String getProducer() {
+        return producer;
     }
 
-    public void setProducer(String producer) { 
-        this.producer = producer; 
+    public void setProducer(String producer) {
+        this.producer = producer;
     }
 
-    public String getSynopsis() { 
-        return synopsis; 
+    public String getSynopsis() {
+        return synopsis;
     }
 
-    public void setSynopsis(String synopsis) { 
-        this.synopsis = synopsis; 
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
     }
 
-    public String getReviews() { 
-        return reviews; 
+    public String getReviews() {
+        return reviews;
     }
 
-    public void setReviews(String reviews) { 
-        this.reviews = reviews; 
+    public void setReviews(String reviews) {
+        this.reviews = reviews;
     }
 
-    public String getTrailerUrl() { 
-        return trailerUrl; 
+    public String getTrailerUrl() {
+        return trailerUrl;
     }
 
-    public void setTrailerUrl(String trailerUrl) { 
-        this.trailerUrl = trailerUrl; 
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
     }
 
-    public String getRatingCode() { 
-        return ratingCode; 
+    public String getRatingCode() {
+        return ratingCode;
     }
 
-    public void setRatingCode(String ratingCode) { 
-        this.ratingCode = ratingCode; 
+    public void setRatingCode(String ratingCode) {
+        this.ratingCode = ratingCode;
     }
 
-    public LocalDate getShowDate() { 
-        return showDate; 
+    public LocalDate getShowDate() {
+        return showDate;
     }
 
-    public void setShowDate(LocalDate showDate) { 
-        this.showDate = showDate; 
+    public void setShowDate(LocalDate showDate) {
+        this.showDate = showDate;
     }
 
-    public LocalDate getReleaseDate() { 
-        return releaseDate; 
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) { 
-        this.releaseDate = releaseDate; 
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    public String getStatus() { 
-        return status; 
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatus(String status) { 
-        this.status = status; 
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getImdbId() {

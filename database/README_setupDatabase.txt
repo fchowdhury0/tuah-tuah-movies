@@ -1,9 +1,9 @@
-Setting up the Database locally 
+Setting up the Database locally
 
 
 ### Install Postgres ###
 
-1. Download and install from: 
+1. Download and install from:
 
 https://www.postgresql.org/download/
 
@@ -15,7 +15,7 @@ https://www.postgresql.org/download/
 ### Creating the Database  ###
 
 1. Open command line and navigate to the project directory
-2. First create the database. Run: 
+2. First create the database. Run:
 
 psql -U postgres -f "database/create_database.sql"
 Password: *password you set during install*
@@ -33,10 +33,10 @@ Password: *password you set during install*
 ### Seeding the Database ###
 
 1. Open command line and navigate to the project directory
-2. Run: 
+2. Run:
 
-psql -U postgres -d movietheater -f "database/seed.sql" 
+psql -U postgres -d movietheater -f "database/seed.sql"
 Password: *password you set during install*
 
 
-   This should populate your "movies" table with movies and add a admin user with username 'admin_user' and password '1234' 
+   This should populate your "movies" table with movies and add a admin user with username 'admin_user' and password '1234' \
