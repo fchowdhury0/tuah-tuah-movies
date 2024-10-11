@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
-import org.hibernate.exception.ConstraintViolationException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,20 +32,20 @@ class MovieRepositoryTests {
     @DisplayName("Test saving a new movie")
     void testSaveNewMovie() {
         Movie movie = new Movie(
-            "Inception",
-            "Sci-Fi",
-            "Leonardo DiCaprio, Joseph Gordon-Levitt",
-            "Emma Thomas",
-            "Christopher Nolan",
-            "A thief who steals corporate secrets through the use of dream-sharing technology.",
-            "Mind-bending and thrilling.",
-            "https://www.youtube.com/embed/YoHD9XEInc0",
-            "PG-13",
-            LocalDate.of(2024, 9, 15),
-            LocalDate.of(2010, 7, 16),
-            "Released",
-            "tt1375666",
-            "https://m.media-amazon.com/images/M/MV5BMmU2MzE0YjUtM2UwMC00YWE3LTk3ZTAtNjJkNGViMGYxZjNkXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg"
+            "Inception", // title
+            "Sci-Fi", // category
+            "Leonardo DiCaprio, Joseph Gordon-Levitt", // castMembers
+            "Emma Thomas", // director
+            "Christopher Nolan", // producer
+            "A thief who steals corporate secrets through the use of dream-sharing technology.", // synopsis
+            "Mind-bending and thrilling.", // reviews
+            "https://www.youtube.com/embed/YoHD9XEInc0", // trailerUrl
+            "PG-13", // ratingCode
+            LocalDate.of(2024, 9, 15), // showDate
+            LocalDate.of(2010, 7, 16), // releaseDate
+            "Released", // status
+            "tt1375666", // imdbId
+            "https://m.media-amazon.com/images/M/MV5BMmU2MzE0YjUtM2UwMC00YWE3LTk3ZTAtNjJkNGViMGYxZjNkXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg" // posterUrl
         );
 
         Movie savedMovie = movieRepository.save(movie);
@@ -235,18 +234,11 @@ class MovieRepositoryTests {
             movieRepository.saveAndFlush(movie2); // saveAndFlush to force immediate DB operation
         });
 
-        // Verify the cause of the exception is ConstraintViolationException
-        Throwable cause = exception.getCause();
-        assertNotNull(cause, "Exception cause should not be null");
-        assertTrue(cause instanceof ConstraintViolationException, "Cause should be ConstraintViolationException");
-        
-        // Optionally, verify the constraint name if necessary
-        ConstraintViolationException constraintViolationException = (ConstraintViolationException) cause;
-        String constraintName = constraintViolationException.getConstraintName();
-        assertNotNull(constraintName, "Constraint name should not be null");
-        // Depending on how the constraint is named in your database, adjust the expected name
-        // For example:
-        // assertEquals("movies_imdb_id_unique", constraintName, "Constraint name should match");
+        String expectedMessagePart = "duplicate key value violates unique constraint";
+        String actualMessage = exception.getCause().getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessagePart),
+                "Exception message should contain duplicate key violation");
     }
 
     @Test

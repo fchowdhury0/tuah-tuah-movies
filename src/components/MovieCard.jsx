@@ -1,29 +1,61 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import './MovieCard.css';
 
-const MovieCard = (movie, searchTerm) => {
-  console.log(movie)
+const MovieCard = ({ movie }) => {
+  const [showTrailer, setShowTrailer] = useState(false);
+
+  const toggleTrailer = () => {
+    setShowTrailer(!showTrailer);
+  };
+
   return (
     <div className="movie">
-      <div>
-        <p>{movie.movie.title}</p>
+      <div className="movie-title">
+        <p>{movie.title}</p>
       </div>
 
-      <div>
-        <img src={movie.movie.posterurl} alt="Movie Poster" />
-        onMouseEnter
+      <div className="movie-poster" onClick={toggleTrailer}>
+        <img src={movie.posterUrl} alt={`${movie.title} Poster`} />
       </div>
 
-      <div>
-        <span>{movie.movie.status}</span>
-        {/* I feel like it looks better without this
-        <h3>{movie.movie.title}</h3> */}
+      <div className="movie-info">
+        <span>{movie.status}</span>
+        <h3>{movie.title}</h3>
+        {movie.status === 'Currently Running' && (
+          <button className="book-button">Book Movie</button>
+        )}
       </div>
+
+      {showTrailer && (
+        <div className="trailer-overlay" onClick={toggleTrailer}>
+          <div className="trailer-content" onClick={(e) => e.stopPropagation()}>
+            <iframe
+              width="560"
+              height="315"
+              src={movie.trailerUrl}
+              title={`${movie.title} Trailer`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+            <button className="close-trailer" onClick={toggleTrailer}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
-
   );
-}
+};
 
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    posterUrl: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    trailerUrl: PropTypes.string.isRequired,
+    // Add other movie properties as needed
+  }).isRequired,
+};
 
 export default MovieCard;

@@ -233,3 +233,40 @@ h1 {
     margin: 1rem;
   }
 }
+
+.login-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #1889d5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.login-button:hover {
+  background-color: #0f6ab5;
+}
+
+.search form button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a1a1a1;
+  font-size: 1.5rem;
+}
+
+/* Adjust movie sections */
+section {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+section h2 {
+  color: #f9d3b4;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}

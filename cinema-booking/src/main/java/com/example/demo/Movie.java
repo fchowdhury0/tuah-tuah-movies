@@ -54,7 +54,6 @@ public class Movie {
         this.imdbId = imdbId;
         this.posterUrl = posterUrl;
     }
-    
     // Getters and Setters
 
     public Long getId() {
