@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import RegistrationConfirmation from './components/RegistrationConfirmation';
+import AdminView from './components/AdminView';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/registration-confirmation" element={<RegistrationConfirmation />} />
+        <Route path="/admin" element={<AdminView/>} />
         {/* Add other routes here in future */}
         <Route path="*" element={<div className="app">404 Not Found</div>} /> {/* Fallback Route */}
       </Routes>
