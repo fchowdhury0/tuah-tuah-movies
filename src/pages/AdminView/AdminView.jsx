@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './AdminView.css'
+import './AdminView.scss'
 import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import AddMovieForm from './AddMovieForm';

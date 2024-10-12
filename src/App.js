@@ -1,11 +1,11 @@
 // src/App.js
 import React from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Home from './components/Home/Home';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import RegistrationConfirmation from './components/RegistrationConfirmation/RegistrationConfirmation';
-import AdminView from './components/AdminView/AdminView';
+import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation';
+import AdminView from './pages/AdminView/AdminView';
 
 const App = () => {
   return (

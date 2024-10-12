@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
-import MovieCard from '../MovieCard/MovieCard.jsx';
+import MovieCard from '../../components/MovieCard/MovieCard.jsx';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
