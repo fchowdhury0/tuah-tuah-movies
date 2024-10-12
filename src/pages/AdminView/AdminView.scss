@@ -1,4 +1,4 @@
-
+@import "src/App.scss";
 * {
   margin: 0;
   border: 0;
@@ -15,14 +15,6 @@ body {
   background-color: #212426;
 }
 
-.app {
-  padding: 4rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 
 h1 {
   font-size: 3rem;
@@ -114,8 +106,8 @@ h1 {
 
 .button-container {
   width: 100%;
-  margin-top: 3rem;
-
+  margin-top: 0;
+  
   gap: 20px;
   display: flex;
   justify-content: center;
@@ -125,7 +117,7 @@ h1 {
 
 .form-container{
   padding: 20px;
-  width: 50%; 
+  width: 100%;
   gap: 10px;
   height: 300px;
   display: flex;

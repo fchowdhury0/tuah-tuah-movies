@@ -7,8 +7,11 @@ import Register from './pages/Register/Register';
 import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation';
 import AdminView from './pages/AdminView/AdminView';
 
+
+
 const App = () => {
   return (
+    
     <Router>
       <Routes>
         <Route path="/" element={<Navigate replace to="/home" />} /> {/* Redirect root to /home */}
@@ -21,6 +24,8 @@ const App = () => {
         <Route path="*" element={<div className="app">404 Not Found</div>} /> {/* Fallback Route */}
       </Routes>
     </Router>
+    
+    
   );
 };
 

@@ -3,7 +3,10 @@ import './AdminView.scss'
 import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import AddMovieForm from './AddMovieForm';
+import Footer from '../../components/Footer/Footer.jsx'
 
+import Menu from '../../components/Menu/Menu'
+import NavBar from '../../components/NavBar/NavBar'
 
 /*check console log for form values*/
 const App = () => {
@@ -19,10 +22,13 @@ const App = () => {
   }
 
   return (
-    <div>
-      <div className="top-bar">
+    <div className="">
+      <div className="navbar">
+        <NavBar/>
         <button className="login-button">Logout</button>
-        <button className="">Preview User View</button>
+      </div>
+      <div className="menu">
+        <Menu />
       </div>
       <div className="button-container">
         <button className="add-movie-button" onClick={showAddComponent}>Add Movie</button>

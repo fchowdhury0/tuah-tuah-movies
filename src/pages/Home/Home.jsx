@@ -1,7 +1,7 @@
 // src/components/Home.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css';
+import './Home.scss';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
 
 const Home = () => {

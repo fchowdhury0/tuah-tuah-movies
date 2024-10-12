@@ -1,0 +1,35 @@
+@import "src/App.scss";
+
+.menu{
+  width: 250px;
+  padding: 5px 20px;
+  border-right: 2px;
+
+  .item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #f0f0f0;
+
+    .title{
+      font-size: 12px;
+      font-weight: 200px;
+      color: #f0f0f0;
+    }
+
+    .list-item{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #f0f0f0;
+
+      &:hover{
+        background-color: rgba(245, 245, 245, 0.108);
+      }
+    }
+  }
+
+}
