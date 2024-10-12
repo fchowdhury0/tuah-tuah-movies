@@ -1,0 +1,20 @@
+.confirmation-container {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #1f2123;
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .confirmation-container h2 {
+    color: #f9d3b4;
+    margin-bottom: 10px;
+  }
+  
+  .confirmation-container p {
+    font-size: 1.1rem;
+  }
+  
