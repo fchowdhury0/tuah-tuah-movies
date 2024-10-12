@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
-import MovieCard from './components/MovieCard';
+import './AdminView.css'
 
 const App = () => {
   const [showAdd, setShowAdd] = useState(false);
