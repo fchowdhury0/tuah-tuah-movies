@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './AdminView.css'
-import { useFormik } from 'formik';
+import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
-
+import AddMovieForm from './AddMovieForm';
+/*check console log for form values*/
 const App = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-
-  /* populate the movie form with the input and send to database?*/
-  const formik = useFormik({
-    initialValues: {
-      movieTitle: '',
-      description: '',
-      posterUrl: '',
-      trailerUrl: '',
-      status: '',
-      id: ''
-    }
-  })
-
-  console.log('Form values', formik.values)
 
   function showAddComponent() {
     setShowAdd(!showAdd);
@@ -41,45 +28,26 @@ const App = () => {
       </div>
       {showAdd && (
         <div className="form-container">
+          <Formik
+            /*these are the form values, may be updated as needed*/
+            initialValues={{
+              movieTitle: '',
+              description: '',
+              posterUrl: '',
+              trailerUrl: '',
+              status: '',
+              id: ''
+            }}
+            onSubmit={async (formsData, {setSubmitting}) => {
+              setSubmitting(true)
+              console.log(formsData)
+              setSubmitting(false)
+            }}>
+              {({ values, handleChange, onSubmit }) => (
+                <AddMovieForm values={values} handleChange={handleChange} onSubmit={onSubmit} />
+              )}
 
-            <input
-              type="text"
-              id="movieTitle"
-              placeholder="Movie Title"
-              onChange={formik.handleChange}
-              value={formik.values.movieTitle} />
-            <input 
-              type="text"
-              id="description"
-              placeholder="Description"
-              onChange={formik.handleChange}
-              value={formik.values.description} />
-            <input
-              type="text"
-              id="poster"
-              placeholder="PosterUrl"
-              onChange={formik.handleChange}
-              value={formik.values.posterUrl} />
-            <input
-              type="text"
-              id="poster"
-              placeholder="TrailerUrl"
-              onChange={formik.handleChange}
-              value={formik.values.trailerUrl}/>
-            <input
-              type="text"
-              id="status"
-              placeholder="Status" 
-              onChange={formik.handleChange}
-              value={formik.values.status}/>
-            <input
-              type="text"
-              id="id"
-              placeholder="ID"             
-              onChange={formik.handleChange}
-              value={formik.values.id}/>
-            <button className="add-movie-button">Submit</button>
-
+          </Formik>
 
         </div>
       )}
