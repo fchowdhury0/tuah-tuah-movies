@@ -3,6 +3,8 @@ import './AdminView.css'
 import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import AddMovieForm from './AddMovieForm';
+
+
 /*check console log for form values*/
 const App = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -16,12 +18,11 @@ const App = () => {
     setShowDelete(!showDelete)
   }
 
-
   return (
     <div>
       <div className="top-bar">
         <button className="login-button">Logout</button>
-        <button className="preview-button">Preview User View</button>
+        <button className="">Preview User View</button>
       </div>
       <div className="button-container">
         <button className="add-movie-button" onClick={showAddComponent}>Add Movie</button>
@@ -38,22 +39,22 @@ const App = () => {
               status: '',
               id: ''
             }}
-            onSubmit={async (formsData, {setSubmitting}) => {
+            onSubmit={async (formsData, { setSubmitting }) => {
               setSubmitting(true)
               console.log(formsData)
               setSubmitting(false)
             }}>
-              {({ values, handleChange, onSubmit }) => (
-                <AddMovieForm values={values} handleChange={handleChange} onSubmit={onSubmit} />
-              )}
-
+            {({ values, handleChange, onSubmit }) => (
+              <AddMovieForm values={values} handleChange={handleChange} onSubmit={onSubmit} />
+            )}
           </Formik>
 
         </div>
       )}
-      {/* should reveal a component for finding a movie to */}
-      <button className="delete-movie-button" onClick={showDeleteComponent}>Delete Movie</button>
-
+      {/* TODO should reveal a component for finding a movie*/}
+      <div className="button-container">
+        <button className="delete-movie-button" onClick={showDeleteComponent}>Delete Movie</button>
+      </div>
       {showDelete && (
         <div className="form-container">
           <input className="text-input" type="text" placeholder="Search for movie to delete" />

@@ -115,13 +115,12 @@ h1 {
 .button-container {
   width: 100%;
   margin-top: 3rem;
-  
+
   gap: 20px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+
 }
 
 .form-container{
@@ -271,6 +270,8 @@ h1 {
 }
 
 .add-movie-button{
+  width: auto;
+  left: 20px;
   padding: 10px 20px;
   margin: 20px;
   background-color: #1fc93b;
@@ -282,6 +283,7 @@ h1 {
 }
 
 .delete-movie-button{
+  width: auto;
   padding: 10px 20px;
   margin: 20px;
   background-color: #d52218;
@@ -292,15 +294,14 @@ h1 {
   font-size: 1rem;
 }
 .top-bar {
-  display: flex;
-
+  display: inline-block;
   justify-content: space-between;
   align-items: relative;
   padding: 5px 10px;
 }
 
 .login-button {
-  position: absolute;
+  width: auto;
   top: 20px;
   right: 20px;
   padding: 10px 20px;
@@ -312,6 +313,7 @@ h1 {
   font-size: 1rem;
 }
 .preview-button {
+  width: auto;
   position: absolute;
   top: 20px;
   left: 20px;
