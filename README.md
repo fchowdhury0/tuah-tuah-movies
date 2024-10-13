@@ -15,14 +15,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [Running the Application](#running-the-application)
   - [Running the Backend](#running-the-backend)
   - [Running the Frontend](#running-the-frontend)
-- [Learn More](#learn-more)
-  - [Code Splitting](#code-splitting)
-  - [Analyzing the Bundle Size](#analyzing-the-bundle-size)
-  - [Making a Progressive Web App](#making-a-progressive-web-app)
-  - [Advanced Configuration](#advanced-configuration)
-  - [Deployment](#deployment)
-  - [Troubleshooting](#troubleshooting)
-- [Additional Tips](#additional-tips)
 
 ## Prerequisites
 
