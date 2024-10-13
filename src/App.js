@@ -1,31 +1,96 @@
 // src/App.js
+import './App.scss'
 import React from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, Outlet, BrowserRouter as Router, Routes, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation';
 import AdminView from './pages/AdminView/AdminView';
-
+import ManageMovies from './pages/AdminView/ManageMovies.jsx'
+import ManageUsers from'./pages/AdminView/ManageUsers.jsx'
+import Footer from './components/Footer/Footer.jsx'
+import Menu from './components/Menu/Menu.jsx'
+import NavBar from './components/NavBar/NavBar.jsx'
+import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx'
+import ManagePromotions from './pages/AdminView/ManagePromotions'
 
 
 const App = () => {
+  /*this is the layout for admin view pages*/
+  const AdminLayout = ()  => {
+    return (
+      <div className="admin-main">
+        <NavBar />
+        <div className="admin-container">
+          <div className="menu-container"><Menu/></div>
+          <div className="content-container"><Outlet/></div>
+        </div>
+        <Footer/>
+      </div>
+    )
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Navigate replace to="/home" /> /* Redirect root to /home */
+    },
+    {
+      path: "/home",
+      element:<Home />
+    },
+    {
+      path:"/login",
+      element: <Login />
+    },
+    {
+      path: "/register",
+      element: <Register />
+    },
+    {
+      path: "/registration-confirmation",
+      element: <RegistrationConfirmation />
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          path:"/admin/home",
+          element: <AdminView/>
+        },
+        {
+          path:"/admin/managemovies",
+          element: <ManageMovies/>
+        },
+        {
+          path:"/admin/manageusers",
+          element: <ManageUsers/>
+        },
+        {
+          path:"/admin/managepromotions",
+          element: <ManagePromotions/>
+        },
+        {
+          path:"/admin/schedulemovie",
+          element: <ScheduleMovie/>
+        }
+      ]
+
+
+      
+
+    },
+    {
+      path: "*",
+      element: <div className="app">404 Not Found</div> /* Fallback Route */
+    }
+
+  ])
+
   return (
-    
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate replace to="/home" />} /> {/* Redirect root to /home */}
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/registration-confirmation" element={<RegistrationConfirmation />} />
-        <Route path="/admin" element={<AdminView/>} />
-        {/* Add other routes here in future */}
-        <Route path="*" element={<div className="app">404 Not Found</div>} /> {/* Fallback Route */}
-      </Routes>
-    </Router>
-    
-    
+    <RouterProvider router={router} />
   );
 };
 

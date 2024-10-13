@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './AdminView.scss'
-import ManageMovies from './ManageMovies.jsx'
+import { useFormik, Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import AddMovieForm from './AddMovieForm.jsx';
 import Footer from '../../components/Footer/Footer.jsx'
+
 import Menu from '../../components/Menu/Menu.jsx'
 import NavBar from '../../components/NavBar/NavBar.jsx'
 
-/*check console log for form values*/
-const AdminView = () => {
-  return (
-    <div className="admin-view"> 
-    <span> Welcome, Admin! </span>
-    </div>
-  )
+const ScheduleMovie = () => {
 
-}
+};
 
-export default AdminView;
+export default ScheduleMovie;
