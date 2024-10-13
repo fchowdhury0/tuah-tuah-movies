@@ -3,7 +3,7 @@ import './AdminView.scss'
 import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-const MovieForm = ({ values, handleChange, onSubmit  }) => (
+const MovieForm = ({ values, handleChange, onSubmit }) => (
   <Form className="form-container">
     <input
       type="text"

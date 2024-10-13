@@ -1,9 +1,17 @@
 .admin-view {
-  justify-content: center;
   color: #f0f0f0;
+
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
   .box {
     padding: 20px;
     border-radius: 10px;
     border: 1px solid  #3f4549;
   }
+}
+.top-style{
+  display: flex
+}
+.form-container {
+
 }
