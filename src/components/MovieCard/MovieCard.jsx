@@ -24,7 +24,7 @@ const MovieCard = ({ movie }) => {
         <span>{movie.status}</span>
         <h3>{movie.title}</h3>
         {movie.status === 'Currently Running' && (
-          <Link to="/ordertickets" className="book-button">Book Movie</Link>
+          <Link to="/bookmovie" className="book-button">Book Movie</Link>
         )}
       </div>
 
