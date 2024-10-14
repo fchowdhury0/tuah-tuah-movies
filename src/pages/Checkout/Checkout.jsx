@@ -35,6 +35,15 @@ const Checkout = () => {
 	e.preventDefault();
 	console.log('User Info:', userInfo);
 	console.log('Payment Info:', paymentInfo);
+
+	navigate('/orderconfirmation', {
+            state: {
+                tickets,
+                total,
+                userInfo,
+                paymentInfo
+            }
+        });
     };
 
     const handleCancel = () => {
