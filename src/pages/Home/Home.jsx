@@ -16,7 +16,7 @@ const Home = () => {
   }, []);
 
   const fetchMovies = () => {
-    fetch('http://localhost:8081/api/movies')
+    fetch('http://localhost:8080/api/movies')
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);

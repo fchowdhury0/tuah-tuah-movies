@@ -8,6 +8,7 @@ const ManagePromotions = () => {
     promoDescription: '',
     promoCode: '',
   }]);
+  
   const [showAdd, setShowAdd] = useState(false);
   const handleChange = () => {
     setShowAdd(!showAdd);
