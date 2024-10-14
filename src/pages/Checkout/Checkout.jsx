@@ -49,6 +49,9 @@ const Checkout = () => {
     const handleCancel = () => {
 	navigate('/home');
     }
+    const handleCheckout = () => {
+      navigate('/home');
+        }
     
     return (
 	<div className="main-checkout" style={{color:'white'}}>
@@ -116,8 +119,8 @@ const Checkout = () => {
 			required
 		    />
 		    
-		    <button className="submit-button" type="submit">Complete Checkout</button>
-		    <button onClick={handleCancel}  className="cancel-button" type="submit">Cancel</button> 
+		    <button onClick = {handleChange} className="submit-button" type="submit">Complete Checkout</button>
+		    <button onClick={handleCheckout}  className="cancel-button" type="submit">Cancel</button> 
 		</form>
 	    </div>
 	    <Footer />

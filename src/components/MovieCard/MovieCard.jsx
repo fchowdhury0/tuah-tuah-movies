@@ -5,6 +5,11 @@ import './MovieCard.css';
 
 const MovieCard = ({ movie }) => {
   const [showTrailer, setShowTrailer] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+
+  const toggleButton = () => {
+    setShowButton(!showButton)
+  }
 
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
