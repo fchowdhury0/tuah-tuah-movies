@@ -44,13 +44,13 @@ const location = useLocation();
       <h1>Checkout</h1>
       <div className="checkout-container">
         <h2>Your Cart</h2>
-<div>
-                    {Object.entries(tickets).map(([type, count]) => (
-                        <p key={type}>
-                            {type.charAt(0).toUpperCase() + type.slice(1)} Tickets: {count}
-                        </p>
-                    ))}
-                </div>
+	  <div>
+              {Object.entries(tickets).map(([type, count]) => (
+                  <p key={type}>
+                      {type.charAt(0).toUpperCase() + type.slice(1)} Tickets: {count}
+                  </p>
+              ))}
+          </div>
           <h2>Total Amount: ${total.toFixed(2)}</h2>
 	  <h2>Shipping Information</h2>
         <form onSubmit={handleSubmit}>
