@@ -23,9 +23,12 @@ public class MovieController {
     @GetMapping
     public List<Movie> getAllMovies() {
         List<Movie> movies = movieRepository.findAll();
-        logger.info("Fetched movies: {}", movies);
+        for (Movie movie : movies) {
+            logger.info("Movie: {} - PosterUrl: {}, TrailerUrl: {}", movie.getTitle(), movie.getPosterUrl(), movie.getTrailerUrl());
+        }
         return movies;
     }
+
 
     // Search for movies by title
     @GetMapping("/search")

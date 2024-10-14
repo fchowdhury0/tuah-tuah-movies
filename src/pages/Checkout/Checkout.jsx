@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import ManageMovies from '../AdminView/ManageMovies.jsx';
-import Footer from '../../components/Footer/footer.jsx';
-import Menu from '../../components/Menu/Menu.jsx';
-import NavBar from '../../components/NavBar/navbar.jsx';
 import { useLocation } from 'react-router-dom';
-import './Checkout.scss'
+import Footer from '../../components/Footer/footer.jsx';
+
 const Checkout = () => {
   const location = useLocation();
   const { tickets, total } = location.state || { tickets: {}, total: 0 };
