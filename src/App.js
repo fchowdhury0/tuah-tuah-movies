@@ -16,6 +16,7 @@ import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx'
 import ManagePromotions from './pages/AdminView/ManagePromotions'
 import Checkout from './pages/Checkout/Checkout';
 import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
+import BookMovie from './pages/BookMovie/BookMovie.jsx';
 import EditProfile from './pages/EditProfile/EditProfile';
 
 const App = () => {
@@ -66,6 +67,10 @@ const App = () => {
 	path: "/ordertickets",
 	element: <OrderTickets/>
     },
+      {
+	  path: "/bookmovie",
+	  element: <BookMovie/>
+      },
     {
       path: "/admin",
       element: <AdminLayout />,
