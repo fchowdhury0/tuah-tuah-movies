@@ -1,145 +1,115 @@
-/* src/components/MovieCard.css */
+/* src/components/MovieCard/MovieCard.css */
 
 .movie {
-    width: 310px;
-    height: 460px;
-    margin: 1.5rem;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    border: none;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
-    box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
-    background-color: #1f2123;
-    color: #fff;
-  }
-  
-  .movie-title {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    text-align: center;
-    font-size: 1.2rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 3;
-  }
-  
-  .movie-poster img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-  }
-  
-  .movie-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(24, 137, 213, 0.9);
-    padding: 16px 24px;
-    text-align: center;
-    transition: background 0.3s ease;
-  }
-  
-  .movie-info span {
-    font-family: "Raleway", sans-serif;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 2px;
-    font-weight: 500;
-    color: #f0f0f0;
-  }
-  
-  .movie-info h3 {
-    margin-top: 5px;
-    margin-bottom: 20px;
-    font-family: "Roboto Slab", serif;
-    color: #f9d3b4;
-  }
-  
-  .book-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #ff6347;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-  }
-  
-  .book-button:hover {
-    background-color: #ff4500;
-  }
-  
-  .movie:hover {
-    box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.05, 1.05);
-  }
-  
-  .movie:hover .movie-title {
-    opacity: 1;
-  }
-  
-  .movie:hover .movie-poster img {
-    opacity: 0.3;
-  }
-  
-  .movie:hover .movie-info {
-    background: transparent;
-  }
-  
-  /* Trailer Overlay Styles */
-  .trailer-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .trailer-content {
-    position: relative;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  .close-trailer {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #ff6347;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  /* Responsive Styles */
-  @media screen and (max-width: 600px) {
-    .movie {
+  width: 310px;
+  height: 460px;
+  margin: 1.5rem;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
+  box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
+  background-color: #1f2123;
+  color: #fff;
+}
+
+.movie-title {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.movie-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(24, 137, 213, 0.9);
+  padding: 16px 24px;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+.movie-info span {
+  font-family: "Raleway", sans-serif;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  color: #f0f0f0;
+}
+
+.movie-info h3 {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-family: "Roboto Slab", serif;
+  color: #f9d3b4;
+}
+
+.book-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff6347;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.book-button:hover {
+  background-color: #ff4500;
+}
+
+.movie:hover {
+  box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05, 1.05);
+}
+
+.movie:hover .movie-title {
+  opacity: 1;
+}
+
+.movie:hover .movie-poster img {
+  opacity: 0.3;
+}
+
+.movie:hover .movie-info {
+  background: transparent;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 600px) {
+  .movie {
       width: 90%;
       height: auto;
-    }
-  
-    .trailer-content iframe {
-      width: 100%;
-      height: auto;
-    }
   }
-  
+
+  /* Adjust movie-info padding for smaller screens */
+  .movie-info {
+      padding: 12px 18px;
+  }
+
+  /* Adjust book-button size */
+  .book-button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+  }
+}
