@@ -1,0 +1,17 @@
+.main-checkout {
+  color: white;
+  background-color: black;
+  position: absolute;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.checkout-container {
+  flex: 1;
+}
+.submit-button {
+  width: fit-content;
+  align-self: flex-end;
+}

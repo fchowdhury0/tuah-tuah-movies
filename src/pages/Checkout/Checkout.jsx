@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import ManageMovies from '../AdminView/ManageMovies.jsx';
-import Footer from '../../components/Footer/Footer.jsx';
+import Footer from '../../components/Footer/footer.jsx';
 import Menu from '../../components/Menu/Menu.jsx';
-import NavBar from '../../components/NavBar/NavBar.jsx';
+import NavBar from '../../components/NavBar/navbar.jsx';
 import { useLocation } from 'react-router-dom';
-
+import './Checkout.scss'
 const Checkout = () => {
-const location = useLocation();
-    const { tickets, total } = location.state || { tickets: {}, total: 0 };
+  const location = useLocation();
+  const { tickets, total } = location.state || { tickets: {}, total: 0 };
 
-    const [cartItems, setCartItems] = useState([]); // Assume cart items will be passed or fetched
+  const [cartItems, setCartItems] = useState([]); // Assume cart items will be passed or fetched
   const [userInfo, setUserInfo] = useState({
     name: '',
     email: '',
@@ -39,20 +39,20 @@ const location = useLocation();
   };
 
   return (
-    <div style={{ color: 'white', backgroundColor: 'black', padding: '20px' }}>
-    
+    <div className="main-checkout">
+
       <h1>Checkout</h1>
       <div className="checkout-container">
         <h2>Your Cart</h2>
-<div>
-                    {Object.entries(tickets).map(([type, count]) => (
-                        <p key={type}>
-                            {type.charAt(0).toUpperCase() + type.slice(1)} Tickets: {count}
-                        </p>
-                    ))}
-                </div>
-          <h2>Total Amount: ${total.toFixed(2)}</h2>
-	  <h2>Shipping Information</h2>
+        <div>
+          {Object.entries(tickets).map(([type, count]) => (
+            <p key={type}>
+              {type.charAt(0).toUpperCase() + type.slice(1)} Tickets: {count}
+            </p>
+          ))}
+        </div>
+        <h2>Total Amount: ${total.toFixed(2)}</h2>
+        <h2>Shipping Information</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -73,7 +73,7 @@ const location = useLocation();
           <input
             type="text"
             name="address"
-           placeholder="Billing Address"
+            placeholder="Billing Address"
             value={userInfo.address}
             onChange={handleChange}
             required
@@ -105,7 +105,7 @@ const location = useLocation();
             required
           />
 
-          <button type="submit">Complete Checkout</button>
+          <button className="submit-button" type="submit">Complete Checkout</button>
         </form>
       </div>
       <Footer />

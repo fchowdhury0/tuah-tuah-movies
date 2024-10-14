@@ -15,6 +15,7 @@ const Home = () => {
     fetchMovies();
   }, []);
 
+  
   const fetchMovies = () => {
     fetch('http://localhost:8080/api/movies')
       .then((res) => {
@@ -34,6 +35,7 @@ const Home = () => {
         setError(err.message);
         setLoading(false);
       });
+      console.log(movies)
   };
 
   const handleSearch = (e) => {
@@ -42,7 +44,7 @@ const Home = () => {
       fetchMovies();
       return;
     }
-    fetch(`http://localhost:8081/api/movies/search?title=${encodeURIComponent(searchTerm)}`)
+    fetch(`http://localhost:8080/api/movies/search?title=${encodeURIComponent(searchTerm)}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Search failed! status: ${res.status}`);
@@ -101,7 +103,7 @@ const Home = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button type="submit">
+          <button className="search-button" type="submit">
             🔍
           </button>
         </form>
