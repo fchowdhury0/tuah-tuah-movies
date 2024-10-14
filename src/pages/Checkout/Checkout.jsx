@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import ManageMovies from '../AdminView/ManageMovies.jsx';
-import Footer from '../../components/Footer/Footer.jsx';
-import Menu from '../../components/Menu/Menu.jsx';
-import NavBar from '../../components/NavBar/NavBar.jsx';
 import { useLocation } from 'react-router-dom';
+import Footer from '../../components/Footer/footer.jsx';
 
 const Checkout = () => {
 const location = useLocation();

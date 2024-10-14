@@ -4,10 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 import java.time.LocalDate;
 
@@ -25,8 +25,7 @@ public class Movie {
 
     private String category;
 
-    @Column(name = "cast_members")
-    private String castMembers;  // CamelCase in Java, snake_case in DB (via @Column if necessary)
+    private String castMembers;
 
     private String director;
 
@@ -38,6 +37,7 @@ public class Movie {
     @Size(max = 5000)
     private String reviews;
 
+    @Column(name = "trailerurl")
     private String trailerUrl;
 
     private String ratingCode;
@@ -49,9 +49,10 @@ public class Movie {
     @NotNull
     private String status;
 
-    @Column(unique = true)
+    @NotNull
     private String imdbId;
 
+    @Column(name = "posterurl")
     private String posterUrl;
 
     // No-Args Constructor
