@@ -3,7 +3,11 @@ import './AdminView.scss'
 import { useFormik, Formik, Form } from 'formik';
 
 const ManagePromotions = () => {
-  const [promotions, setPromotions] = useState([0]);
+  const [promotions, setPromotions] = useState([{
+    promoTitle: '',
+    promoDescription: '',
+    promoCode: '',
+  }]);
   const [showAdd, setShowAdd] = useState(false);
   const handleChange = () => {
     setShowAdd(!showAdd);
