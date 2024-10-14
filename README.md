@@ -334,7 +334,7 @@ Cleans and builds the project.
 
 ### 1. **Environment Variables**
 
-Ensure that both frontend and backend applications have the necessary environment variables configured. For example, API endpoints, database URLs, and secret keys should be stored securely, often in `.env` files.
+Ensure that both frontend and backend applications have the necessary environment variables configured. For example, API endpoints, database URLs, and secret keys should be stored securely, often in `application.properties` files.
 
 ### 2. **CORS Configuration**
 
