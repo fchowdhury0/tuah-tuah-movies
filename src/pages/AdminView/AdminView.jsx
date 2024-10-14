@@ -8,8 +8,8 @@ import NavBar from '../../components/NavBar/navbar.jsx'
 /*check console log for form values*/
 const AdminView = () => {
   return (
-    <div style={{justifyContent:"center"}}className="admin-view"> 
-    <span> Welcome, Admin!</span>
+    <div className="admin-view"> 
+    <h1> Welcome, Admin!</h1>
     </div>
   )
 

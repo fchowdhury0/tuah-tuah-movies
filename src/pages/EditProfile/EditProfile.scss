@@ -1,6 +1,8 @@
 .main {
   
   .content-container{
+    display: flexbox;
+    margin: 10px;
     color: #f0f0f0;
     display: flex;
     flex-direction: column;
@@ -8,7 +10,14 @@
   }
 
   .item {
-    
+    margin: 30px;
+    border-bottom: 2px solid #f0f0f05b;
+
+  }
+
+  .form {
+    display: flex;
+
   }
 
 
