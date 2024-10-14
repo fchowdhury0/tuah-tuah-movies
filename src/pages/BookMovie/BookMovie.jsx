@@ -9,6 +9,7 @@ const BookMovie = () => {
     });
     
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedShowtime, setSelectedShowtime] = useState('');
     const navigate = useNavigate();
     
     const handleSeatChange = (seat) => {
@@ -18,7 +19,8 @@ const BookMovie = () => {
     };
     
     const handleBooking = () => {
-	navigate('/ordertickets');
+	const seatCount = selectedSeats.length;
+	navigate('/ordertickets', {state: {seatCount, selectedSeats}});
     };
     
     return (
@@ -28,7 +30,8 @@ const BookMovie = () => {
 	    <ul style={{ listStyleType: 'none', padding: 0 }}>
 		{movie.showtimes.map((time, index) => (
 		    <li key={index}>
-			<button>{time}</button>
+			<button onClick={() => setSelectedShowtime(time)}>{time}</button>
+
 		    </li>
 		))}
 		</ul>
@@ -53,13 +56,13 @@ const BookMovie = () => {
 		    </div>
 		</details>
 	    </div>
-<>
-        <h4>Continue to Checkout</h4>
-        <button onClick={handleBooking}>Continue</button>
-    </>
+	    <h4>Continue to Checkout</h4>
+            <p>Selected Showtime: {selectedShowtime}</p>
+            <p>Number of Seats Selected: {selectedSeats.length}</p>
+            <button onClick={handleBooking} disabled={selectedSeats.length === 0 || !selectedShowtime}>Continue</button>
 	</div>
-	    
-	    
+	
+	
     );
 };
 	    
