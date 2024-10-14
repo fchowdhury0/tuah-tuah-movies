@@ -1,296 +1,300 @@
 /* Root Styles */
 .app {
-    padding: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #212426;
-    min-height: 100vh;
-    color: #ffffff;
-    position: relative; /* To position absolute children relative to this */
-  }
-  
-  /* Page Title */
-  .app h1 {
-    font-size: 3rem;
-    letter-spacing: 0.9px;
-    background: linear-gradient(
-      90deg,
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #212426;
+  min-height: 100vh;
+  color: #ffffff;
+  position: relative;
+  /* To position absolute children relative to this */
+}
+
+/* Page Title */
+.app h1 {
+  font-size: 3rem;
+  letter-spacing: 0.9px;
+  background: linear-gradient(90deg,
       rgb(180, 186, 249) 100%,
-      rgba(249, 211, 180, 0) 100%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 2rem;
-  }
-  
-  /* Authentication Buttons Container */
-  .auth-buttons {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Login Button */
-  .login-button {
-    padding: 8px 16px;
-    background-color: #1889d5; /* Blue */
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .login-button:hover {
-    background-color: #0f6ab5; /* Darker Blue */
-  }
-  
-  /* Registration Button */
-  .register-button {
-    padding: 8px 16px;
-    background-color: #28a745; /* Green */
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .register-button:hover {
-    background-color: #1e7e34; /* Darker Green */
-  }
-  
-  /* Search Bar */
+      rgba(249, 211, 180, 0) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+}
+
+/* Authentication Buttons Container */
+.auth-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Login Button */
+.login-button {
+  padding: 8px 16px;
+  background-color: #1889d5;
+  /* Blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0f6ab5;
+  /* Darker Blue */
+}
+
+/* Registration Button */
+.register-button {
+  padding: 8px 16px;
+  background-color: #28a745;
+  /* Green */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #1e7e34;
+  /* Darker Green */
+}
+
+/* Search Bar */
+.search {
+  width: 71%;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1.75rem;
+  border-radius: 3rem;
+  background: #1f2123;
+  box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
+}
+
+.search form {
+  display: flex;
+  width: 100%;
+}
+
+.search input {
+  flex: 1;
+  border: none;
+  font-size: 1.5rem;
+  font-family: var(--font-raleway);
+  font-weight: 500;
+  padding-right: 1rem;
+  outline: none;
+  color: #a1a1a1;
+  background: #1f2123;
+}
+
+.search-button {
+  width: fit-content;
+  cursor: pointer;
+  color: #a1a1a1;
+  font-size: 1.5rem;
+  padding: 0;
+  border: none;
+  background: none;
+
+}
+
+.search-button:hover {
+  color: #f9d3b4;
+}
+
+/* Movie Sections */
+section {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+section h2 {
+  color: #f9d3b4;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  text-align: left;
+  padding-left: 2rem;
+}
+
+/* Container for Movie Cards */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 2rem;
+}
+
+/* Movie Card Styles */
+.movie {
+  width: 310px;
+  height: 460px;
+  margin: 1.5rem;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
+  box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
+  background-color: #1f2123;
+  color: #fff;
+}
+
+.movie-title p {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.movie-info span {
+  display: block;
+  font-family: "Raleway", sans-serif;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  color: #f9d3b4;
+}
+
+.movie-info h3 {
+  margin-top: 5px;
+  font-family: "Roboto Slab", serif;
+  color: #f9d3b4;
+}
+
+.movie:hover {
+  box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.movie:hover .movie-poster img {
+  opacity: 0.3;
+}
+
+.movie:hover .movie-info {
+  background-color: transparent;
+}
+
+/* Responsive Adjustments */
+
+/* For screens up to 1200px */
+@media screen and (max-width: 1200px) {
   .search {
-    width: 71%;
-    margin: 2rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1.75rem;
-    border-radius: 3rem;
-    background: #1f2123;
-    box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
+    width: 80%;
   }
-  
-  .search form {
-    display: flex;
-    width: 100%;
-  }
-  
-  .search input {
-    flex: 1;
-    border: none;
-    font-size: 1.5rem;
-    font-family: var(--font-raleway);
-    font-weight: 500;
-    padding-right: 1rem;
-    outline: none;
-    color: #a1a1a1;
-    background: #1f2123;
-  }
-  
-  .search form button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #a1a1a1;
-    font-size: 1.5rem;
+
+  .container {
     padding: 0 1rem;
   }
-  
-  .search form button:hover {
-    color: #f9d3b4;
+}
+
+/* For screens up to 800px */
+@media screen and (max-width: 800px) {
+  .search {
+    width: 90%;
   }
-  
-  /* Movie Sections */
-  section {
-    width: 100%;
-    margin-top: 2rem;
-  }
-  
+
   section h2 {
-    color: #f9d3b4;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    text-align: left;
-    padding-left: 2rem;
+    font-size: 1.75rem;
+    padding-left: 1.5rem;
   }
-  
-  /* Container for Movie Cards */
-  .container {
+
+  .auth-buttons {
+    top: 15px;
+    right: 15px;
+  }
+
+  .login-button,
+  .register-button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* For screens up to 600px */
+@media screen and (max-width: 600px) {
+  .app {
+    padding: 2rem 1rem;
+  }
+
+  .search {
+    padding: 1rem 1.5rem;
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 0 2rem;
   }
-  
-  /* Movie Card Styles */
-  .movie {
-    width: 310px;
-    height: 460px;
-    margin: 1.5rem;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    border: none;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
-    box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
-    background-color: #1f2123;
-    color: #fff;
-  }
-  
-  .movie-title p {
+
+  .search input {
     font-size: 1.2rem;
-    margin-bottom: 0.5rem;
   }
-  
-  .movie-poster img {
+
+  .search form button {
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+    padding-left: 1rem;
+  }
+
+  .auth-buttons {
+    top: 10px;
+    right: 10px;
+  }
+
+  .login-button,
+  .register-button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* For screens up to 400px */
+@media screen and (max-width: 400px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .search input {
+    font-size: 1rem;
+  }
+
+  section h2 {
+    font-size: 1.25rem;
+    padding-left: 0.5rem;
+  }
+
+  .auth-buttons {
+    top: 8px;
+    right: 8px;
+  }
+
+  .login-button,
+  .register-button {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+
+  .movie {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.3s ease;
+    margin: 1rem;
   }
-  
-  .movie-info span {
-    display: block;
-    font-family: "Raleway", sans-serif;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 2px;
-    font-weight: 500;
-    color: #f9d3b4;
-  }
-  
-  .movie-info h3 {
-    margin-top: 5px;
-    font-family: "Roboto Slab", serif;
-    color: #f9d3b4;
-  }
-  
-  .movie:hover {
-    box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.05);
-  }
-  
-  .movie:hover .movie-poster img {
-    opacity: 0.3;
-  }
-  
-  .movie:hover .movie-info {
-    background-color: transparent;
-  }
-  
-  /* Responsive Adjustments */
-  
-  /* For screens up to 1200px */
-  @media screen and (max-width: 1200px) {
-    .search {
-      width: 80%;
-    }
-  
-    .container {
-      padding: 0 1rem;
-    }
-  }
-  
-  /* For screens up to 800px */
-  @media screen and (max-width: 800px) {
-    .search {
-      width: 90%;
-    }
-  
-    section h2 {
-      font-size: 1.75rem;
-      padding-left: 1.5rem;
-    }
-  
-    .auth-buttons {
-      top: 15px;
-      right: 15px;
-    }
-  
-    .login-button,
-    .register-button {
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
-  }
-  
-  /* For screens up to 600px */
-  @media screen and (max-width: 600px) {
-    .app {
-      padding: 2rem 1rem;
-    }
-  
-    .search {
-      padding: 1rem 1.5rem;
-      width: 100%;
-    }
-  
-    .search input {
-      font-size: 1.2rem;
-    }
-  
-    .search form button {
-      font-size: 1.2rem;
-      padding: 0 0.5rem;
-    }
-  
-    section h2 {
-      font-size: 1.5rem;
-      padding-left: 1rem;
-    }
-  
-    .auth-buttons {
-      top: 10px;
-      right: 10px;
-    }
-  
-    .login-button,
-    .register-button {
-      padding: 5px 10px;
-      font-size: 0.8rem;
-    }
-  }
-  
-  /* For screens up to 400px */
-  @media screen and (max-width: 400px) {
-    .app {
-      padding: 1rem;
-    }
-  
-    .search input {
-      font-size: 1rem;
-    }
-  
-    section h2 {
-      font-size: 1.25rem;
-      padding-left: 0.5rem;
-    }
-  
-    .auth-buttons {
-      top: 8px;
-      right: 8px;
-    }
-  
-    .login-button,
-    .register-button {
-      padding: 4px 8px;
-      font-size: 0.75rem;
-    }
-  
-    .movie {
-      width: 100%;
-      margin: 1rem;
-    }
-  }
-  
+}

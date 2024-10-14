@@ -18,6 +18,7 @@ const ManagePromotions = () => {
   const AddPromoForm = ({ values, handleChange}) => (
     <Form className="form-container">
       <input
+        className="input"
         type="text"
         id="promotionTitle"
         placeholder="Promotion Title"
@@ -36,7 +37,7 @@ const ManagePromotions = () => {
         placeholder="Promo Code"
         onChange={handleChange}
         value={values.promoCode} />
-      <button className="" type="submit">Submit</button>
+      <button className="button" type="submit">Submit</button>
     </Form>
   );
 

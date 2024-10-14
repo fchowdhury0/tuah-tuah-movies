@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import './OrderTickets.scss'; // Optional: Create this for styling
+import './OrderTickets.scss';
 
 const OrderTickets = () => {
   const [tickets, setTickets] = useState({
@@ -47,23 +47,17 @@ const OrderTickets = () => {
   return (
       <div className="order-tickets" style={{ color: 'white'}}>
       <h1>Order Tickets</h1>
-
-	  <div className="ticket-type-container">
-              {Object.keys(tickets).map((type) => (
-		  <div key={type} className="ticket-type">
-		      <span>{type.charAt(0).toUpperCase() + type.slice(1)} Ticket</span>
-		      <div className="ticket-controls">
-			  <button onClick={() => handleTicketChange(type, -1)}>-</button>
-			  <span>{tickets[type]}</span>
-			  <button onClick={() => handleTicketChange(type, 1)}>+</button>
-		      </div>
-		  </div>
-              ))}
-	  </div>
-	  <h2>Total: ${total.toFixed(2)}</h2>
-	  <button onClick={handleOrderSubmit} className="order-button">
-              Place Order
-	  </button>
+      <div className="ticket-type-container">
+        {Object.keys(tickets).map((type) => (
+          <div key={type} className="ticket-type">
+            <span>{type.charAt(0).toUpperCase() + type.slice(1)} Ticket</span>
+            <div className="ticket-controls">
+              <button className="calc-button" onClick={() => handleTicketChange(type, -1)}>-</button>
+              <span>{tickets[type]}</span>
+              <button className="calc-button" onClick={() => handleTicketChange(type, 1)}>+</button>
+            </div>
+          </div>
+        ))}
       </div>
   );
 };
