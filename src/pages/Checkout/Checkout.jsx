@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ManageMovies from '../AdminView/ManageMovies.jsx';
-import Footer from '../../components/Footer/Footer.jsx';
+import Footer from '../../components/Footer/footer.jsx';
 import Menu from '../../components/Menu/Menu.jsx';
-import NavBar from '../../components/NavBar/NavBar.jsx';
+import NavBar from '../../components/NavBar/navbar.jsx';
 import { useLocation } from 'react-router-dom';
 
 const Checkout = () => {
@@ -104,13 +104,13 @@ const location = useLocation();
             onChange={handleChange}
             required
           />
-
-          <button type="submit">Complete Checkout</button>
+            <button type="submit">Complete Checkout</button>
         </form>
       </div>
-      <Footer />
+	<Footer />
     </div>
   );
 };
 
 export default Checkout;
+

@@ -9,13 +9,14 @@ import RegistrationConfirmation from './pages/RegistrationConfirmation/Registrat
 import AdminView from './pages/AdminView/AdminView';
 import ManageMovies from './pages/AdminView/ManageMovies.jsx'
 import ManageUsers from'./pages/AdminView/ManageUsers.jsx'
-import Footer from './components/Footer/Footer.jsx'
+import Footer from './components/Footer/footer.jsx'
 import Menu from './components/Menu/Menu.jsx'
-import NavBar from './components/NavBar/NavBar.jsx'
+import NavBar from './components/NavBar/navbar.jsx'
 import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx'
 import ManagePromotions from './pages/AdminView/ManagePromotions'
 import Checkout from './pages/Checkout/Checkout';
 import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
+import BookMovie from './pages/BookMovie/BookMovie.jsx';
 
 const App = () => {
   /*this is the layout for admin view pages*/
@@ -61,6 +62,10 @@ const App = () => {
 	path: "/ordertickets",
 	element: <OrderTickets/>
     },
+      {
+	  path: "/bookmovie",
+	  element: <BookMovie/>
+      },
     {
       path: "/admin",
       element: <AdminLayout />,

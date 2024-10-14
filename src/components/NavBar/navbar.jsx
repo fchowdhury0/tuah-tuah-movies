@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+import React from 'react';
 import "./NavBar.scss"
-=======
-import "./NavBar.scss";
->>>>>>> main
 
 const NavBar = () => {
   return (

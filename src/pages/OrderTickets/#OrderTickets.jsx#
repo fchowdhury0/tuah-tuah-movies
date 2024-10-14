@@ -21,7 +21,7 @@ const OrderTickets = () => {
 
   const handleTicketChange = (type, increment) => {
     setTickets((prev) => {
-      const newCount = Math.max(0, prev[type] + increment); // Ensure no negative tickets
+	const newCount = Math.max(0, prev[type] + increment); // Ensure no negative tickets
       const newTickets = { ...prev, [type]: newCount };
       calculateTotal(newTickets);
       return newTickets;
