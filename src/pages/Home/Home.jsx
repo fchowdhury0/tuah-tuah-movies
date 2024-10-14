@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
-import NavBar from '../../components/NavBar/navbar'
 import './Home.scss';
 
 const Home = () => {
@@ -16,9 +15,8 @@ const Home = () => {
     fetchMovies();
   }, []);
 
-  
   const fetchMovies = () => {
-    fetch('http://localhost:8080/api/movies')
+    fetch('http://localhost:8080/api/movies') // Ensure the server is running on port 8080
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -26,7 +24,7 @@ const Home = () => {
         return res.json();
       })
       .then((data) => {
-        console.log('Movies data:', data); // Log the data to check for Interstellar
+        console.log('Movies data:', data); // Log the data to verify
         if (!Array.isArray(data)) {
           throw new Error('Invalid data format received from API');
         }
@@ -37,17 +35,26 @@ const Home = () => {
         setError(err.message);
         setLoading(false);
       });
-      console.log(movies)
   };
-  
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchTerm.trim() === '') {
+    
+    // Trim the search term to remove unnecessary whitespace
+    const trimmedSearchTerm = searchTerm.trim();
+
+    if (trimmedSearchTerm === '') {
+      // If the search term is empty, fetch all movies
+      setLoading(true); // Set loading to true before fetching
       fetchMovies();
       return;
     }
-    fetch(`http://localhost:8080/api/movies/search?title=${encodeURIComponent(searchTerm)}`)
+
+    // Set loading to true when initiating a search
+    setLoading(true);
+
+    // Update the API endpoint to use the correct port (8080)
+    fetch(`http://localhost:8080/api/movies/search?title=${encodeURIComponent(trimmedSearchTerm)}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Search failed! status: ${res.status}`);
@@ -55,6 +62,7 @@ const Home = () => {
         return res.json();
       })
       .then((data) => {
+        console.log('Search results:', data); // Log the search results
         if (!Array.isArray(data)) {
           throw new Error('Invalid data format received from API');
         }
@@ -89,8 +97,6 @@ const Home = () => {
 
   return (
     <div className="app">
-      {/* NavBar should only show when the user is logged in */}
-      {/*<NavBar/>*/}
       <h1>Hawk Tuah Movies</h1>
 
       {/* Authentication Buttons Container */}

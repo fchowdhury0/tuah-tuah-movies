@@ -1,14 +1,20 @@
+// src/components/MovieCard/MovieCard.jsx
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
+import convertYouTubeUrl from '../../utils/convertYouTubeUrl'; // Adjust the path as necessary
+import TrailerModal from '../TrailerModal/TrailerModal.jsx'; // Adjust the path as necessary
 import './MovieCard.css';
 
 const MovieCard = ({ movie }) => {
   const [showTrailer, setShowTrailer] = useState(false);
 
   const toggleTrailer = () => {
-    setShowTrailer(!showTrailer);
+    setShowTrailer((prev) => !prev);
   };
+
+  // Convert the trailer URL to embed format
+  const embedTrailerUrl = convertYouTubeUrl(movie.trailerUrl);
 
   return (
     <div className="movie">
@@ -29,20 +35,11 @@ const MovieCard = ({ movie }) => {
       </div>
 
       {showTrailer && (
-        <div className="trailer-overlay" onClick={toggleTrailer}>
-          <div className="trailer-content" onClick={(e) => e.stopPropagation()}>
-            <iframe
-              width="560"
-              height="315"
-              src={movie.trailerUrl}
-              title={`${movie.title} Trailer`}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-            <button className="close-trailer" onClick={toggleTrailer}>Close</button>
-          </div>
-        </div>
+        <TrailerModal
+          trailerUrl={embedTrailerUrl}
+          title={movie.title}
+          onClose={toggleTrailer}
+        />
       )}
     </div>
   );
