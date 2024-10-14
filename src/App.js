@@ -14,7 +14,8 @@ import Menu from './components/Menu/Menu.jsx'
 import NavBar from './components/NavBar/navbar.jsx'
 import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx'
 import ManagePromotions from './pages/AdminView/ManagePromotions'
-
+import Checkout from './pages/Checkout/Checkout';
+import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 
 const App = () => {
   /*this is the layout for admin view pages*/
@@ -51,6 +52,14 @@ const App = () => {
     {
       path: "/registration-confirmation",
       element: <RegistrationConfirmation />
+    },
+    {
+	path: "/checkout",
+	element: <Checkout />
+    },
+    {
+	path: "/ordertickets",
+	element: <OrderTickets/>
     },
     {
       path: "/admin",
