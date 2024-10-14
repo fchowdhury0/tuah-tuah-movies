@@ -5,25 +5,48 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "movies")
 public class Movie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 1, max = 255)
     private String title;
+
     private String category;
-    private String castMembers; // camelCase
+
+    @Column(name = "cast_members")
+    private String castMembers;  // CamelCase in Java, snake_case in DB (via @Column if necessary)
+
     private String director;
+
     private String producer;
+
+    @Size(max = 5000)
     private String synopsis;
+
+    @Size(max = 5000)
     private String reviews;
+
     private String trailerUrl;
+
     private String ratingCode;
+
     private LocalDate showDate;
+
     private LocalDate releaseDate;
+
+    @NotNull
     private String status;
 
     @Column(unique = true)
@@ -54,8 +77,8 @@ public class Movie {
         this.imdbId = imdbId;
         this.posterUrl = posterUrl;
     }
-    // Getters and Setters
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
