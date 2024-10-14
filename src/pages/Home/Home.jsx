@@ -1,8 +1,8 @@
 // src/components/Home.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.scss';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
+import './Home.scss';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -25,6 +25,7 @@ const Home = () => {
         return res.json();
       })
       .then((data) => {
+        console.log('Movies data:', data); // Log the data to check for Interstellar
         if (!Array.isArray(data)) {
           throw new Error('Invalid data format received from API');
         }
@@ -37,6 +38,7 @@ const Home = () => {
       });
       console.log(movies)
   };
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
