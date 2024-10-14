@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
+import NavBar from '../../components/NavBar/navbar'
 import './Home.scss';
 
 const Home = () => {
@@ -88,6 +89,8 @@ const Home = () => {
 
   return (
     <div className="app">
+      {/* NavBar should only show when the user is logged in */}
+      {/*<NavBar/>*/}
       <h1>Hawk Tuah Movies</h1>
 
       {/* Authentication Buttons Container */}

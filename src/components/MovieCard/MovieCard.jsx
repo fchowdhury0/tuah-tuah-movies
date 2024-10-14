@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 import React, { useState } from "react";
 import './MovieCard.css';
 
@@ -23,7 +24,7 @@ const MovieCard = ({ movie }) => {
         <span>{movie.status}</span>
         <h3>{movie.title}</h3>
         {movie.status === 'Currently Running' && (
-          <button className="book-button">Book Movie</button>
+          <Link to="/ordertickets" className="book-button">Book Movie</Link>
         )}
       </div>
 

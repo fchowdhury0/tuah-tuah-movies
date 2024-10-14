@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import './OrderTickets.scss'; // Optional: Create this for styling
+import './OrderTickets.scss';
 
 const OrderTickets = () => {
   const [tickets, setTickets] = useState({
@@ -51,9 +51,9 @@ const OrderTickets = () => {
           <div key={type} className="ticket-type">
             <span>{type.charAt(0).toUpperCase() + type.slice(1)} Ticket</span>
             <div className="ticket-controls">
-              <button onClick={() => handleTicketChange(type, -1)}>-</button>
+              <button className="calc-button" onClick={() => handleTicketChange(type, -1)}>-</button>
               <span>{tickets[type]}</span>
-              <button onClick={() => handleTicketChange(type, 1)}>+</button>
+              <button className="calc-button" onClick={() => handleTicketChange(type, 1)}>+</button>
             </div>
           </div>
         ))}
