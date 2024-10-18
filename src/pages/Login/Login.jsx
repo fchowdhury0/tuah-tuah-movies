@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import { useNavigate, Link } from 'react-router-dom';
+import './Login.scss';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -42,7 +42,11 @@ const Login = () => {
           />
         </div>
         {error && <div className="error">{error}</div>}
+
+        <div className="button-container">
         <button type="submit">Login</button>
+          <Link className="forgot-button" to='/forgot-password'>Forgot Password</Link>
+        </div>
       </form>
     </div>
   );
