@@ -7,6 +7,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [rememberMe, setRememberMe] = useState(false);
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,6 +20,10 @@ const Login = () => {
     } else {
       setError('Invalid credentials');
     }
+  };
+
+  const handleCheck = () => {
+    setRememberMe(!rememberMe)
   };
 
   return (
@@ -44,7 +51,12 @@ const Login = () => {
         {error && <div className="error">{error}</div>}
 
         <div className="button-container">
-        <button type="submit">Login</button>
+          <div className="login-box">
+            <label> Remember Me
+            <input style={{margin:"10px"}}type="checkbox" onChange={handleCheck}/>
+            </label>
+            <button className="button" type="submit">Login</button>
+          </div>
           <Link className="forgot-button" to='/forgot-password'>Forgot Password</Link>
         </div>
       </form>
