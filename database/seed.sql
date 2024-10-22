@@ -1,4 +1,12 @@
-TRUNCATE TABLE movies RESTART IDENTITY;
+-- Removes all rows from tables in the database, leaving the structure intact. 
+DO $$ 
+BEGIN
+    EXECUTE (
+        SELECT string_agg('TRUNCATE TABLE "' || tablename || '" RESTART IDENTITY CASCADE;', ' ')
+        FROM pg_tables
+        WHERE schemaname = 'public'
+    );
+END $$;
 
 INSERT INTO movies (title, category, director, producer, synopsis, trailerUrl, ratingCode, showDate, releaseDate, status, imdb_id, posterUrl) VALUES
     ('Inception', 'Sci-Fi', 'Christopher Nolan', 'Emma Thomas', 'A thief who steals corporate secrets through the use of dream-sharing technology.', 'https://www.youtube.com/watch?v=YoHD9XEInc0', 'PG-13', '2024-09-01', '2010-07-16', 'Currently Running', 'tt1375666', 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg'),
@@ -16,7 +24,11 @@ INSERT INTO movies (title, category, director, producer, synopsis, trailerUrl, r
 	('The Nun II', 'Horror', 'Michael Chaves', 'Peter Safran', 'Set in 1956 France, a priest is murdered and a nun uncovers the sinister origins of a demonic entity.', NULL, 'R', '2024-09-23', '2023-09-08', 'Coming Soon', 'tt12636876', 'https://m.media-amazon.com/images/I/71r3i3uwVvL._AC_UY327_FMwebp_QL65_.jpg');
 
 
-TRUNCATE TABLE admins RESTART IDENTITY;
-
 INSERT INTO admins (username, password_hash, email, first_name, last_name) VALUES
     ('admin_user', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'admin@fakemovietheater.com', 'Admin', 'User');
+
+-- need update seed file with example user with:
+--     - username, password, etc. 
+--     - saved payment card
+--     - one purchase of 1 booking of 2 tickets 
+-- need update seed file with table user 
