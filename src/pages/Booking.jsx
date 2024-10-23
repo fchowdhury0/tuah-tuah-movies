@@ -12,13 +12,13 @@ const Booking = () => {
 
   useEffect(() => {
     // Fetch movie details
-    fetch(`http://localhost:8081/api/movies/${movieId}`)
+    fetch(`http://localhost:8080/api/movies/${movieId}`)
       .then(res => res.json())
       .then(data => setMovie(data))
       .catch(err => console.error(err));
 
     // Fetch showtimes for the movie
-    fetch(`http://localhost:8081/api/movies/${movieId}/showtimes`)
+    fetch(`http://localhost:8080/api/movies/${movieId}/showtimes`)
       .then(res => res.json())
       .then(data => setShowtimes(data))
       .catch(err => console.error(err));
