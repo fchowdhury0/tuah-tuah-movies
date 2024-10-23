@@ -1,12 +1,8 @@
+import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import './AdminView.scss'
-import { useFormik, Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import MovieCard from '../../components/MovieCard/MovieCard';
 import AddMovieForm from './AddMovieForm.jsx';
-import Footer from '../../components/Footer/footer.jsx'
-import MovieCard from '../../components/MovieCard/MovieCard'
-import Menu from '../../components/Menu/Menu.jsx'
-import NavBar from '../../components/NavBar/navbar.jsx'
+import './AdminView.scss';
 
 
 const ManageMovies = () => {

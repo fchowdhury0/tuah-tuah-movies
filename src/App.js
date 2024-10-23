@@ -1,24 +1,24 @@
 // src/App.js
-import './App.scss'
 import React from 'react';
-import { Navigate, Route, Outlet, BrowserRouter as Router, Routes, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
+import './App.scss';
+import Footer from './components/Footer/footer.jsx';
+import Menu from './components/Menu/Menu.jsx';
+import NavBar from './components/NavBar/NavBar.jsx';
+import AdminView from './pages/AdminView/AdminView';
+import ManageMovies from './pages/AdminView/ManageMovies.jsx';
+import ManagePromotions from './pages/AdminView/ManagePromotions';
+import ManageUsers from './pages/AdminView/ManageUsers.jsx';
+import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx';
+import BookMovie from './pages/BookMovie/BookMovie.jsx';
+import Checkout from './pages/Checkout/Checkout';
+import EditProfile from './pages/EditProfile/EditProfile';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import OrderConfirmation from './pages/OrderConfirmation/OrderConfirmation.jsx';
+import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 import Register from './pages/Register/Register';
 import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation';
-import AdminView from './pages/AdminView/AdminView';
-import ManageMovies from './pages/AdminView/ManageMovies.jsx'
-import ManageUsers from'./pages/AdminView/ManageUsers.jsx'
-import Footer from './components/Footer/footer.jsx'
-import Menu from './components/Menu/Menu.jsx'
-import NavBar from './components/NavBar/navbar.jsx'
-import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx'
-import ManagePromotions from './pages/AdminView/ManagePromotions'
-import Checkout from './pages/Checkout/Checkout';
-import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
-import BookMovie from './pages/BookMovie/BookMovie.jsx';
-import EditProfile from './pages/EditProfile/EditProfile';
-import OrderConfirmation from './pages/OrderConfirmation/OrderConfirmation.jsx';
 
 const App = () => {
   /*this is the layout for admin view pages*/

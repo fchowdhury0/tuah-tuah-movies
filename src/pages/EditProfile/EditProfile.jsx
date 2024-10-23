@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
-import './EditProfile.scss'
-import Footer from '../../components/Footer/footer.jsx'
-import Menu from '../../components/Menu/Menu.jsx'
-import NavBar from '../../components/NavBar/navbar.jsx'
-import { Formik } from 'formik'
+import React from 'react';
+import Footer from '../../components/Footer/footer.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
+import './EditProfile.scss';
 
 /*check console log for form values*/
 const EditProfile = () => {
