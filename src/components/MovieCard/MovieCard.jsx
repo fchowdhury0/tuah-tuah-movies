@@ -1,18 +1,19 @@
 // src/components/MovieCard/MovieCard.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import convertYouTubeUrl from '../../utils/convertYouTubeUrl'; // Adjust the path as necessary
 import TrailerModal from '../TrailerModal/TrailerModal.jsx'; // Adjust the path as necessary
 import './MovieCard.css';
 
 const MovieCard = ({ movie }) => {
   const [showTrailer, setShowTrailer] = useState(false);
-  const [showButton, setShowButton] = useState(false);
 
-  const toggleButton = () => {
-    setShowButton(!showButton)
-  }
+  const navigate = useNavigate();
+
+  const handleBookMovie = () => {
+    navigate(`/bookmovies/${movie.id}`, { state: { currentMovie: movie} });
+  };
 
   const toggleTrailer = () => {
     setShowTrailer((prev) => !prev);
@@ -27,17 +28,17 @@ const MovieCard = ({ movie }) => {
         <p>{movie.title}</p>
       </div>
 
-      <div className="movie-poster" onClick={toggleTrailer}>
+      <div className="movie-poster">
         <img src={movie.posterUrl} alt={`${movie.title} Poster`} />
+        <div className="movie-buttons">
+          {movie.status === "Currently Running" && (
+            <button className="book-button" onClick={handleBookMovie}>Book Now</button>
+          )}
+          <button className="watch-trailer" onClick={toggleTrailer}>Watch Trailer</button>
+        </div>
       </div>
 
-      <div className="movie-info">
-        <span>{movie.status}</span>
-        <h3>{movie.title}</h3>
-        {movie.status === 'Currently Running' && (
-          <Link to="/bookmovie" className="book-button">Book Movie</Link>
-        )}
-      </div>
+
 
       {showTrailer && (
         <TrailerModal

@@ -2,9 +2,10 @@
 import React from 'react';
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import './App.scss';
+import PropTypes from 'prop-types';
 import Footer from './components/Footer/footer.jsx';
 import Menu from './components/Menu/Menu.jsx';
-import NavBar from './components/NavBar/NavBar.jsx';
+import NavBar from './components/NavBar/navbar.jsx';
 import AdminView from './pages/AdminView/AdminView';
 import ManageMovies from './pages/AdminView/ManageMovies.jsx';
 import ManagePromotions from './pages/AdminView/ManagePromotions';
@@ -22,15 +23,15 @@ import RegistrationConfirmation from './pages/RegistrationConfirmation/Registrat
 
 const App = () => {
   /*this is the layout for admin view pages*/
-  const AdminLayout = ()  => {
+  const AdminLayout = () => {
     return (
       <div className="admin-main">
         <NavBar />
         <div className="admin-container">
-          <div className="menu-container"><Menu/></div>
-          <div className="content-container"><Outlet/></div>
+          <div className="menu-container"><Menu /></div>
+          <div className="content-container"><Outlet /></div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     )
   }
@@ -42,10 +43,22 @@ const App = () => {
     },
     {
       path: "/home",
-      element:<Home />
+      element: <Home />,
     },
     {
-      path:"/login",
+      path: "ordertickets",
+      element: <OrderTickets />
+    },
+    {
+      path: `bookmovies/:id`,
+      element: <BookMovie />
+    },
+    {
+      path: "orderconfirmation",
+      element: <OrderConfirmation />
+    },
+    {
+      path: "/login",
       element: <Login />
     },
     {
@@ -61,49 +74,37 @@ const App = () => {
       element: <EditProfile />
     },
     {
-	path: "/checkout",
-	element: <Checkout />
+      path: "/checkout",
+      element: <Checkout />
     },
-    {
-	path: "/ordertickets",
-	element: <OrderTickets/>
-    },
-      {
-	  path: "/bookmovie",
-	  element: <BookMovie/>
-      },
-      {
-          path: "/orderconfirmation",
-          element: <OrderConfirmation/>
-      },
     {
       path: "/admin",
       element: <AdminLayout />,
       children: [
         {
-          path:"/admin/home",
-          element: <AdminView/>
+          path: "/admin/home",
+          element: <AdminView />
         },
         {
-          path:"/admin/managemovies",
-          element: <ManageMovies/>
+          path: "/admin/managemovies",
+          element: <ManageMovies />
         },
         {
-          path:"/admin/manageusers",
-          element: <ManageUsers/>
+          path: "/admin/manageusers",
+          element: <ManageUsers />
         },
         {
-          path:"/admin/managepromotions",
-          element: <ManagePromotions/>
+          path: "/admin/managepromotions",
+          element: <ManagePromotions />
         },
         {
-          path:"/admin/schedulemovie",
-          element: <ScheduleMovie/>
+          path: "/admin/schedulemovie",
+          element: <ScheduleMovie />
         }
       ]
 
 
-      
+
 
     },
     {
@@ -114,8 +115,11 @@ const App = () => {
   ])
 
   return (
-    <RouterProvider router={router} />
+    <div className="wrapper">
+      <RouterProvider router={router} />
+    </div>
   );
+  
 };
 
 export default App;

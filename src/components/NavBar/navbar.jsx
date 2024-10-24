@@ -3,7 +3,7 @@ import "./NavBar.scss";
 
 const NavBar = () => {
   return (
-    <div className="NavBar">
+    <div className="navbar">
       <div className="logo">
         <Link to="/admin/home"className="links">userName</Link>
       </div>

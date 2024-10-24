@@ -1,8 +1,8 @@
 /* src/components/MovieCard/MovieCard.css */
 
 .movie {
-  width: 310px;
-  height: 460px;
+  width: 200px !important;
+  height: 296px !important;
   margin: 1.5rem;
   position: relative;
   border-radius: 12px;
@@ -32,6 +32,41 @@
   object-fit: cover;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-buttons {
+  margin-top: 30px;
+  position: absolute;
+  bottom: 10px;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to center */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.movie:hover .movie-buttons {
+  opacity: 1;
+}
+
+.watch-trailer-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff6347;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-button:hover,
+.watch-trailer-button:hover {
+  background-color: #ff4500;
 }
 
 .movie-info {
@@ -48,8 +83,8 @@
 .movie-info span {
   font-family: "Raleway", sans-serif;
   text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 2px;
+  font-size: 8px !important;
+  letter-spacing: 1px;
   font-weight: 500;
   color: #f0f0f0;
 }
@@ -72,6 +107,10 @@
   font-size: 1rem;
   transition: background-color 0.3s ease;
   text-decoration: none;
+  display: flex; /* Use flexbox */
+  flex-direction: column;
+  justify-content: center !important; /* Center horizontally */
+  align-items: center !important; /* Center vertically */
 }
 
 .book-button:hover {

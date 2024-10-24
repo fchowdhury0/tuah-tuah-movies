@@ -39,7 +39,7 @@ const Home = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    
+
     // Trim the search term to remove unnecessary whitespace
     const trimmedSearchTerm = searchTerm.trim();
 
@@ -122,8 +122,8 @@ const Home = () => {
 
       {/* Currently Running Movies Section */}
       <section>
-        <h2>Currently Running</h2>
         <div className="container">
+
           {currentlyRunning.length > 0 ? (
             currentlyRunning.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />

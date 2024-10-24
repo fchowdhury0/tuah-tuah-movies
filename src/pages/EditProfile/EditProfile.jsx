@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from '../../components/Footer/footer.jsx';
-import NavBar from '../../components/NavBar/NavBar.jsx';
+import NavBar from '../../components/NavBar/navbar.jsx';
 import './EditProfile.scss';
 
 /*check console log for form values*/
