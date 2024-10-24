@@ -13,6 +13,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -31,6 +35,12 @@ public class AuthController {
     
     @Autowired
     private BCryptPasswordEncoder passwordEncoder; // Ensure this is autowired
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository; // Add this
+    
+    @Autowired
+    private EmailService emailService; // Add this
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authRequest) {
@@ -61,7 +71,6 @@ public class AuthController {
         }
     }
 
-    // Registration endpoint
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
         // Check if username already exists
@@ -86,5 +95,74 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+    }
+
+    // Forgot Password Endpoint
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
+        // Find user by email
+        User user = userRepository.findByEmail(passwordResetRequest.getEmail())
+                        .orElse(null);
+        if (user == null) {
+            // For security, don't reveal if the email exists
+            return ResponseEntity.status(HttpStatus.OK).body("If that email is in our system, we have sent a password reset link.");
+        }
+
+        // Generate a unique token
+        String token = UUID.randomUUID().toString();
+
+        // Set token expiry (e.g., 1 hour)
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR, 1);
+        Date expiryDate = cal.getTime();
+
+        // Create and save PasswordResetToken
+        PasswordResetToken passwordResetToken = new PasswordResetToken(token, user, expiryDate);
+        passwordResetTokenRepository.save(passwordResetToken);
+
+        // Create reset URL
+        String resetUrl = "http://localhost:3000/reset-password?token=" + token;
+
+        // Send email
+        String subject = "Password Reset Request";
+        String message = "Dear " + user.getFirstName() + ",\n\n"
+                       + "We received a request to reset your password. Please click the link below to reset your password:\n\n"
+                       + resetUrl + "\n\n"
+                       + "This link will expire in 1 hour.\n\n"
+                       + "If you did not request a password reset, please ignore this email.\n\n"
+                       + "Best regards,\nYour Company Name";
+
+        emailService.sendSimpleMessage(user.getEmail(), subject, message);
+
+        return ResponseEntity.status(HttpStatus.OK).body("If that email is in our system, we have sent a password reset link.");
+    }
+
+    // Reset Password Endpoint
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+        // Find the token
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(passwordUpdateRequest.getToken())
+                                        .orElse(null);
+        if (resetToken == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password reset token.");
+        }
+
+        // Check if token is expired
+        if (resetToken.getExpiryDate().before(new Date())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password reset token has expired.");
+        }
+
+        // Get the user associated with the token
+        User user = resetToken.getUser();
+
+        // Update the user's password
+        user.setPasswordHash(passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
+        userRepository.save(user);
+
+        // Delete the token to prevent reuse
+        passwordResetTokenRepository.delete(resetToken);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Password has been reset successfully.");
     }
 }

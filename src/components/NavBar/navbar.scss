@@ -1,15 +1,47 @@
-.navbar{
+@import '../../styles/variables.scss';
+
+/* NavBar Styles */
+.navbar {
   width: 100%;
-  padding: 20px;
+  padding: 20px 40px; /* Increased horizontal padding for better spacing */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #212426; /* Matching the .app background color */
+  color: #ffffff; /* White text color */
+  position: fixed; /* Fixed position to stay at the top */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure NavBar stays above other elements */
 
-  span{
-    color:#f0f0f0;
+  /* Logo Styling */
+  .logo {
+    .links {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background-color: #6299c3;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #ffffff; /* Maintain white color on hover */
+      }
+    }
   }
 
+  /* Navigation Links Styling */
   .links {
-    color:#f0f0f0;
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-left: 15px; /* Spacing between links */
+
+    &:hover {
+      color: #ffffff;
+    }
   }
 }

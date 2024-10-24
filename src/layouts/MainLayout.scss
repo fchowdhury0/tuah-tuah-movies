@@ -1,0 +1,80 @@
+@import '../styles/variables.scss';
+
+/* Root Styles */
+.app {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #212426;
+  min-height: 100vh;
+  color: #ffffff;
+  position: relative;
+
+  padding-top: 80px;
+}
+
+.app h1 {
+  font-size: 3rem;
+  letter-spacing: 0.9px;
+  background-color: #6299c3;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+}
+
+.auth-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Login Button */
+.login-button {
+  padding: 8px 16px;
+  background-color: #1889d5;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0f6ab5;
+  }
+}
+
+/* Registration Button */
+.register-button {
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #1e7e34;
+  }
+}
+
+/* Ensure main content area spans full width */
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #212426; /* Match the NavBar background */
+  
+    .main-content {
+      flex: 1;
+      padding: 80px 20px 20px 20px; /* Added top padding */
+      background-color: #212426; /* Same as .app background to avoid white boxes */
+      color: #ffffff; /* Ensure text is visible against dark background */
+    }
+  }
