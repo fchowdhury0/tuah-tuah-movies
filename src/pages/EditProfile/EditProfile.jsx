@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from '../../components/Footer/footer.jsx';
+import Footer from '../../components/Footer/Footer.jsx';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import './EditProfile.scss';
 
