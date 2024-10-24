@@ -1,4 +1,5 @@
 // src/App.js
+
 import React from 'react';
 import {
   createBrowserRouter,
@@ -29,6 +30,10 @@ import OrderConfirmation from './pages/OrderConfirmation/OrderConfirmation.jsx';
 import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 import Register from './pages/Register/Register.jsx';
 import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation.jsx';
+
+// New Forgot Password and Reset Password Pages
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
+import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 
 // 404 Page
 import NotFound from './pages/NotFound/NotFound.jsx';
@@ -78,6 +83,15 @@ const App = () => {
         {
           path: 'orderconfirmation',
           element: <OrderConfirmation />,
+        },
+        // New Routes for Password Reset
+        {
+          path: 'forgot-password',
+          element: <ForgotPassword />,
+        },
+        {
+          path: 'reset-password',
+          element: <ResetPassword />,
         },
       ],
     },
