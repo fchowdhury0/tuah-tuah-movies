@@ -39,19 +39,6 @@ import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 import NotFound from './pages/NotFound/NotFound.jsx';
 
 const App = () => {
-  /*this is the layout for admin view pages*/
-  const AdminLayout = () => {
-    return (
-      <div className="admin-main">
-        <NavBar />
-        <div className="admin-container">
-          <div className="menu-container"><Menu /></div>
-          <div className="content-container"><Outlet /></div>
-        </div>
-        <Footer />
-      </div>
-    )
-  }
 
   const router = createBrowserRouter([
     {
@@ -159,8 +146,6 @@ const App = () => {
       element: <NotFound />, // Fallback Route for 404
     },
   ]);
-
-  ])
 
   return (
     <div className="wrapper">

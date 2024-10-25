@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-
+import './BookMovie.scss'
 const BookMovie = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -28,45 +28,57 @@ const BookMovie = () => {
   };
 
   return (
-    <div style={{ color: 'white', padding: '20px', textAlign: 'center' }}>
-      <h1>{currentMovie.title}</h1>
-      <h2>Available Showtimes</h2>
-      <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {movie.showtimes.map((time, index) => (
-          <li key={index}>
-            <button onClick={() => setSelectedShowtime(time)}>{time}</button>
-
-          </li>
-        ))}
-      </ul>
-      <h3>Select Seats:</h3>
-      <div style={{ margin: '10px 0' }}>
-        <details>
-          <summary>Select available seats</summary>
-          <div style={{ maxHeight: '150px', overflowY: 'scroll' }}>
-            {movie.availableSeats.map((seat, index) => (
-              <div key={index}>
-                <label>
-                  <input
-                    type="checkbox"
-                    value={seat}
-                    checked={selectedSeats.includes(seat)}
-                    onChange={() => handleSeatChange(seat)}
-                  />
-                  {seat}
-                </label>
-              </div>
-            ))}
+    <div className="container">
+      <div className="book-movie">
+        <div className="movie-detail">
+          <div className="movie-poster">
+          <img src={currentMovie.posterUrl} alt={`${currentMovie.title} Poster`} />
           </div>
-        </details>
+
+          <div className="movie-text">
+            <p>{currentMovie.synopsis}</p>
+            <p><strong>GENRE:</strong>{currentMovie.category}</p>
+          </div>
+        </div>
+        <div className="showtimes">
+          <h1>{currentMovie.title}</h1>
+          <h2>Available Showtimes</h2>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
+            {movie.showtimes.map((time, index) => (
+              <li key={index}>
+                <button onClick={() => setSelectedShowtime(time)}>{time}</button>
+
+              </li>
+            ))}
+          </ul>
+          <h3>Select Seats:</h3>
+          <div style={{ margin: '10px 0' }}>
+            <details>
+              <summary>Select available seats</summary>
+              <div style={{ maxHeight: '150px', overflowY: 'scroll' }}>
+                {movie.availableSeats.map((seat, index) => (
+                  <div key={index}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={seat}
+                        checked={selectedSeats.includes(seat)}
+                        onChange={() => handleSeatChange(seat)}
+                      />
+                      {seat}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </div>
+          <h4>Continue to Checkout</h4>
+          <p>Selected Showtime: {selectedShowtime}</p>
+          <p>Number of Seats Selected: {selectedSeats.length}</p>
+          <button onClick={handleBooking} disabled={selectedSeats.length === 0 || !selectedShowtime}>Continue</button>
+        </div>
       </div>
-      <h4>Continue to Checkout</h4>
-      <p>Selected Showtime: {selectedShowtime}</p>
-      <p>Number of Seats Selected: {selectedSeats.length}</p>
-      <button onClick={handleBooking} disabled={selectedSeats.length === 0 || !selectedShowtime}>Continue</button>
     </div>
-
-
   );
 };
 
