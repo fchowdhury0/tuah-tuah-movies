@@ -97,7 +97,6 @@ const Home = () => {
   return (
     <div className="app">
       <h1>Hawk Tuah Movies</h1>
-
       {/* Authentication Buttons Container */}
       <div className="auth-buttons">
         <button className="login-button" onClick={handleLogin}>Login</button>
@@ -121,8 +120,8 @@ const Home = () => {
 
       {/* Currently Running Movies Section */}
       <section>
+        <h2>Currently Running</h2>
         <div className="container">
-
           {currentlyRunning.length > 0 ? (
             currentlyRunning.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />

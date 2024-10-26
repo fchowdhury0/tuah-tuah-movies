@@ -22,6 +22,7 @@ async function setupApp() {
             return res.json(data)
         })
     })
+    
 
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
