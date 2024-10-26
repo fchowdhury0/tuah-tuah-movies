@@ -23,12 +23,42 @@ INSERT INTO movies (title, category, director, producer, synopsis, trailerUrl, r
     ('Fantastic Beasts: The Secrets of Dumbledore', 'Fantasy', 'David Yates', 'David Heyman', 'Albus Dumbledore assigns Newt Scamander to lead a team of wizards and witches to thwart Grindelwald’s plans.', 'https://www.youtube.com/watch?v=Y9dr2zw-TXQ', 'PG-13', '2024-09-21', '2022-04-15', 'Coming Soon', 'tt4123432', 'https://m.media-amazon.com/images/M/MV5BZGQ1NjQyNDMtNzFlZS00ZGIzLTliMWUtNGJkMGMzNTBjNDg0XkEyXkFqcGdeQXVyMTE1NDI5MDQx._V1_SX300.jpg'),
 	('The Nun II', 'Horror', 'Michael Chaves', 'Peter Safran', 'Set in 1956 France, a priest is murdered and a nun uncovers the sinister origins of a demonic entity.', NULL, 'R', '2024-09-23', '2023-09-08', 'Coming Soon', 'tt12636876', 'https://m.media-amazon.com/images/I/71r3i3uwVvL._AC_UY327_FMwebp_QL65_.jpg');
 
+-- Shows
+INSERT INTO shows (show_time, show_duration, show_room, movie_id, seats_remaining)
+VALUES 
+    ('2024-10-01 15:00:00', 120, 1, 1, 5),
+    ('2024-10-01 18:00:00', 150, 2, 2, 5);
 
-INSERT INTO admins (username, password_hash, email, first_name, last_name) VALUES
-    ('admin_user', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'admin@fakemovietheater.com', 'Admin', 'User');
+-- PLACEHOLDER Seating Chart
+INSERT INTO seating_chart (row, seat_number)
+VALUES 
+    ('A', 1), 
+    ('A', 2), 
+    ('A', 3),
+	('B', 1), 
+    ('B', 2), 
+    ('B', 3);
 
--- need update seed file with example user with:
---     - username, password, etc. 
---     - saved payment card
---     - one purchase of 1 booking of 2 tickets 
--- need update seed file with table user 
+-- Insert Show Seating Chart Entries
+INSERT INTO show_seating_chart (show_id, seat_id, reservation_status)
+VALUES 
+    (1, 1, 'reserved'),  -- Mark as reserved
+    (1, 2, 'reserved'),  -- Mark as reserved
+    (2, 1, 'open');      -- Keep this open
+
+-- Users
+INSERT INTO users (username, password_hash, email, f_name, l_name, role, status)
+VALUES 
+    ('admin_user', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'admin@fakemovietheater.com', 'Admin', 'User', 'admin', FALSE),
+    ('customer1', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'customer1@example.com', 'John', 'Doe', 'customer', FALSE);
+
+-- Payment Cards
+INSERT INTO paymentCard (card_number, card_exp, card_billing_address, card_zip, card_city, card_state, cvv_hash, first_name, last_name, save_card)
+VALUES 
+    ('4111111111111111', '2025-12-31', '123 Main St', '12345', 'Anytown', 'GA', 'hashed_cvv', 'John', 'Doe', TRUE);
+
+-- Tickets
+INSERT INTO ticket (show_seating_id, ticket_price)
+VALUES 
+    (1, 12.50),  
+    (2, 15.00); 
