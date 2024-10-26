@@ -4,7 +4,7 @@ const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 
 const fetchUserInfo = () => {
-  fetch('http://localhost:8080/auth/)
+  fetch('http://localhost:8080/auth/')
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);

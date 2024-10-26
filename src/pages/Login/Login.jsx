@@ -109,9 +109,6 @@ const Login = () => {
               />
               Remember Me
             </label>
-            <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </Link>
           </div>
 
           {/* Error Message */}
@@ -122,9 +119,16 @@ const Login = () => {
             {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
 
+          {/* Forgot Password Link */}
+          <div className="forgot-password">
+            <Link to="/forgot-password" className="forgot-password">
+              Forgot Password?
+            </Link>
+          </div>
+
           {/* Register Link */}
           <div className="register-link">
-            Don't have an account? <Link to="/register">Register Here</Link>
+            Don't have an account? <Link style={{color: "#6299c3"}}to="/register">Register Here</Link>
           </div>
         </form>
       </div>

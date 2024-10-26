@@ -16,6 +16,19 @@
     margin-bottom: 1.5rem;
   }
 
+  .promotions {
+    color: white;
+    display: flex;
+    margin: 5px;
+    align-items: flex-start;
+    justify-content: space-around;
+
+    .promotion-checkbox {
+      margin: 5px;
+    }
+
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -23,6 +36,7 @@
     .form-group {
       display: flex;
       flex-direction: column;
+      justify-content: flex-start !important;
       margin-bottom: 1rem;
 
       label {

@@ -1,17 +1,30 @@
 .confirmation-container {
-    max-width: 500px;
-    margin: 100px auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
-    background-color: #1f2123;
     color: #fff;
     border-radius: 10px;
     text-align: center;
+  }
+
+  .confirmation-card {
+    max-height: fit-content;
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #1f2123;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .confirmation-container h2 {
     color: #f9d3b4;
     margin-bottom: 10px;
+    align-items: center;
+
   }
   
   .confirmation-container p {

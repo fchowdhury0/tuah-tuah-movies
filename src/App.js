@@ -82,36 +82,6 @@ const App = () => {
       element: <Checkout />
     },
     {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          path: "/admin/home",
-          element: <AdminView />
-        },
-        {
-          path: "/admin/managemovies",
-          element: <ManageMovies />
-        },
-        {
-          path: "/admin/manageusers",
-          element: <ManageUsers />
-        },
-        {
-          path: "/admin/managepromotions",
-          element: <ManagePromotions />
-        },
-        {
-          path: "/admin/schedulemovie",
-          element: <ScheduleMovie />
-        }
-      ]
-
-
-
-
-    },
-    {
       path: '/admin',
       element: <AdminLayout />, // Wrap admin routes with AdminLayout
       children: [

@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React from 'react';
+import {React, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './Register.scss';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [promotions, setPromotions] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -16,6 +17,7 @@ const Register = () => {
       confirmPassword: '',
       firstName: '',
       lastName: '',
+      promotions: promotions,
     },
     validationSchema: Yup.object({
       username: Yup.string()
@@ -44,6 +46,7 @@ const Register = () => {
         lastName: values.lastName,
       };
 
+
       console.log('Submitting Registration Data:', registrationData);
 
       try {
@@ -71,8 +74,14 @@ const Register = () => {
       } finally {
         setSubmitting(false);
       }
+      
     },
   });
+  
+  const handlePromotions = (e) => {
+    setPromotions(e.target.checked);
+    formik.setFieldValue('promotions', e.target.checked)
+  }
 
   return (
     <div className="register-container">
@@ -170,7 +179,16 @@ const Register = () => {
 
         {/* Submit Error */}
         {formik.errors.submit && <span className="error" role="alert">{formik.errors.submit}</span>}
-
+        <div className="promotions">
+            <label>
+              Sign up for promotional emails?  
+              <input
+                className="promotion-checkbox"
+                type="checkbox"
+                onChange={handlePromotions}
+              />
+            </label>
+          </div>
         <button type="submit" disabled={formik.isSubmitting}>
           {formik.isSubmitting ? 'Registering...' : 'Register'}
         </button>
