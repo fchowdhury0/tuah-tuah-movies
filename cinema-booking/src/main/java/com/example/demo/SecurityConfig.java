@@ -37,6 +37,8 @@ public class SecurityConfig {
             .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/api/movies/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
