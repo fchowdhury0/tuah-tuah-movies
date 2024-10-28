@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS users (
     f_name VARCHAR(100),
     l_name VARCHAR(100),
     role role_enum DEFAULT 'customer' NOT NULL, 
-    status BOOLEAN DEFAULT FALSE              
+    status BOOLEAN DEFAULT FALSE,
+	is_subscribed BOOLEAN DEFAULT FALSE
 );
 
 COMMENT ON TABLE users IS 'Stores information on customers and admins, including login credentials, roles, and login status.';
