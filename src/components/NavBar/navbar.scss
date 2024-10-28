@@ -10,9 +10,11 @@
   background-color: #212426; /* Matching the .app background color */
   color: #ffffff; /* White text color */
   position: fixed; /* Fixed position to stay at the top */
-  top: 0;
-  left: 0;
   z-index: 1000; /* Ensure NavBar stays above other elements */
+  top: 0;
+  right: 0;
+  border-bottom: 2px solid $cream;
+  box-sizing: border-box;
 
   /* Logo Styling */
   .logo {
@@ -26,6 +28,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       transition: color 0.3s ease;
+      color: #f0f0f0;
 
       &:hover {
         color: #ffffff; /* Maintain white color on hover */
@@ -38,7 +41,6 @@
     color: #f0f0f0;
     text-decoration: none;
     font-size: 1rem;
-    margin-left: 15px; /* Spacing between links */
 
     &:hover {
       color: #ffffff;

@@ -1,6 +1,10 @@
 @import "src/App.scss";
+@import "src/styles/variables.scss";
 
 .menu{
+  padding-left: 10px;
+  padding-top: 10px;
+  border-right: 2px solid;
 
   .item{
     display: flex;
@@ -16,6 +20,7 @@
     }
 
     .list-item{
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
