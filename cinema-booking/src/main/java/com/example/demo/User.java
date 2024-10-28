@@ -26,15 +26,18 @@ public class User {
     private String firstName; // Renamed from f_name to firstName
     private String lastName;  // Renamed from l_name to lastName
 
+    private boolean isSubscribed;
+
     // Constructors
     public User() {}
 
-    public User(String username, String passwordHash, String email, String firstName, String lastName) {
+    public User(String username, String passwordHash, String email, String firstName, String lastName, boolean isSubscribed) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isSubscribed = isSubscribed;
     }
 
     // Getters and Setters
@@ -85,5 +88,13 @@ public class User {
 
     public void setLastName(String lastName) { // Updated setter
         this.lastName = lastName;
+    }
+
+    public boolean getIsSubscribed() {
+      return isSubscribed;
+    }
+
+    public void setIsSubscribed(boolean isSubscribed) {
+      this.isSubscribed = isSubscribed;
     }
 }
