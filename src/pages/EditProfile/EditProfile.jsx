@@ -10,9 +10,14 @@ const EditProfile = () => {
     // Implement authentication logic here
     // For now, just navigate back to Home
   };
-  const [basicInfo, setBasicInfo] = useState(false);
+  /* subscribed should be initially set to the value in database */
+  const [subscribed, setSubscribed] = useState(false)
+  const handleSubscribe = () => {
+    setSubscribed(!subscribed)
+  }
+  const [basicInfo, setBasicInfo] = useState(true);
   const showBasicInfo = () => {
-    setBasicInfo(!basicInfo)
+    setBasicInfo(true)
     setPromotions(false)
     setChangeEmail(false)
     setChangePassword(false)
@@ -20,7 +25,7 @@ const EditProfile = () => {
   }
   const [promotions, setPromotions] = useState(false);
   const showPromotions = () => {
-    setPromotions(!promotions)
+    setPromotions(true)
     setBasicInfo(false)
     setChangeEmail(false)
     setChangePassword(false)
@@ -28,7 +33,7 @@ const EditProfile = () => {
   }
   const [changeEmail, setChangeEmail] = useState(false);
   const showChangeEmail = () => {
-    setChangeEmail(!changeEmail)
+    setChangeEmail(true)
     setPromotions(false)
     setBasicInfo(false)
     setChangePassword(false)
@@ -36,7 +41,7 @@ const EditProfile = () => {
   }
   const [changePassword, setChangePassword] = useState(false);
   const showChangePassword = () => {
-    setChangePassword(!changePassword)
+    setChangePassword(true)
     setPromotions(false)
     setChangeEmail(false)
     setBasicInfo(false)
@@ -44,7 +49,7 @@ const EditProfile = () => {
   }
   const [paymentMethods, setPaymentMethods] = useState(false);
   const showPaymentMethods = () => {
-    setPaymentMethods(!paymentMethods)
+    setPaymentMethods(true)
     setPromotions(false)
     setChangeEmail(false)
     setChangePassword(false)
@@ -116,17 +121,27 @@ const EditProfile = () => {
         </div>
       )}
       {promotions && (
-        <div className="promotions">
-          <h2>You are currently receiving promotional emails</h2>
-          <h3>Click to unsubscribe</h3>
+        <div>
+          {subscribed && (
+            <div className="promotions">
+              <h2>You are currently receiving promotional emails</h2>
+              <h3 onClick={handleSubscribe}>Click to unsubscribe</h3>
+            </div>
+          )}
+          {!subscribed && (
+            <div className="promotions">
+              <h2>You are not currently receiving promotional emails</h2>
+              <h3 onClick={handleSubscribe}>Click to subscribe</h3>
+            </div>
+          )}
         </div>
       )}
       {changeEmail && (
         <div className="change-email">
-          <input 
-          type="text"
-          label="Current Email"
-          placeholder=""
+          <input
+            type="text"
+            label="Current Email"
+            placeholder=""
           />
 
         </div>
