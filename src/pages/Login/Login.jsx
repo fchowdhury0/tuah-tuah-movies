@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import './Login.scss';
 
 const Login = () => {
@@ -32,7 +33,7 @@ const Login = () => {
 
       // Extract JWT token from response
       const { jwt } = response.data;
-
+      console.log(jwt);
       // Store JWT token
       if (rememberMe) {
         localStorage.setItem('token', jwt);
@@ -41,7 +42,8 @@ const Login = () => {
       }
 
       // Optionally, decode JWT to get user info or set authentication state
-
+      const decodedToken = jwtDecode(jwt);
+      console.log("decoded token: " + JSON.stringify(decodedToken,  null, 2))
       // Navigate to home or protected route
       navigate('/');
     } catch (err) {

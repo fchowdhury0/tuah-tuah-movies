@@ -1,6 +1,32 @@
 .main {
+  margin-top: 75px;
+
+
+  .account-banner {
+    padding-top: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    margin-bottom: 20px;
+    h2 {
+      color: white;
+    }
+    
+    .account-items {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-around;
+      h3 {
+        color:white;
+        cursor: pointer;
+      }
+    }
+
+  }
   
-  .content-container{
+  .basic-info {
     display: flexbox;
     margin: 10px;
     color: #f0f0f0;
@@ -8,6 +34,38 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .payment-methods {
+    display: flexbox;
+    margin: 10px;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .promotions {
+    display: flexbox;
+    margin: 10px;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h3 {
+      cursor: pointer;
+      color: grey;
+    }
+  }
+  .change-email {
+    display: flexbox;
+    margin: 10px;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
 
   .item {
     margin: 30px;
