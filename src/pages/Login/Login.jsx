@@ -62,6 +62,11 @@ const Login = () => {
         const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
         console.log(result.data)
         setUser(result.data)
+        setUser({
+          ...user,
+          state: true
+        }
+        )
         console.log("user: " + JSON.stringify(user))
         setLoading(false);
       } catch (err) {

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Make sure this is correctly imported
 
 const NavBar = () => {
+
     const [username, setUsername] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -64,7 +65,7 @@ const NavBar = () => {
             </div>                                                                                     
             <div className="links">                                                                    
                 <Link to="/editprofile" className="links">Account</Link>                            
-                <Link to="/home" className="links">Movies</Link>                                 
+                <Link to="/home" className="links">Movies</Link>        
                 <Link to="/login" className="links">Login</Link>                                 
                 <Link to="/register" className="links">Register</Link>                           
                 <Link to="/logout" className="links">Logout</Link>                               
