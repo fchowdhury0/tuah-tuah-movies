@@ -59,6 +59,7 @@ const EditProfile = () => {
       try {
         const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
         setUser(result.data);
+        console.log("user: " + JSON.stringify(user))
         setLoading(false);
       } catch (err) {
         setError(err);
@@ -150,14 +151,26 @@ const EditProfile = () => {
               <label>First Name:</label>
               <input
                 type="firstName"
-                placeholder={user.firstName}
+                value={user.firstName}
+                onChange={(e) => {
+                  setUser({
+                  ...user,
+                  firstName: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="form-group">
               <label>Last Name:</label>
               <input
                 type="lastName"
-              //placeholder={user.lastName}
+                value={user.lastName}
+                onChange={(e) => {
+                  setUser({
+                  ...user,
+                  lastName: e.target.value,
+                  });
+                }}
               />
             </div>
           </form>
@@ -166,31 +179,12 @@ const EditProfile = () => {
               <label>Email:</label>
               <input
                 type="Email"
-              //placeholder={user.email}
-              />
-            </div>
-            <div className="form-group">
-              <label>Phone Number:</label>
-              <input
-                type="phoneNumber"
+                placeholder={user.email}
+                disabled={true}
               />
             </div>
           </form>
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Street Address:</label>
-              <input
-                type="streetAddress"
-              />
-            </div>
-            <div className="form-group">
-              <label>City, Country:</label>
-              <input
-                type="cityCountry"
-              />
-            </div>
-          </form>
-          <div className="">
+          <div className="save-button">
             <button type="submit">Save</button>
           </div>
         </div>
@@ -246,7 +240,7 @@ const EditProfile = () => {
               />
             </div>
           </form>
-          <div className="">
+          <div className="save-button">
             <button type="submit">Save</button>
           </div>
         </div>
