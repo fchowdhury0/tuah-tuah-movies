@@ -30,7 +30,9 @@ public class User {
     private String role;
 
     private boolean status;
-    private boolean isSubscribed;
+    
+    @Column(name = "is_subscribed", nullable = false)
+    private boolean isSubscribed; // Field to indicate promotions subscription
 
     // Constructors
     public User() {}
@@ -75,11 +77,11 @@ public class User {
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getFirstName() { // Updated getter
         return firstName;
     }
@@ -103,6 +105,7 @@ public class User {
     public void setRole(String role) {
       this.role = role;
     }
+
     public boolean getStatus() {
       return status;
     }
@@ -111,11 +114,11 @@ public class User {
       this.status = status;
     }
 
-    public boolean getIsSubscribed() {
+    public boolean getIsSubscribed() { // Updated getter
       return isSubscribed;
     }
 
-    public void setIsSubscribed(boolean isSubscribed) {
+    public void setIsSubscribed(boolean isSubscribed) { // Updated setter
       this.isSubscribed = isSubscribed;
     }
 }
