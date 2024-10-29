@@ -36,14 +36,14 @@ const Login = () => {
       console.log(jwt);
       // Store JWT token
       if (rememberMe) {
-        localStorage.setItem('token', jwt);
+        localStorage.setItem('token', JSON.stringify(jwtDecode(jwt),  null, 2));
       } else {
-        sessionStorage.setItem('token', jwt);
+        sessionStorage.setItem('token', JSON.stringify(jwtDecode(jwt),  null, 2));
       }
 
       // Optionally, decode JWT to get user info or set authentication state
       const decodedToken = jwtDecode(jwt);
-      console.log("decoded token: " + JSON.stringify(decodedToken,  null, 2))
+      console.log("decoded token: " + sessionStorage.getItem('token'))
       // Navigate to home or protected route
       navigate('/');
     } catch (err) {

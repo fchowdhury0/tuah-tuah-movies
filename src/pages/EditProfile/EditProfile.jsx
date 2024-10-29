@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import Footer from '../../components/Footer/footer.jsx';
 import NavBar from '../../components/NavBar/navbar.jsx';
 import './EditProfile.scss';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import api from '../../utils/api.js';
 import { jwtDecode } from 'jwt-decode';
@@ -26,41 +26,44 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [decodedToken, setDecodedToken] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        //may need to also check localStorage
-        const token = sessionStorage.getItem('token'); // Retrieve the JWT from sessionStorage
-        if (!token) {
-          throw new Error('No JWT found in sessionStorage');
-        }
-        setDecodedToken(jwtDecode(token));
-        setUsername(decodedToken.sub)
-        console.log(decodedToken.sub)
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
+    fetchUserToken();
   }, []);
+
 
   useEffect(() => {
     loadUser();
   }, [])
 
+  const fetchUserToken = async () => {
+    try {
+      // need to also check localStorage in when rememberMe
+      const token = (sessionStorage.getItem('token') || localStorage.getItem('token')); // Retrieve the JWT from sessionStorage
+      if (!token) {
+        throw new Error('No JWT found in storage');
+      } else {
+      console.log("decoded sub: " + token)
+      }
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+    
+  };
+
   const loadUser = async () => {
     try {
       const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
       setUser(result.data);
+      console.log("userName: " + user.username)
       setLoading(false);
     } catch (err) {
       setError(err);
       setLoading(false);
     }
-    console.log(user)
+    console.log("user: " + user)
   };
 
   const handleSubmit = (e) => {
@@ -136,14 +139,14 @@ const EditProfile = () => {
               <label>First Name:</label>
               <input
                 type="firstName"
-                placeholder={user.firstName}
+                //placeholder={user.firstName}
               />
             </div>
             <div className="form-group">
               <label>Last Name:</label>
               <input
                 type="lastName"
-                placeholder={user.lastName}
+                //placeholder={user.lastName}
               />
             </div>
           </form>
@@ -152,7 +155,7 @@ const EditProfile = () => {
               <label>Email:</label>
               <input
                 type="Email"
-                placeholder={user.email}
+                //placeholder={user.email}
               />
             </div>
             <div className="form-group">
