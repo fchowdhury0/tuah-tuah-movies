@@ -1,9 +1,12 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +29,19 @@ public class UserController {
     return userRepository.findByUsername(username);
   } 
 
-  @PostMapping 
-  User newUser(@RequestBody User newUser) {
-    return userRepository.save(newUser);
+  @PutMapping("/{id}")
+  Optional<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    return userRepository.findById(id)
+    .map(user -> {
+      user.setEmail(updatedUser.getEmail());
+      user.setFirstName(updatedUser.getFirstName());
+      user.setLastName(updatedUser.getLastName());
+      user.setStatus(updatedUser.getStatus());
+      user.setUsername(updatedUser.getUsername());
+      User savedUser = userRepository.save(user);
+      return savedUser;
+    });
   }
+
   
 }
