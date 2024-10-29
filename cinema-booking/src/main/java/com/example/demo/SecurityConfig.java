@@ -9,14 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.http.HttpMethod;
-
+import javax.servlet.http.HttpServletResponse; 
 
 import java.util.List;
 
@@ -31,18 +30,27 @@ public class SecurityConfig {
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors().and() // Enable CORS
             .csrf().disable()
-            .authorizeHttpRequests()
+            .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.GET, "/api/movies/**").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
+                .requestMatchers("/api/movies/sendConfirmationEmail").permitAll()
                 .anyRequest().authenticated()
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .exceptionHandling(exception -> exception
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    // Handle access denied
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+                })
+            );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -71,21 +79,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/movies/sendConfirmationEmail").permitAll() // Allow access to this endpoint
-                .anyRequest().authenticated() // All other requests require authentication
-            )
-            .csrf(csrf -> csrf.disable()) // Disable CSRF if necessary
-	    .exceptionHandling()
-	    .accessDeniedHandler((request, response, accessDeniedException) -> {
-		    //	    logger.warn("Access Denied: {}", accessDeniedException.getMessage());
-		});
-	
-        return http.build(); // Make sure to return the built SecurityFilterChain
-    }
-
 }
