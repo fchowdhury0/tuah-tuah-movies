@@ -5,7 +5,7 @@ import './EditProfile.scss';
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import api from '../../utils/api.js';
-import { jwtDecode } from 'jwt-decode';
+//import { jwtDecode } from 'jwt-decode';
 
 
 /*check console log for form values*/
@@ -35,7 +35,7 @@ const EditProfile = () => {
         if (!token) {
           throw new Error('No JWT found in sessionStorage');
         }
-        setDecodedToken(jwtDecode(token));
+//        setDecodedToken(jwtDecode(token));
         setUsername(decodedToken.sub)
         console.log(decodedToken.sub)
       } catch (err) {
