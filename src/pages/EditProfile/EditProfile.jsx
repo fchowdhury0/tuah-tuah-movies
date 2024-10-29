@@ -40,6 +40,7 @@ const EditProfile = () => {
       const token = (sessionStorage.getItem('token') || localStorage.getItem('token'));
       const parsedToken = JSON.parse(token)
       if (!token) {
+        navigate("/login")
         throw new Error('No JWT found in storage');
       } else {
         setUsername(parsedToken.sub)

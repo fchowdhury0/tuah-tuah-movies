@@ -26,6 +26,7 @@ import Checkout from './pages/Checkout/Checkout.jsx';
 import EditProfile from './pages/EditProfile/EditProfile.jsx';
 import Home from './pages/Home/Home.jsx';
 import Login from './pages/Login/Login.jsx';
+import Logout from './pages/Logout/Logout'
 import OrderConfirmation from './pages/OrderConfirmation/OrderConfirmation.jsx';
 import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 import Register from './pages/Register/Register.jsx';
@@ -64,6 +65,9 @@ const App = () => {
     {
       path: "/login",
       element: <Login />
+    },
+    { path: "/logout",
+      element: <Logout />
     },
     {
       path: "/register",
