@@ -1,10 +1,68 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import Footer from '../../components/Footer/footer.jsx';
 import NavBar from '../../components/NavBar/navbar.jsx';
 import './EditProfile.scss';
+import { useParams } from 'react-router-dom'
+import axios from 'axios';
+import api from '../../utils/api.js';
+import { jwtDecode } from 'jwt-decode';
+
 
 /*check console log for form values*/
 const EditProfile = () => {
+
+  const [user, setUser] = useState({
+    username: "",
+    passwordHash: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    status: false,
+    isSubscribed: false
+  });
+  
+  const [username, setUsername] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [decodedToken, setDecodedToken] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        //may need to also check localStorage
+        const token = sessionStorage.getItem('token'); // Retrieve the JWT from sessionStorage
+        if (!token) {
+          throw new Error('No JWT found in sessionStorage');
+        }
+        setDecodedToken(jwtDecode(token));
+        setUsername(decodedToken.sub)
+        console.log(decodedToken.sub)
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    loadUser();
+  }, [])
+
+  const loadUser = async () => {
+    try {
+      const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
+      setUser(result.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err);
+      setLoading(false);
+    }
+    console.log(user)
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Implement authentication logic here
@@ -78,12 +136,14 @@ const EditProfile = () => {
               <label>First Name:</label>
               <input
                 type="firstName"
+                placeholder={user.firstName}
               />
             </div>
             <div className="form-group">
               <label>Last Name:</label>
               <input
                 type="lastName"
+                placeholder={user.lastName}
               />
             </div>
           </form>
@@ -92,6 +152,7 @@ const EditProfile = () => {
               <label>Email:</label>
               <input
                 type="Email"
+                placeholder={user.email}
               />
             </div>
             <div className="form-group">

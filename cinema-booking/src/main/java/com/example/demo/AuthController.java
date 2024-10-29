@@ -90,6 +90,7 @@ public class AuthController {
         user.setFirstName(registrationRequest.getFirstName());
         user.setLastName(registrationRequest.getLastName());
         user.setPasswordHash(passwordEncoder.encode(registrationRequest.getPassword()));
+        user.setRole(registrationRequest.getRole());
 
         // Save the user to the database
         userRepository.save(user);

@@ -17,7 +17,6 @@ public class JwtUtil {
                    .setIssuedAt(new Date(System.currentTimeMillis()))
                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10-hour expiration
                    .signWith(SignatureAlgorithm.HS256, SECRET_KEY) // Make sure the SECRET_KEY is secure
-                   .setPayload(username)
                    .compact();
     }
 

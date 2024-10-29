@@ -17,6 +17,7 @@ const Register = () => {
       confirmPassword: '',
       firstName: '',
       lastName: '',
+      role: 'customer',
       promotions: promotions,
     },
     validationSchema: Yup.object({
@@ -44,6 +45,7 @@ const Register = () => {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
+        role: "customer"
       };
 
 
