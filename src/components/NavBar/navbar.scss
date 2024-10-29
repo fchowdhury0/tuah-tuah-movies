@@ -9,7 +9,7 @@
   justify-content: space-between;
   background-color: #212426; /* Matching the .app background color */
   color: #ffffff; /* White text color */
-  position: fixed; /* Fixed position to stay at the top */
+  position: sticky; /* Fixed position to stay at the top */
   z-index: 1000; /* Ensure NavBar stays above other elements */
   top: 0;
   right: 0;
@@ -37,13 +37,27 @@
   }
 
   /* Navigation Links Styling */
-  .links {
-    color: #f0f0f0;
-    text-decoration: none;
-    font-size: 1rem;
+      .links {
+	  color: #f0f0f0;
+	  text-decoration: none;
+	  font-size: 1rem;
+	  padding: 10px 15px;
+	  &:hover {
+	      color: #ffffff;
 
-    &:hover {
-      color: #ffffff;
-    }
-  }
+	  }
+      }
+      .login-button, .register-button {
+	  background-color: #6299c3; /* Example background color */
+	  color: white; /* Example text color */
+	  border: none; /* Remove default border */
+	  padding: 10px 15px; /* Adjust padding */
+	  cursor: pointer; /* Change cursor to pointer */
+	  transition: background-color 0.3s; /* Add transition for hover effect */
+	  
+	  &:hover {
+              background-color: #4f7f9d; /* Example hover color */
+	  }
+      }
 }
+

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './BookMovie.scss'
+import NavBar from '../../components/NavBar/navbar.jsx';
+
 const BookMovie = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -29,7 +31,8 @@ const BookMovie = () => {
 
   return (
     <div className="container">
-      <div className="book-movie">
+	<NavBar />
+	<div className="book-movie">
         <div className="movie-detail">
           <div className="movie-poster">
           <img src={currentMovie.posterUrl} alt={`${currentMovie.title} Poster`} />

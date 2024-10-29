@@ -15,11 +15,21 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     public void sendSimpleMessage(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage(); 
-        message.setFrom("noreply@yourdomain.com"); // Replace with your email
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("noreply@yourdomain.com"); // Replace with your email   
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
         mailSender.send(message);
     }
+
+    public void sendConfirmationEmail(String to, String subject, String text) {
+	SimpleMailMessage message = new SimpleMailMessage();
+	message.setFrom("hawktuah.incorporated@gmail.com"); // Replace with your email            
+	message.setTo(to);
+	message.setSubject(subject);
+	message.setText(text);
+	mailSender.send(message);
+    }
+
 }

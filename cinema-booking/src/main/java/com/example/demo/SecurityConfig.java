@@ -70,4 +70,21 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/movies/sendConfirmationEmail").permitAll() // Allow access to this endpoint
+                .anyRequest().authenticated() // All other requests require authentication
+            )
+            .csrf(csrf -> csrf.disable()) // Disable CSRF if necessary
+	    .exceptionHandling()
+	    .accessDeniedHandler((request, response, accessDeniedException) -> {
+		    //	    logger.warn("Access Denied: {}", accessDeniedException.getMessage());
+		});
+	
+        return http.build(); // Make sure to return the built SecurityFilterChain
+    }
+
 }
