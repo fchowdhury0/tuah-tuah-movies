@@ -47,10 +47,11 @@ VALUES
     (2, 1, 'open');      -- Keep this open
 
 -- Users
-INSERT INTO users (username, password_hash, email, f_name, l_name, role, status)
+INSERT INTO users (username, password_hash, email, first_name, last_name, role, status)
 VALUES 
-    ('admin_user', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'admin@fakemovietheater.com', 'Admin', 'User', 'admin', FALSE),
-    ('customer1', '$2a$10$7eqJtq98hPqEX7fNZaFWoO.QpPcD9fMFVam2RgGv5PRxjf/RVwD12', 'customer1@example.com', 'John', 'Doe', 'customer', FALSE);
+    ('admin_user', '$2a$10$TKh8H1.P9RxfEL6K5sTixe8ZxVjYjU/ChFzuj15oJDv0C9o7B1r8e', 'admin@fakemovietheater.com', 'Admin', 'User', 'admin', FALSE),
+	('admin_user2', '$2a$10$TKh8H1.P9RxfEL6K5sTixe8ZxVjYjU/ChFzuj15oJDv0C9o7B1r8e', 'admin2@fakemovietheater.com', 'Admin', 'User', 'admin', TRUE),
+    ('customer1', '$2a$10$TKh8H1.P9RxfEL6K5sTixe8ZxVjYjU/ChFzuj15oJDv0C9o7B1r8e', 'customer1@example.com', 'John', 'Doe', 'customer', FALSE);
 
 -- Payment Cards
 INSERT INTO paymentCard (card_number, card_exp, card_billing_address, card_zip, card_city, card_state, cvv_hash, first_name, last_name, save_card)

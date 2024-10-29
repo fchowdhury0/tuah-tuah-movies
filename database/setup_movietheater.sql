@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    f_name VARCHAR(100),
-    l_name VARCHAR(100),
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
     role role_enum DEFAULT 'customer' NOT NULL, 
     status BOOLEAN DEFAULT FALSE,
 	is_subscribed BOOLEAN DEFAULT FALSE
