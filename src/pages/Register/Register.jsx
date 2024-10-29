@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './Register.scss';
@@ -18,7 +18,7 @@ const Register = () => {
       firstName: '',
       lastName: '',
       role: 'customer',
-      promotions: promotions,
+      isSubscribed: promotions, // Consistent naming
     },
     validationSchema: Yup.object({
       username: Yup.string()
@@ -45,9 +45,9 @@ const Register = () => {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
-        role: "customer"
+        role: "customer",
+        isSubscribed: values.isSubscribed, // Include the 'isSubscribed' field
       };
-
 
       console.log('Submitting Registration Data:', registrationData);
 
@@ -76,13 +76,12 @@ const Register = () => {
       } finally {
         setSubmitting(false);
       }
-      
     },
   });
   
   const handlePromotions = (e) => {
     setPromotions(e.target.checked);
-    formik.setFieldValue('promotions', e.target.checked)
+    formik.setFieldValue('isSubscribed', e.target.checked); // Update 'isSubscribed' field
   }
 
   return (
@@ -179,18 +178,24 @@ const Register = () => {
           ) : null}
         </div>
 
+        {/* Promotions Checkbox */}
+        <div className="form-group promotions">
+          <label htmlFor="isSubscribed">
+            <input
+              id="isSubscribed"
+              type="checkbox"
+              name="isSubscribed"
+              checked={formik.values.isSubscribed}
+              onChange={handlePromotions}
+              className="promotion-checkbox"
+            />
+            Sign up for promotional emails?
+          </label>
+        </div>
+
         {/* Submit Error */}
         {formik.errors.submit && <span className="error" role="alert">{formik.errors.submit}</span>}
-        <div className="promotions">
-            <label>
-              Sign up for promotional emails?  
-              <input
-                className="promotion-checkbox"
-                type="checkbox"
-                onChange={handlePromotions}
-              />
-            </label>
-          </div>
+        
         <button type="submit" disabled={formik.isSubmitting}>
           {formik.isSubmitting ? 'Registering...' : 'Register'}
         </button>

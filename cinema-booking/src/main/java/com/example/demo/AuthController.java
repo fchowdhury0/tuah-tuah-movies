@@ -77,12 +77,12 @@ public class AuthController {
         if(userRepository.findByUsername(registrationRequest.getUsername()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
         }
-
+    
         // Check if email already exists
         if(userRepository.findByEmail(registrationRequest.getEmail()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
-
+    
         // Create a new user instance
         User user = new User();
         user.setUsername(registrationRequest.getUsername());
@@ -91,10 +91,11 @@ public class AuthController {
         user.setLastName(registrationRequest.getLastName());
         user.setPasswordHash(passwordEncoder.encode(registrationRequest.getPassword()));
         user.setRole(registrationRequest.getRole());
-
+        user.setIsSubscribed(registrationRequest.isIsSubscribed()); // Set isSubscribed
+    
         // Save the user to the database
         userRepository.save(user);
-
+    
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
