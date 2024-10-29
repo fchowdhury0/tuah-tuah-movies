@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .requestMatchers("/api/movies/sendConfirmationEmail").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/user/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

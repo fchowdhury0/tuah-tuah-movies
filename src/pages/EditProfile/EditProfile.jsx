@@ -12,6 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 const EditProfile = () => {
 
   const [user, setUser] = useState({
+    userId: null,
     username: "",
     passwordHash: "",
     email: "",
@@ -104,10 +105,18 @@ const EditProfile = () => {
     }
   }, [username]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Implement authentication logic here
-    // For now, just navigate back to Home
+  const handleEditProfile = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8080/api/user/${user.userId}`, user, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    });
+    console.log('User updated successfully:', response.data);
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+
   };
   /* subscribed should be initially set to the value in database */
   const [subscribed, setSubscribed] = useState(false)
@@ -179,7 +188,7 @@ const EditProfile = () => {
 		    <div className="item">
 			<span> Basic Information </span>
 		    </div>
-		    <form className="form" onSubmit={handleSubmit}>
+		    <form className="form" onSubmit={handleEditProfile}>
 			<div className="form-group">
 			    <label>First Name:</label>
 			    <input
@@ -207,7 +216,7 @@ const EditProfile = () => {
 			    />
 			</div>
 		    </form>
-		    <form className="form" onSubmit={handleSubmit}>
+		    <form className="form" onSubmit={handleEditProfile}>
 			<div className="form-group">
 			    <label>Email:</label>
 			    <input
@@ -218,7 +227,7 @@ const EditProfile = () => {
 			</div>
 		    </form>
 		    <div className="save-button">
-			<button type="submit">Save</button>
+			<button onClick={handleEditProfile}type="submit">Save</button>
 		    </div>
 		</div>
 	    )}

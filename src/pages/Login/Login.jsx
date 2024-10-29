@@ -1,16 +1,32 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Make sure to import jwtDecode
 import './Login.scss';
 
 const Login = () => {
+  const [userStatus, setUserStatus] = useState({
+    status: false
+  });
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const [user, setUser] = useState({
+    userId: null,
+    username: "",
+    passwordHash: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    status: false,
+    isSubscribed: false
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,8 +54,42 @@ const Login = () => {
         sessionStorage.setItem('token', JSON.stringify(tokenData));
       }
 
-      // Navigate to home or protected route
-      navigate('/');
+
+      //GET user information with username
+      try {
+        setUsername(JSON.parse(sessionStorage.getItem('token')))
+        console.log("username: " + username)
+        const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
+        setUser(result.data);
+        console.log(user)
+        setUser({
+          status: true
+        })
+        console.log("user: " + JSON.stringify(user))
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+
+      //PUT user status into user info
+      try {
+        const response = await axios.put(`http://localhost:8080/api/user/${user.userId}`, user, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log('User updated successfully:', response.data);
+        setLoading(false)
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
+
+
+      // Navigate to home or protected routeif
+      if (!loading) {
+        navigate('/');
+      }
     } catch (err) {
       if (err.response) {
         // Server responded with a status other than 2xx
@@ -55,6 +105,7 @@ const Login = () => {
       setIsSubmitting(false); // Reset submitting state
     }
   };
+
 
   const handleCheck = () => {
     setRememberMe((prev) => !prev);
