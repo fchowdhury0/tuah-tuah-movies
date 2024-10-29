@@ -188,7 +188,7 @@ const EditProfile = () => {
 		    <div className="item">
 			<span> Basic Information </span>
 		    </div>
-		    <form className="form" onSubmit={handleSubmit}>
+		    <form className="form" onSubmit={handleEditProfile}>
 			<div className="form-group">
 			    <label>First Name:</label>
 			    <input
@@ -216,7 +216,7 @@ const EditProfile = () => {
 			    />
 			</div>
 		    </form>
-		    <form className="form" onSubmit={handleSubmit}>
+		    <form className="form" onSubmit={handleEditProfile}>
 			<div className="form-group">
 			    <label>Email:</label>
 			    <input
@@ -227,7 +227,7 @@ const EditProfile = () => {
 			</div>
 		    </form>
 		    <div className="save-button">
-			<button type="submit">Save</button>
+			<button onClick={handleEditProfile}type="submit">Save</button>
 		    </div>
 		</div>
 	    )}
