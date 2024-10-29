@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/api/movies")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -19,6 +20,9 @@ public class MovieController {
     @Autowired
     private MovieRepository movieRepository;
 
+    @Autowired  // Add this annotation to inject EmailService
+    private EmailService emailService;
+    
     // Get all movies
     @GetMapping
     public List<Movie> getAllMovies() {
@@ -54,5 +58,11 @@ public class MovieController {
         return savedMovie;
     }
 
+    @PostMapping("/sendConfirmationEmail")
+    public String sendConfirmationEmail(@RequestParam String email) {
+        emailService.sendConfirmationEmail(email, "Booking", "thank you");
+        return "Confirmation email sent successfully!";
+    }
+    
     // Other endpoints as needed...
 }

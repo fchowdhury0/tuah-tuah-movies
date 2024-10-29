@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/footer.jsx';
+import NavBar from '../../components/NavBar/navbar.jsx';
 
 
 const Checkout = () => {
@@ -57,8 +58,9 @@ const Checkout = () => {
 
   return (
     <div className="main-checkout" style={{ color: 'white' }}>
-      <h1>Checkout</h1>
-      <div className="checkout-container">
+	<NavBar />
+	<h1>Checkout</h1>
+	<div className="checkout-container">
         <h2>Your Cart</h2>
         <div>
           {Object.entries(tickets).map(([type, count]) => (
