@@ -40,10 +40,6 @@ const EditProfile = () => {
     }
   };
 
-
-  
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // Implement authentication logic here

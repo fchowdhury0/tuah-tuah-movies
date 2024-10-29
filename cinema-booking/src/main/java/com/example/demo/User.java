@@ -25,7 +25,8 @@ public class User {
 
     private String firstName; // Renamed from f_name to firstName
     private String lastName;  // Renamed from l_name to lastName
-
+    
+    @Column(nullable = false)
     private String role;
 
     private boolean status;

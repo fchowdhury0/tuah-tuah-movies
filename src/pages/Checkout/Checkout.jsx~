@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ManageMovies from '../AdminView/ManageMovies.jsx';
-import Footer from '../../components/Footer/Footer.jsx';
+import Footer from '../../components/Footer/footer.jsx';
 import Menu from '../../components/Menu/Menu.jsx';
-import NavBar from '../../components/NavBar/NavBar.jsx';
+import NavBar from '../../components/NavBar/navbar.jsx';
 
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]); // Assume cart items will be passed or fetched

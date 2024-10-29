@@ -45,7 +45,7 @@ const Register = () => {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
-        role: values.role
+        role: "customer"
       };
 
 
