@@ -63,7 +63,7 @@ const NavBar = () => {
                 <Link to="/home" className="links">{"Hawk Tuah Movies"}</Link>                                 
             </div>                                                                                     
             <div className="links">                                                                    
-                <Link to="/editprofile" className="links">Edit Profile</Link>                            
+                <Link to="/editprofile" className="links">Account</Link>                            
                 <Link to="/home" className="links">Movies</Link>                                 
                 <Link to="/login" className="links">Login</Link>                                 
                 <Link to="/register" className="links">Register</Link>                           
