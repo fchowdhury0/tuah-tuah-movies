@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './OrderTickets.scss';
+import NavBar from '../../components/NavBar/navbar.jsx';
 
 const OrderTickets = () => {
     const { state } = useLocation();
@@ -53,6 +54,7 @@ const OrderTickets = () => {
 
     return (
 	<div className="order-tickets" style={{ color: 'white'}}>
+	    <NavBar />
 	    <h1>Order Tickets</h1>
 	    <p>Maximum Tickets Allowed: {seatCount}</p> 
 	    <div className="ticket-type-container">

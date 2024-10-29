@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import jwtDecode from 'jwt-decode'; // Make sure to import jwtDecode
 import './Login.scss';
 
 const Login = () => {
@@ -19,37 +19,31 @@ const Login = () => {
 
     try {
       // Construct the payload
-      const payload = {
-        username: username,
-        password: password,
-      };
+      const payload = { username, password };
 
       // Send POST request to /api/auth/login
       const response = await axios.post('http://localhost:8080/api/auth/login', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
 
       // Extract JWT token from response
       const { jwt } = response.data;
       console.log(jwt);
+
       // Store JWT token
+      const tokenData = jwtDecode(jwt);
       if (rememberMe) {
-        localStorage.setItem('token', JSON.stringify(jwtDecode(jwt),  null, 2));
+        localStorage.setItem('token', JSON.stringify(tokenData));
       } else {
-        sessionStorage.setItem('token', JSON.stringify(jwtDecode(jwt),  null, 2));
+        sessionStorage.setItem('token', JSON.stringify(tokenData));
       }
 
-      // Optionally, decode JWT to get user info or set authentication state
-      const decodedToken = jwtDecode(jwt);
-      console.log("decoded token: " + sessionStorage.getItem('token'))
       // Navigate to home or protected route
       navigate('/');
     } catch (err) {
       if (err.response) {
         // Server responded with a status other than 2xx
-        setError(err.response.data);
+        setError(err.response.data.message || 'Login failed. Please try again.');
       } else if (err.request) {
         // Request was made but no response received
         setError('No response from server. Please try again later.');
@@ -58,12 +52,12 @@ const Login = () => {
         setError('An unexpected error occurred.');
       }
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Reset submitting state
     }
   };
 
   const handleCheck = () => {
-    setRememberMe(!rememberMe);
+    setRememberMe((prev) => !prev);
   };
 
   return (
@@ -117,20 +111,22 @@ const Login = () => {
           {error && <div className="error-message" role="alert">{error}</div>}
 
           {/* Submit Button */}
-          <button type="submit" className="submit-button" disabled={isSubmitting || !username || !password}>
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={isSubmitting || !username || !password}
+          >
             {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
 
           {/* Forgot Password Link */}
           <div className="forgot-password">
-            <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </Link>
+            <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
           </div>
 
           {/* Register Link */}
           <div className="register-link">
-            Don't have an account? <Link style={{color: "#6299c3"}}to="/register">Register Here</Link>
+            Don't have an account? <Link style={{ color: "#6299c3" }} to="/register">Register Here</Link>
           </div>
         </form>
       </div>

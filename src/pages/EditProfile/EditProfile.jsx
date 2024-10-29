@@ -5,7 +5,7 @@ import './EditProfile.scss';
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import api from '../../utils/api.js';
-import { jwtDecode } from 'jwt-decode';
+//import { jwtDecode } from 'jwt-decode';
 
 
 /*check console log for form values*/
