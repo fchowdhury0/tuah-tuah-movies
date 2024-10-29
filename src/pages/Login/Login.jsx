@@ -13,62 +13,49 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      setError('');
-      setIsSubmitting(true);
-      
-      const trimmedUsername = username.trim();
-      const trimmedPassword = password.trim();
-      
-      if (trimmedPassword.length < 8) {
-	  setError('Password must be at least 8 characters long.');
-	  setIsSubmitting(false);
-	  return;
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      // Construct the payload
+      const payload = {
+        username: username,
+        password: password,
+      };
+
+      // Send POST request to /api/auth/login
+      const response = await axios.post('http://localhost:8080/api/auth/login', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // Extract JWT token from response
+      const { jwt } = response.data;
+      console.log(jwt);
+      // Store JWT token
+      if (rememberMe) {
+        localStorage.setItem('token', JSON.stringify(jwtDecode(jwt),  null, 2));
+      } else {
+        sessionStorage.setItem('token', JSON.stringify(jwtDecode(jwt),  null, 2));
       }
-      
-      
-      try {
-	  // Construct the payload
-	  const payload = {
-              username: username,
-              password: password,
-	  };
-	  
-	  // Send POST request to /api/auth/login
-	  const response = await axios.post('http://localhost:8080/api/auth/login', payload, {
-              headers: {
-		  'Content-Type': 'application/json',
-              },
-	  });
-	  
-	  // Extract JWT token from response
-	  const { jwt } = response.data;
-	  console.log(jwt);
-	  // Store JWT token
-	  if (rememberMe) {
-              localStorage.setItem('token', jwt);
-	  } else {
-              sessionStorage.setItem('token', jwt);
-	  }
-	  
-	  // Optionally, decode JWT to get user info or set authentication state
-	  //      const decodedToken = jwtDecode(jwt);
-	  //      console.log("decoded token: " + JSON.stringify(decodedToken,  null, 2))
-	  // Navigate to home or protected route
-	  navigate('/');
-      } catch (err) {
-	  if (err.response) {
-              // Server responded with a status other than 2xx
-              setError(err.response.data);
-	  } else if (err.request) {
-              // Request was made but no response received
-              setError('No response from server. Please try again later.');
-	  } else {
-              // Something else happened
-              setError('An unexpected error occurred.');
-	  }
-      } finally {
-	  setIsSubmitting(false);
+
+      // Optionally, decode JWT to get user info or set authentication state
+      const decodedToken = jwtDecode(jwt);
+      console.log("decoded token: " + sessionStorage.getItem('token'))
+      // Navigate to home or protected route
+      navigate('/');
+    } catch (err) {
+      if (err.response) {
+        // Server responded with a status other than 2xx
+        setError(err.response.data);
+      } else if (err.request) {
+        // Request was made but no response received
+        setError('No response from server. Please try again later.');
+      } else {
+        // Something else happened
+        setError('An unexpected error occurred.');
       }
   };
     
