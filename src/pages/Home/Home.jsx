@@ -98,14 +98,6 @@ const Home = () => {
   return (
       <div className="app">
 	  <NavBar />
-	  <h1>Hawk Tuah Movies</h1>
-
-	  {/* Authentication Buttons Container */}
-	  <div className="auth-buttons">
-              <button className="login-button" onClick={handleLogin}>Login</button>
-              <button className="register-button" onClick={handleRegister}>Register</button>
-	  </div>
-	 
 	  {/* Search Bar */}
 	  <div className="search">
               <form onSubmit={handleSearch} style={{ display: 'flex', width: '100%' }}>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode'; // Make sure to import jwtDecode
+import { jwtDecode } from 'jwt-decode'; // Make sure to import jwtDecode
 import './Login.scss';
 
 const Login = () => {
