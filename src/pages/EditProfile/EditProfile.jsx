@@ -21,7 +21,7 @@ const EditProfile = () => {
     status: false,
     isSubscribed: false
   });
-  
+
   const [username, setUsername] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,41 +30,43 @@ const EditProfile = () => {
 
   useEffect(() => {
     fetchUserToken();
+    console.log("ran fetchUserToken")
   }, []);
 
-
-  useEffect(() => {
-    loadUser();
-  }, [])
 
   const fetchUserToken = async () => {
     try {
       // need to also check localStorage in when rememberMe
-      const token = (sessionStorage.getItem('token') || localStorage.getItem('token')); // Retrieve the JWT from sessionStorage
+      const token = (sessionStorage.getItem('token') || localStorage.getItem('token'));
+      const parsedToken = JSON.parse(token)
       if (!token) {
         throw new Error('No JWT found in storage');
       } else {
-      console.log("decoded sub: " + token)
+        setUsername(parsedToken.sub)
+        console.log("decoded sub: " + username)
       }
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
-    
+
   };
 
-  const loadUser = async () => {
-    try {
-      const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
-      setUser(result.data);
-      console.log("userName: " + user.username)
-      setLoading(false);
-    } catch (err) {
-      setError(err);
-      setLoading(false);
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
+        setUser(result.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+    if (username) {
+      loadUser();
     }
-    console.log("user: " + user)
-  };
+  }, [username]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -116,6 +118,13 @@ const EditProfile = () => {
     setChangePassword(false)
     setBasicInfo(false)
   }
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while data is being fetched
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Show an error message if there is an error
+  }
   return (
     <div className="main">
       <NavBar />
@@ -139,14 +148,14 @@ const EditProfile = () => {
               <label>First Name:</label>
               <input
                 type="firstName"
-                //placeholder={user.firstName}
+                placeholder={user.firstName}
               />
             </div>
             <div className="form-group">
               <label>Last Name:</label>
               <input
                 type="lastName"
-                //placeholder={user.lastName}
+              //placeholder={user.lastName}
               />
             </div>
           </form>
@@ -155,7 +164,7 @@ const EditProfile = () => {
               <label>Email:</label>
               <input
                 type="Email"
-                //placeholder={user.email}
+              //placeholder={user.email}
               />
             </div>
             <div className="form-group">
