@@ -81,11 +81,16 @@ const App = () => {
       path: "/editprofile",
       element: <EditProfile />
     },
-    {
-      path: "/checkout",
-      element: <Checkout />
-    },
-    {
+      {
+	  path: "/checkout",
+	  element: <Checkout />
+      },
+      {
+	  path: "/forgot-password",
+	  element: <ForgotPassword />
+      },
+
+      {
       path: '/admin',
       element: <AdminLayout />, // Wrap admin routes with AdminLayout
       children: [

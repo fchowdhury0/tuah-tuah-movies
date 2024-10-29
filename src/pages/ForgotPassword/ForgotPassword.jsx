@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.scss';
 
 const ForgotPassword = () => {
@@ -7,6 +8,8 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+    useState(false);
+    const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,19 +17,26 @@ const ForgotPassword = () => {
     setError('');
     setIsSubmitting(true);
 
-    try {
-      const response = await axios.post('http://localhost:8080/api/auth/forgot-password', { email });
-      setMessage(response.data);
-    } catch (err) {
-      if (err.response) {
-        setError(err.response.data);
-      } else {
-        setError('An unexpected error occurred.');
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+      setTimeout(() => {
+	  setMessage('Email sent!'); 
+	  setIsSubmitting(false); 
+	  setEmail('');
+      }, 1000);
+   
   };
+//    try {
+//      const response = await axios.post('http://localhost:8080/api/auth/forgot-password', { email });
+//      setMessage(response.data);
+//    } catch (err) {
+//      if (err.response) {
+//        setError(err.response.data);
+//      } else {
+//        setError('An unexpected error occurred.');
+//      }
+//    } finally {
+//      setIsSubmitting(false);
+//    }
+//  };
 
   return (
     <div className="forgot-password-page">
@@ -53,7 +63,9 @@ const ForgotPassword = () => {
           <button type="submit" className="submit-button" disabled={isSubmitting || !email}>
             {isSubmitting ? 'Sending...' : 'Send Reset Link'}
           </button>
-        </form>
+	</form>
+      <button onClick={() => navigate('/home')} className="back-home-button">Back to Home</button>
+      
       </div>
     </div>
   );
