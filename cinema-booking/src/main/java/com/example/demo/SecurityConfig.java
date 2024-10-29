@@ -17,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.http.HttpMethod;
 
+
 import java.util.List;
 
 @Configuration
@@ -36,7 +37,7 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/api/movies/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/auth/register**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .anyRequest().authenticated()

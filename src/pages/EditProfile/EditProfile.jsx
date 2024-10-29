@@ -1,10 +1,49 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import Footer from '../../components/Footer/footer.jsx';
 import NavBar from '../../components/NavBar/navbar.jsx';
 import './EditProfile.scss';
+import { useParams } from 'react-router-dom'
+import axios from 'axios';
+import api from '../../utils/api.js';
 
 /*check console log for form values*/
 const EditProfile = () => {
+
+  const [user, setUser] = useState({
+    username: "",
+    passwordHash: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    status: false,
+    isSubscribed: false
+  });
+  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    loadUser();
+  }, [])
+
+  const loadUser = async () => {
+    try {
+      const result = await api.get(`http://localhost:8080/api/user/${id}`);
+      setUser(result.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err);
+      setLoading(false);
+    }
+  };
+
+
+  
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Implement authentication logic here
