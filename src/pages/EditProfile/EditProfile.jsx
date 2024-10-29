@@ -5,7 +5,7 @@ import './EditProfile.scss';
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import api from '../../utils/api.js';
-//import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 
 /*check console log for form values*/
@@ -19,7 +19,7 @@ const EditProfile = () => {
     lastName: "",
     role: "",
     status: false,
-    isSubscribed: false
+//    isSubscribed: false
   });
 
   const [username, setUsername] = useState();
@@ -37,7 +37,8 @@ const EditProfile = () => {
   const fetchUserToken = async () => {
     try {
       // need to also check localStorage in when rememberMe
-      const token = (sessionStorage.getItem('token') || localStorage.getItem('token'));
+	setLoading(true);
+	const token = (sessionStorage.getItem('token') || localStorage.getItem('token'));
       const parsedToken = JSON.parse(token)
       if (!token) {
         navigate("/login")
