@@ -60,11 +60,13 @@ const Login = () => {
         setUsername(JSON.parse(sessionStorage.getItem('token')))
         console.log("username: " + username)
         const result = await axios.get(`http://localhost:8080/api/user?username=${encodeURIComponent(username)}`);
-        setUser(result.data);
-        console.log(user)
+        console.log(result.data)
+        setUser(result.data)
         setUser({
-          status: true
-        })
+          ...user,
+          state: true
+        }
+        )
         console.log("user: " + JSON.stringify(user))
         setLoading(false);
       } catch (err) {
@@ -87,9 +89,7 @@ const Login = () => {
 
 
       // Navigate to home or protected routeif
-      if (!loading) {
-        navigate('/');
-      }
+      navigate('/');
     } catch (err) {
       if (err.response) {
         // Server responded with a status other than 2xx
