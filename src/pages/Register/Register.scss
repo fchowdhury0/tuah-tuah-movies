@@ -19,15 +19,16 @@
   .promotions {
     color: white;
     display: flex;
+    flex-direction: row;
     margin: 5px;
-    align-items: flex-start;
-    justify-content: space-around;
 
     .promotion-checkbox {
       margin: 5px;
     }
 
   }
+
+
 
   form {
     display: flex;
@@ -64,6 +65,8 @@
         margin-top: 0.25rem;
         font-size: 0.875rem;
       }
+
+      
     }
 
     /* Submit Button */

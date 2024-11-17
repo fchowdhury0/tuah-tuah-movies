@@ -20,7 +20,7 @@ const EditProfile = () => {
     lastName: "",
     role: "",
     status: false,
-//    isSubscribed: false
+//   isSubscribed: false
   });
     
     const [username, setUsername] = useState();
@@ -227,7 +227,7 @@ const EditProfile = () => {
 			</div>
 		    </form>
 		    <div className="save-button">
-			<button onClick={handleEditProfile}type="submit">Save</button>
+			<button onClick={handleEditProfile} type="submit">Save</button>
 		    </div>
 		</div>
 	    )}

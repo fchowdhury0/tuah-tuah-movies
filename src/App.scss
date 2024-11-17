@@ -29,6 +29,7 @@ html, body {
   border-right: 100px solid #3f4549; /* Add right border */
   overflow: hidden; /* Prevent overflow */
   position: relative; /* Ensure positioned elements are contained */
+  flex-shrink: 3;
 }
 .admin-main {
   width: 100%;

@@ -13,7 +13,10 @@ const BookMovie = () => {
     showtimes: ['12:00 PM', '2:30 PM', '5:00 PM', '7:30 PM'],
     availableSeats: Array.from({ length: 50 }, (_, i) => `Seat ${i + 1}`),
   });
-
+  const [activeButton, setActiveButton]= useState(null);
+  const handleButtonClick = (buttonId) => {
+    setActiveButton(buttonId);
+  };
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedShowtime, setSelectedShowtime] = useState('');
   const navigate = useNavigate();
@@ -30,12 +33,12 @@ const BookMovie = () => {
   };
 
   return (
-    <div className="container">
-	<NavBar />
-	<div className="book-movie">
+    <div>
+      <NavBar />
+      <div className="book-movie">
         <div className="movie-detail">
           <div className="movie-poster">
-          <img src={currentMovie.posterUrl} alt={`${currentMovie.title} Poster`} />
+            <img src={currentMovie.posterUrl} alt={`${currentMovie.title} Poster`} />
           </div>
 
           <div className="movie-text">
@@ -49,7 +52,7 @@ const BookMovie = () => {
           <ul style={{ listStyleType: 'none', padding: 0 }}>
             {movie.showtimes.map((time, index) => (
               <li key={index}>
-                <button onClick={() => setSelectedShowtime(time)}>{time}</button>
+                <button className="showtime-button" onClick={() => setSelectedShowtime(time)}>{time}</button>
 
               </li>
             ))}
