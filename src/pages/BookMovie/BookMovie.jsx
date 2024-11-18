@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './BookMovie.scss'
 import NavBar from '../../components/NavBar/navbar.jsx';
+import SeatingChart from '../../components/Seating/SeatingChart';
 
 const BookMovie = () => {
   const { id } = useParams();
@@ -82,6 +83,9 @@ const BookMovie = () => {
           <p>Selected Showtime: {selectedShowtime}</p>
           <p>Number of Seats Selected: {selectedSeats.length}</p>
           <button onClick={handleBooking} disabled={selectedSeats.length === 0 || !selectedShowtime}>Continue</button>
+          <div className="seating-container">
+          <SeatingChart/>
+          </div>
         </div>
       </div>
     </div>
