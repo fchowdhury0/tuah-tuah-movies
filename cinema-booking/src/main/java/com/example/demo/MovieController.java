@@ -66,7 +66,7 @@ public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) 
         }
 
         try {
-	    emailService.sendConfirmationEmail(email, "Booking Confirmation", "Thank you for your booking!");
+	    emailService.sendConfirmationEmail(email, "Booking Confirmation", "Thank you for your booking!\n Movie: \n Showtime: \n Seats: \n");
             logger.info("Confirmation email sent to {}", email);
             return ResponseEntity.ok("Confirmation email sent successfully!");
 
