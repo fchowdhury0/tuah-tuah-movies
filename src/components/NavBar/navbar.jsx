@@ -73,11 +73,7 @@ const NavBar = () => {
             <Link to="/register" className="links">Register</Link>
           </>
         )}
-        {decodedToken && (
-          <>
-            <Link to="/logout" className="links">Logout</Link>
-          </>
-        )}
+        <Link to="/logout" className="links">Logout</Link>
       </div>
     </div>
   );

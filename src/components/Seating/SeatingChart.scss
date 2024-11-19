@@ -15,7 +15,14 @@
   width: fit-content;
   margin: 5px;
 
-  &.selected {
-    background-color: green($color: #c300ff);
-  }
+}
+.seat-selected {
+  background-color: #00ff118c;
+  width: fit-content;
+  margin: 5px;
+
+
+}
+.seat-selected:hover {
+  background-color: #04ff1556 !important;
 }
