@@ -20,7 +20,7 @@ const EditProfile = () => {
     lastName: "",
     role: "",
     status: false,
-//    isSubscribed: false
+//   isSubscribed: false
   });
     
     const [username, setUsername] = useState();
@@ -29,8 +29,8 @@ const EditProfile = () => {
     const [decodedToken, setDecodedToken] = useState(null);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const[newEmail, setNewEmail] = useState('');
-    const [confirmEmail, setConfirmEmail] = useState('');
+//    const[newEmail, setNewEmail] = useState('');
+//    const [confirmEmail, setConfirmEmail] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
 
@@ -51,22 +51,22 @@ const EditProfile = () => {
 	setSuccess("Password updated successfully");
   };
 
-    const handleChangeEmail = (e) => {
-	e.preventDefault();
+//    const handleChangeEmail = (e) => {
+//	e.preventDefault();
 
-	if (newEmail !== confirmEmail) {
-	    setError("New email and Confirm Email do not match");
-	    setSuccess('');
-	    return;
-	}
-	setError('');
-	setSuccess("Email updated successfully");
+//	if (newEmail !== confirmEmail) {
+//	    setError("New email and Confirm Email do not match");
+//	    setSuccess('');
+//	    return;
+//	}
+//	setError('');
+//	setSuccess("Email updated successfully");
 
-	setNewEmail('');
-	setConfirmEmail('');
+//	setNewEmail('');
+//	setConfirmEmail('');
 
 	
-    };
+//    };
     
     const fetchUserToken = async () => {
     try {
@@ -127,7 +127,7 @@ const EditProfile = () => {
   const showBasicInfo = () => {
     setBasicInfo(true)
     setPromotions(false)
-    setChangeEmail(false)
+//    setChangeEmail(false)
     setChangePassword(false)
     setPaymentMethods(false)
   }
@@ -135,23 +135,23 @@ const EditProfile = () => {
   const showPromotions = () => {
     setPromotions(true)
     setBasicInfo(false)
-    setChangeEmail(false)
+//    setChangeEmail(false)
     setChangePassword(false)
     setPaymentMethods(false)
   }
-  const [changeEmail, setChangeEmail] = useState(false);
-  const showChangeEmail = () => {
-    setChangeEmail(true)
-    setPromotions(false)
-    setBasicInfo(false)
-    setChangePassword(false)
-    setPaymentMethods(false)
-  }
+//  const [changeEmail, setChangeEmail] = useState(false);
+//  const showChangeEmail = () => {
+//    setChangeEmail(true)
+//    setPromotions(false)
+//    setBasicInfo(false)
+//    setChangePassword(false)
+//    setPaymentMethods(false)
+//  }
   const [changePassword, setChangePassword] = useState(false);
   const showChangePassword = () => {
     setChangePassword(true)
     setPromotions(false)
-    setChangeEmail(false)
+//    setChangeEmail(false)
     setBasicInfo(false)
     setPaymentMethods(false)
   }
@@ -159,7 +159,7 @@ const EditProfile = () => {
   const showPaymentMethods = () => {
     setPaymentMethods(true)
     setPromotions(false)
-    setChangeEmail(false)
+//    setChangeEmail(false)
     setChangePassword(false)
     setBasicInfo(false)
   }
@@ -178,7 +178,7 @@ const EditProfile = () => {
 		<div className="account-items">
 		    <h3 onClick={showBasicInfo}>Basic Info</h3>
 		    <h3 onClick={showPromotions}>Promotions</h3>
-		    <h3 onClick={showChangeEmail}>Change Email</h3>
+
 		    <h3 onClick={showChangePassword}>Change Password</h3>
 		    <h3 onClick={showPaymentMethods}>Payment Methods</h3>
 		</div>
@@ -227,7 +227,7 @@ const EditProfile = () => {
 			</div>
 		    </form>
 		    <div className="save-button">
-			<button onClick={handleEditProfile}type="submit">Save</button>
+			<button onClick={handleEditProfile} type="submit">Save</button>
 		    </div>
 		</div>
 	    )}
@@ -247,47 +247,7 @@ const EditProfile = () => {
 		    )}
 		</div>
 	    )}
-	    {changeEmail && (
-		<div className="change-email">
-		    <form onSubmit={handleChangeEmail}>
-			<span STYLE="color:#FFFFFF">
-			    <div className="form-group">
-				<label htmlFor="current-password">Current Email</label>
-				<input
-				    type="email"
-				    id="current-email"
-				    placeholder="Enter current email"
-				/>
-			    </div>
-			    <div className="form-group">
-				<label htmlFor="new-email">New Email</label>
-				    <input
-					type="email"
-					id="new-email"
-					placeholder="Enter new email"
-					value={newEmail}
-					onChange={(e) => setNewEmail(e.target.value)}
-				    />
-			    </div>
-			    <div className="form-group"> {/* Confirm New Email */}
-				<label htmlFor="confirm-email">Confirm New Email</label>                                     
-				<input
-				    type="email"
-				    id="confirm-email"
-				    placeholder="Confirm new email"
-				    value={confirmEmail}
-				    onChange={(e) => setConfirmEmail(e.target.value)}
-				/>                                                                           
-			    </div>
-			    {error && <p style={{ color: 'red' }}>{error}</p>}
-			    {success && <p style={{ color: 'green' }}>{success}</p>}
-			    <button type="submit">Update Email</button>
-			</span>
-		    </form>
-		    
-		    
-		</div>
-	    )}
+
 	    {changePassword && (
 		<div className="change-password">
 		    <form onSubmit={handlePasswordChange}>

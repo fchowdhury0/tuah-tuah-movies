@@ -1,10 +1,26 @@
 .book-movie {
   display: flex;
   justify-content: space-between;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
+  height: 100vh;
+  /* Full viewport height */
+  width: 100%;
+  /* Full viewport width */
   overflow: hidden;
   align-items: center;
+
+  li {
+    .showtime-button {
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      /* Smooth transition for background color */
+    }
+
+    .showtime-button.focus {
+      background-color: rgb(255, 0, 0);
+    }
+  }
 
   .movie-detail {
     color: white;
@@ -16,8 +32,10 @@
     .movie-poster {
       width: 300px;
       height: 450px;
-      object-fit: cover; /* Ensures the poster image covers the entire area without distortion */
+      object-fit: cover;
+      /* Ensures the poster image covers the entire area without distortion */
     }
+
     .movie-text {
       display: flex;
       flex-direction: column;
@@ -27,14 +45,21 @@
       justify-content: space-between;
       text-align: center;
       height: 400px;
-      
+
     }
   }
+
   .showtimes {
     color: white;
     flex: 1;
     padding: 20px;
     text-align: center;
+  }
+
+  .seating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 }

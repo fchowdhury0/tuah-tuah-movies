@@ -4,6 +4,7 @@ import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './Register.scss';
+import NavBar from '../../components/NavBar/navbar.jsx';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -78,128 +79,131 @@ const Register = () => {
       }
     },
   });
-  
+
   const handlePromotions = (e) => {
     setPromotions(e.target.checked);
     formik.setFieldValue('isSubscribed', e.target.checked); // Update 'isSubscribed' field
   }
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      <form onSubmit={formik.handleSubmit} noValidate>
-        {/* Username Field */}
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            id="username"
-            type="text"
-            name="username"
-            {...formik.getFieldProps('username')}
-            required
-          />
-          {formik.touched.username && formik.errors.username ? (
-            <span className="error" role="alert">{formik.errors.username}</span>
-          ) : null}
-        </div>
-
-        {/* First Name Field */}
-        <div className="form-group">
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            id="firstName"
-            type="text"
-            name="firstName"
-            {...formik.getFieldProps('firstName')}
-            required
-          />
-          {formik.touched.firstName && formik.errors.firstName ? (
-            <span className="error" role="alert">{formik.errors.firstName}</span>
-          ) : null}
-        </div>
-
-        {/* Last Name Field */}
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            id="lastName"
-            type="text"
-            name="lastName"
-            {...formik.getFieldProps('lastName')}
-            required
-          />
-          {formik.touched.lastName && formik.errors.lastName ? (
-            <span className="error" role="alert">{formik.errors.lastName}</span>
-          ) : null}
-        </div>
-
-        {/* Email Field */}
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            {...formik.getFieldProps('email')}
-            required
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <span className="error" role="alert">{formik.errors.email}</span>
-          ) : null}
-        </div>
-
-        {/* Password Field */}
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            {...formik.getFieldProps('password')}
-            required
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <span className="error" role="alert">{formik.errors.password}</span>
-          ) : null}
-        </div>
-
-        {/* Confirm Password Field */}
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
-            {...formik.getFieldProps('confirmPassword')}
-            required
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-            <span className="error" role="alert">{formik.errors.confirmPassword}</span>
-          ) : null}
-        </div>
-
-        {/* Promotions Checkbox */}
-        <div className="form-group promotions">
-          <label htmlFor="isSubscribed">
+    <div>
+      <NavBar/>
+      <div className="register-container">
+        <h2>Register</h2>
+        <form onSubmit={formik.handleSubmit} noValidate>
+          {/* Username Field */}
+          <div className="form-group">
+            <label htmlFor="username">Username:</label>
             <input
-              id="isSubscribed"
-              type="checkbox"
-              name="isSubscribed"
-              checked={formik.values.isSubscribed}
-              onChange={handlePromotions}
-              className="promotion-checkbox"
+              id="username"
+              type="text"
+              name="username"
+              {...formik.getFieldProps('username')}
+              required
             />
-            Sign up for promotional emails?
-          </label>
-        </div>
+            {formik.touched.username && formik.errors.username ? (
+              <span className="error" role="alert">{formik.errors.username}</span>
+            ) : null}
+          </div>
 
-        {/* Submit Error */}
-        {formik.errors.submit && <span className="error" role="alert">{formik.errors.submit}</span>}
-        
-        <button type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Registering...' : 'Register'}
-        </button>
-      </form>
+          {/* First Name Field */}
+          <div className="form-group">
+            <label htmlFor="firstName">First Name:</label>
+            <input
+              id="firstName"
+              type="text"
+              name="firstName"
+              {...formik.getFieldProps('firstName')}
+              required
+            />
+            {formik.touched.firstName && formik.errors.firstName ? (
+              <span className="error" role="alert">{formik.errors.firstName}</span>
+            ) : null}
+          </div>
+
+          {/* Last Name Field */}
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name:</label>
+            <input
+              id="lastName"
+              type="text"
+              name="lastName"
+              {...formik.getFieldProps('lastName')}
+              required
+            />
+            {formik.touched.lastName && formik.errors.lastName ? (
+              <span className="error" role="alert">{formik.errors.lastName}</span>
+            ) : null}
+          </div>
+
+          {/* Email Field */}
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              {...formik.getFieldProps('email')}
+              required
+            />
+            {formik.touched.email && formik.errors.email ? (
+              <span className="error" role="alert">{formik.errors.email}</span>
+            ) : null}
+          </div>
+
+          {/* Password Field */}
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              {...formik.getFieldProps('password')}
+              required
+            />
+            {formik.touched.password && formik.errors.password ? (
+              <span className="error" role="alert">{formik.errors.password}</span>
+            ) : null}
+          </div>
+
+          {/* Confirm Password Field */}
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              {...formik.getFieldProps('confirmPassword')}
+              required
+            />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+              <span className="error" role="alert">{formik.errors.confirmPassword}</span>
+            ) : null}
+          </div>
+
+          {/* Promotions Checkbox */}
+          <div className="promotions">
+            <label htmlFor="isSubscribed">
+              <input
+                id="isSubscribed"
+                type="checkbox"
+                name="isSubscribed"
+                checked={formik.values.isSubscribed}
+                onChange={handlePromotions}
+                className="promotion-checkbox"
+              />
+              Sign me up for promotional emails
+            </label>
+          </div>
+
+          {/* Submit Error */}
+          {formik.errors.submit && <span className="error" role="alert">{formik.errors.submit}</span>}
+
+          <button type="submit" disabled={formik.isSubmitting}>
+            {formik.isSubmitting ? 'Registering...' : 'Register'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

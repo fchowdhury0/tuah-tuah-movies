@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
-import NavBar from '../../components/NavBar/navbar.jsx'; 
+import NavBar from '../../components/NavBar/navbar.jsx';
 import './Home.scss';
 
 const Home = () => {
@@ -96,51 +96,53 @@ const Home = () => {
   const comingSoon = movies.filter(movie => movie.status === 'Coming Soon');
 
   return (
+    <div>
+      <NavBar/>
       <div className="app">
-	  <NavBar />
-	  {/* Search Bar */}
-	  <div className="search">
-              <form onSubmit={handleSearch} style={{ display: 'flex', width: '100%' }}>
-		  <input
-		      type="text"
-            placeholder="Search movies by title..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="search-button" type="submit">
-            🔍
-          </button>
-        </form>
-      </div>
-
-      {/* Currently Running Movies Section */}
-      <section>
-        <h2>Currently Running</h2>
-        <div className="container">
-          {currentlyRunning.length > 0 ? (
-            currentlyRunning.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))
-          ) : (
-            <div>No Currently Running movies found.</div>
-          )}
+        {/* Search Bar */}
+        <div className="search">
+          <form onSubmit={handleSearch} style={{ display: 'flex', width: '100%' }}>
+            <input
+              type="text"
+              placeholder="Search movies by title..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="search-button" type="submit">
+              🔍
+            </button>
+          </form>
         </div>
-      </section>
 
-      {/* Coming Soon Movies Section */}
-      <section>
-        <h2>Coming Soon</h2>
-        <div className="container">
-          {comingSoon.length > 0 ? (
-            comingSoon.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))
-          ) : (
-            <div>No Coming Soon movies found.</div>
-          )}
-        </div>
-      </section>
+        {/* Currently Running Movies Section */}
+        <section>
+          <h2>Currently Running</h2>
+          <div className="container">
+            {currentlyRunning.length > 0 ? (
+              currentlyRunning.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))
+            ) : (
+              <div>No Currently Running movies found.</div>
+            )}
+          </div>
+        </section>
+
+        {/* Coming Soon Movies Section */}
+        <section>
+          <h2>Coming Soon</h2>
+          <div className="container">
+            {comingSoon.length > 0 ? (
+              comingSoon.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))
+            ) : (
+              <div>No Coming Soon movies found.</div>
+            )}
+          </div>
+        </section>
       </div>
+    </div>
   );
 };
 
