@@ -23,12 +23,6 @@ INSERT INTO movies (title, category, director, producer, synopsis, trailerUrl, r
     ('Fantastic Beasts: The Secrets of Dumbledore', 'Fantasy', 'David Yates', 'David Heyman', 'Albus Dumbledore assigns Newt Scamander to lead a team of wizards and witches to thwart Grindelwald’s plans.', 'https://www.youtube.com/watch?v=Y9dr2zw-TXQ', 'PG-13', '2024-09-21', '2022-04-15', 'Coming Soon', 'tt4123432', 'https://m.media-amazon.com/images/M/MV5BZGQ1NjQyNDMtNzFlZS00ZGIzLTliMWUtNGJkMGMzNTBjNDg0XkEyXkFqcGdeQXVyMTE1NDI5MDQx._V1_SX300.jpg'),
 	('The Nun II', 'Horror', 'Michael Chaves', 'Peter Safran', 'Set in 1956 France, a priest is murdered and a nun uncovers the sinister origins of a demonic entity.', NULL, 'R', '2024-09-23', '2023-09-08', 'Coming Soon', 'tt12636876', 'https://m.media-amazon.com/images/I/71r3i3uwVvL._AC_UY327_FMwebp_QL65_.jpg');
 
--- Shows
-INSERT INTO shows (show_time, show_duration, show_room, movie_id, seats_remaining)
-VALUES 
-    ('2024-10-01 15:00:00', 120, 1, 1, 5),
-    ('2024-10-01 18:00:00', 150, 2, 2, 5);
-
 -- PLACEHOLDER Seating Chart
 INSERT INTO seating_chart (row, seat_number)
 VALUES 
@@ -39,19 +33,20 @@ VALUES
     ('B', 2), 
     ('B', 3);
 
--- Insert Show Seating Chart Entries
-INSERT INTO show_seating_chart (show_id, seat_id, reservation_status)
+-- Shows
+INSERT INTO shows (show_time, show_duration, show_room, movie_id)
 VALUES 
-    (1, 1, 'reserved'),  -- Mark as reserved
-    (1, 2, 'reserved'),  -- Mark as reserved
-    (2, 1, 'open');      -- Keep this open
+    ('2024-10-01 15:00:00', 120, 1, 1),
+    ('2024-10-01 18:00:00', 150, 2, 2);
+
+CALL initialize_seats_remaining();
 
 -- Users
 INSERT INTO users (username, password_hash, email, first_name, last_name, role, status)
 VALUES 
-    ('admin_user', 'abcd1234', 'admin@fakemovietheater.com', 'Admin', 'User', 'admin', FALSE),
+    ('admin_user', 'abcd1234', 'admin@fakemovietheater.com', 'Admin', 'User', 'admin', TRUE),
 	('admin_user2', 'abcd1234', 'admin2@fakemovietheater.com', 'Admin', 'User', 'admin', TRUE),
-    ('customer1', 'abcd1234', 'customer1@example.com', 'John', 'Doe', 'customer', FALSE);
+    ('customer1', 'abcd1234', 'customer1@example.com', 'John', 'Doe', 'customer', TRUE);
 
 -- Payment Cards
 INSERT INTO paymentCard (card_number, card_exp, card_billing_address, card_zip, card_city, card_state, cvv_hash, first_name, last_name, save_card)
@@ -63,3 +58,10 @@ INSERT INTO ticket (show_seating_id, ticket_price)
 VALUES 
     (1, 12.50),  
     (2, 15.00); 
+
+--update show_seating_chart
+UPDATE show_seating_chart
+SET reservation_status = 'reserved'
+WHERE show_id = 1 AND seat_id IN (1, 2);
+
+
