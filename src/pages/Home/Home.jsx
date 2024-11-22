@@ -104,7 +104,7 @@ const Home = () => {
           <form onSubmit={handleSearch} style={{ display: 'flex', width: '100%' }}>
             <input
               type="text"
-              placeholder="Search movies by title..."
+              placeholder="Search movies by title"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />

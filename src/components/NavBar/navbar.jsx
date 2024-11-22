@@ -5,7 +5,20 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Make sure this is correctly imported
 
 const NavBar = () => {
+  const [lastClicked, setLastClicked] = useState(null);
 
+  useEffect(() => {
+    const savedLastClicked = localStorage.getItem('lastClicked');
+    if (savedLastClicked) {
+      setLastClicked(savedLastClicked)
+    }
+  }, []) 
+
+  const handleLinkChange = (linkName) => {
+    setLastClicked(linkName);
+    localStorage.setItem('lastClicked', linkName);
+    console.log("LastClicked: " + lastClicked)
+  }
   const [username, setUsername] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,15 +78,11 @@ const NavBar = () => {
         <Link to="/home" className="links">{"Hawk Tuah Movies"}</Link>
       </div>
       <div className="links">
-        <Link to="/editprofile" className="links">Account</Link>
-        <Link to="/home" className="links">Movies</Link>
-        {decodedToken === null && (
-          <>
-            <Link to="/login" className="links">Login</Link>
-            <Link to="/register" className="links">Register</Link>
-          </>
-        )}
-        <Link to="/logout" className="links">Logout</Link>
+        <Link onClick={() => (handleLinkChange('editprofile'))} to="/editprofile" className={`links${(lastClicked === 'editprofile') ? '-selected' : ''}`}>Account</Link>
+        <Link onClick={() => (handleLinkChange('home'))} to="/home" className={`links${(lastClicked === 'home') ? '-selected' : ''}`}>Movies</Link>
+        <Link onClick={() => (handleLinkChange('login'))} to="/login" className={`links${(lastClicked === 'login') ? '-selected' : ''}`}>Login</Link>
+        <Link onClick={() => (handleLinkChange('register'))} to="/register" className={`links${(lastClicked === 'register') ? '-selected' : ''}`}>Register</Link>
+        <Link onClick={() => (handleLinkChange('logout'))} to="/logout" className={`links${(lastClicked === 'logout') ? '-selected' : ''}`}>Logout</Link>
       </div>
     </div>
   );
