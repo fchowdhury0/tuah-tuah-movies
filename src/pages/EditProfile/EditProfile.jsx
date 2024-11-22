@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import Footer from '../../components/Footer/footer.jsx';
 import NavBar from '../../components/NavBar/navbar.jsx';
 import './EditProfile.scss';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 import api from '../../utils/api.js';
 import { jwtDecode } from 'jwt-decode';
@@ -20,59 +20,59 @@ const EditProfile = () => {
     lastName: "",
     role: "",
     status: false,
-//   isSubscribed: false
+    //   isSubscribed: false
   });
-    
-    const [username, setUsername] = useState();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [decodedToken, setDecodedToken] = useState(null);
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-//    const[newEmail, setNewEmail] = useState('');
-//    const [confirmEmail, setConfirmEmail] = useState('');
-    const [success, setSuccess] = useState('');
-    const navigate = useNavigate();
+
+  const [username, setUsername] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [decodedToken, setDecodedToken] = useState(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  //    const[newEmail, setNewEmail] = useState('');
+  //    const [confirmEmail, setConfirmEmail] = useState('');
+  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserToken();
     console.log("ran fetchUserToken")
   }, []);
 
-    const handlePasswordChange = (e) => {
-	e.preventDefault();
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
 
-	if (newPassword !== confirmPassword) {
-	    setError('New password and confirm password do not match.');
-	    setSuccess('');
-	    return;
-	}
-	setError('');
-	setSuccess("Password updated successfully");
+    if (newPassword !== confirmPassword) {
+      setError('New password and confirm password do not match.');
+      setSuccess('');
+      return;
+    }
+    setError('');
+    setSuccess("Password updated successfully");
   };
 
-//    const handleChangeEmail = (e) => {
-//	e.preventDefault();
+  //    const handleChangeEmail = (e) => {
+  //	e.preventDefault();
 
-//	if (newEmail !== confirmEmail) {
-//	    setError("New email and Confirm Email do not match");
-//	    setSuccess('');
-//	    return;
-//	}
-//	setError('');
-//	setSuccess("Email updated successfully");
+  //	if (newEmail !== confirmEmail) {
+  //	    setError("New email and Confirm Email do not match");
+  //	    setSuccess('');
+  //	    return;
+  //	}
+  //	setError('');
+  //	setSuccess("Email updated successfully");
 
-//	setNewEmail('');
-//	setConfirmEmail('');
+  //	setNewEmail('');
+  //	setConfirmEmail('');
 
-	
-//    };
-    
-    const fetchUserToken = async () => {
+
+  //    };
+
+  const fetchUserToken = async () => {
     try {
       // need to also check localStorage in when rememberMe
-	setLoading(true);
-	const token = (sessionStorage.getItem('token') || localStorage.getItem('token'));
+      setLoading(true);
+      const token = (sessionStorage.getItem('token') || localStorage.getItem('token'));
       const parsedToken = JSON.parse(token)
       if (!token) {
         navigate("/login")
@@ -111,11 +111,11 @@ const EditProfile = () => {
         headers: {
           'Content-Type': 'application/json'
         }
-    });
-    console.log('User updated successfully:', response.data);
-  } catch (error) {
-    console.error('Error updating user:', error);
-  }
+      });
+      console.log('User updated successfully:', response.data);
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
 
   };
   /* subscribed should be initially set to the value in database */
@@ -127,7 +127,7 @@ const EditProfile = () => {
   const showBasicInfo = () => {
     setBasicInfo(true)
     setPromotions(false)
-//    setChangeEmail(false)
+    //    setChangeEmail(false)
     setChangePassword(false)
     setPaymentMethods(false)
   }
@@ -135,23 +135,23 @@ const EditProfile = () => {
   const showPromotions = () => {
     setPromotions(true)
     setBasicInfo(false)
-//    setChangeEmail(false)
+    //    setChangeEmail(false)
     setChangePassword(false)
     setPaymentMethods(false)
   }
-//  const [changeEmail, setChangeEmail] = useState(false);
-//  const showChangeEmail = () => {
-//    setChangeEmail(true)
-//    setPromotions(false)
-//    setBasicInfo(false)
-//    setChangePassword(false)
-//    setPaymentMethods(false)
-//  }
+  //  const [changeEmail, setChangeEmail] = useState(false);
+  //  const showChangeEmail = () => {
+  //    setChangeEmail(true)
+  //    setPromotions(false)
+  //    setBasicInfo(false)
+  //    setChangePassword(false)
+  //    setPaymentMethods(false)
+  //  }
   const [changePassword, setChangePassword] = useState(false);
   const showChangePassword = () => {
     setChangePassword(true)
     setPromotions(false)
-//    setChangeEmail(false)
+    //    setChangeEmail(false)
     setBasicInfo(false)
     setPaymentMethods(false)
   }
@@ -159,7 +159,7 @@ const EditProfile = () => {
   const showPaymentMethods = () => {
     setPaymentMethods(true)
     setPromotions(false)
-//    setChangeEmail(false)
+    //    setChangeEmail(false)
     setChangePassword(false)
     setBasicInfo(false)
   }
@@ -170,127 +170,130 @@ const EditProfile = () => {
   if (error) {
     return <div>Error: {error}</div>; // Show an error message if there is an error
   }
-    return (
-	<div className="main">
-	    <NavBar />
-	    <div className="account-banner">
-		<h2>MY ACCOUNT</h2>
-		<div className="account-items">
-		    <h3 onClick={showBasicInfo}>Basic Info</h3>
-		    <h3 onClick={showPromotions}>Promotions</h3>
+  return (
+    <div className="main">
+      <NavBar />
+      <div className="account-banner">
+        <div className="top-bar">
+          <h2>MY ACCOUNT</h2>
+          <Link className="button" to="/logout">Logout</Link>
+        </div>
+        <div className="account-items">
+          <h3 onClick={showBasicInfo}>Basic Info</h3>
+          <h3 onClick={showPromotions}>Promotions</h3>
 
-		    <h3 onClick={showChangePassword}>Change Password</h3>
-		    <h3 onClick={showPaymentMethods}>Payment Methods</h3>
-		</div>
-	    </div>
-	    {basicInfo && (
-		<div className="basic-info">
-		    <div className="item">
-			<span> Basic Information </span>
-		    </div>
-		    <form className="form" onSubmit={handleEditProfile}>
-			<div className="form-group">
-			    <label>First Name:</label>
-			    <input
-				type="firstName"
-				value={user.firstName}
-				onChange={(e) => {
-				    setUser({
-					...user,
-					firstName: e.target.value,
-				    });
-				}}
-			    />
-			</div>
-			<div className="form-group">
-			    <label>Last Name:</label>
-			    <input
-				type="lastName"
-				value={user.lastName}
-				onChange={(e) => {
-				    setUser({
-					...user,
-					lastName: e.target.value,
-				    });
-				}}
-			    />
-			</div>
-		    </form>
-		    <form className="form" onSubmit={handleEditProfile}>
-			<div className="form-group">
-			    <label>Email:</label>
-			    <input
-				type="Email"
-				placeholder={user.email}
-				disabled={true}
-			    />
-			</div>
-		    </form>
-		    <div className="save-button">
-			<button onClick={handleEditProfile} type="submit">Save</button>
-		    </div>
-		</div>
-	    )}
-	    {promotions && (
-		<div>
-		    {subscribed && (
-			<div className="promotions">
-			    <h2>You are currently receiving promotional emails</h2>
-			    <h3 onClick={handleSubscribe}>Click to unsubscribe</h3>
-			</div>
-		    )}
-		    {!subscribed && (
-			<div className="promotions">
-			    <h2>You are not currently receiving promotional emails</h2>
-			    <h3 onClick={handleSubscribe}>Click to subscribe</h3>
-			</div>
-		    )}
-		</div>
-	    )}
+          <h3 onClick={showChangePassword}>Change Password</h3>
+          <h3 onClick={showPaymentMethods}>Payment Methods</h3>
+        </div>
+      </div>
+      {basicInfo && (
+        <div className="basic-info">
+          <div className="item">
+            <span> Basic Information </span>
+          </div>
+          <form className="form" onSubmit={handleEditProfile}>
+            <div className="form-group">
+              <label>First Name:</label>
+              <input
+                type="firstName"
+                value={user.firstName}
+                onChange={(e) => {
+                  setUser({
+                    ...user,
+                    firstName: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Last Name:</label>
+              <input
+                type="lastName"
+                value={user.lastName}
+                onChange={(e) => {
+                  setUser({
+                    ...user,
+                    lastName: e.target.value,
+                  });
+                }}
+              />
+            </div>
+          </form>
+          <form className="form" onSubmit={handleEditProfile}>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="Email"
+                placeholder={user.email}
+                disabled={true}
+              />
+            </div>
+          </form>
+          <div className="save-button">
+            <button onClick={handleEditProfile} type="submit">Save</button>
+          </div>
+        </div>
+      )}
+      {promotions && (
+        <div>
+          {subscribed && (
+            <div className="promotions">
+              <h2>You are currently receiving promotional emails</h2>
+              <h3 onClick={handleSubscribe}>Click to unsubscribe</h3>
+            </div>
+          )}
+          {!subscribed && (
+            <div className="promotions">
+              <h2>You are not currently receiving promotional emails</h2>
+              <h3 onClick={handleSubscribe}>Click to subscribe</h3>
+            </div>
+          )}
+        </div>
+      )}
 
-	    {changePassword && (
-		<div className="change-password">
-		    <form onSubmit={handlePasswordChange}>
-			<span STYLE="color:#FFFFFF">
-			    <div className="form-group">
-				<label htmlFor="current-password">Current Password</label>
-				<input
-				    type="password"  // Set type to "password" for security
-				id="current-password"
-				placeholder="Enter current password"
-				/>
-			    </div>
-			    
-			    <div className="form-group">
-				<label htmlFor="new-password">New Password</label>
-				<input
-				    type="password"
-				    id="new-password"
-				    placeholder="Enter new password"
-				    value={newPassword}
-				    onChange={(e) => setNewPassword(e.target.value)}
-				/>
-			    </div>
-			    
-			    <div className="form-group">
-				<label htmlFor="confirm-password">Confirm New Password</label>
-				<input
-				    type="password"
-				    id="confirm-password"
-				    placeholder="Confirm new password"
-				    value={confirmPassword}
-				    onChange={(e) => setConfirmPassword(e.target.value)}
-				    
-				/>
-			    </div>
-			    {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message if passwords do not match */}
-			    {success && <p style={{ color: 'green' }}>{success}</p>}	    
-			    <button type="submit">Update Password</button>
-			</span>
-		    </form>
-		</div>
-				)}
-	     {paymentMethods && (
+      {changePassword && (
+        <div className="change-password">
+          <form onSubmit={handlePasswordChange}>
+            <span STYLE="color:#FFFFFF">
+              <div className="form-group">
+                <label htmlFor="current-password">Current Password</label>
+                <input
+                  type="password"  // Set type to "password" for security
+                  id="current-password"
+                  placeholder="Enter current password"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="new-password">New Password</label>
+                <input
+                  type="password"
+                  id="new-password"
+                  placeholder="Enter new password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="confirm-password">Confirm New Password</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  placeholder="Confirm new password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+
+                />
+              </div>
+              {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message if passwords do not match */}
+              {success && <p style={{ color: 'green' }}>{success}</p>}
+              <button type="submit">Update Password</button>
+            </span>
+          </form>
+        </div>
+      )}
+      {paymentMethods && (
         <div className="payment-methods">
           <div className="item">
             <span>Payment Information</span>

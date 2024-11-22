@@ -82,7 +82,6 @@ const NavBar = () => {
         <Link onClick={() => (handleLinkChange('home'))} to="/home" className={`links${(lastClicked === 'home') ? '-selected' : ''}`}>Movies</Link>
         <Link onClick={() => (handleLinkChange('login'))} to="/login" className={`links${(lastClicked === 'login') ? '-selected' : ''}`}>Login</Link>
         <Link onClick={() => (handleLinkChange('register'))} to="/register" className={`links${(lastClicked === 'register') ? '-selected' : ''}`}>Register</Link>
-        <Link onClick={() => (handleLinkChange('logout'))} to="/logout" className={`links${(lastClicked === 'logout') ? '-selected' : ''}`}>Logout</Link>
       </div>
     </div>
   );
