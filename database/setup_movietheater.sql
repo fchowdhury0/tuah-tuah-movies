@@ -9,11 +9,6 @@ BEGIN
     );
 END $$;
 
--- Drop Indexes
-DROP INDEX IF EXISTS idx_users_username;
-DROP INDEX IF EXISTS idx_movies_title;
-DROP INDEX IF EXISTS idx_promotions_code;
-
 -- Drop Types
 DROP TYPE IF EXISTS role_enum;
 
@@ -49,7 +44,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(100),
     last_name VARCHAR(100),
     role role_enum DEFAULT 'customer' NOT NULL, 
-    status BOOLEAN DEFAULT FALSE,
+    status BOOLEAN DEFAULT TRUE,
 	is_subscribed BOOLEAN DEFAULT FALSE
 );
 
@@ -78,7 +73,7 @@ CREATE TABLE IF NOT EXISTS shows (
     show_duration INT NOT NULL, 
 	show_room INT NOT NULL,
     movie_id INT REFERENCES movies(movie_id),
-    seats_remaining INT
+    seats_remaining INT DEFAULT 0
 );
 COMMENT ON TABLE shows IS 'Stores showtimes and seat availability for each movie.';
 
@@ -159,13 +154,8 @@ CREATE TABLE IF NOT EXISTS promotions (
 COMMENT ON TABLE promotions IS 'Stores promotional codes along with their details.';
 
 
--- Create Indexes to improve performance
-CREATE INDEX idx_users_username ON users(username);
-CREATE INDEX idx_movies_title ON movies(title);
-CREATE INDEX idx_promotions_code ON promotions(promo_code);
-
 --
--- TRIGGER FUNCTIONS AND TRIGGERS
+-- STORED PROCEDURES, TRIGGER FUNCTIONS AND TRIGGERS
 --
 
 -- TRIGGER FUNCTION: update promotion status to new if the current date falls between the start date and end date
@@ -181,7 +171,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: update promotion status to new if the current date falls between the start date and end date
 CREATE TRIGGER set_promotion_status
 BEFORE INSERT OR UPDATE ON promotions
 FOR EACH ROW 
@@ -203,6 +192,21 @@ $$ LANGUAGE plpgsql;
 --BEFORE INSERT ON user_payment_card
 --FOR EACH ROW EXECUTE FUNCTION limit_saved_cards();
 
+-- Trigger function: initialize seats remaining
+CREATE OR REPLACE PROCEDURE initialize_seats_remaining()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	UPDATE shows
+	SET seats_remaining = (
+		SELECT COUNT(*)
+		FROM show_seating_chart
+		WHERE show_seating_chart.show_id = shows.show_id
+			AND show_seating_chart.reservation_status = 'open'
+	);
+END;
+$$;
+
 -- Trigger function: tracking number of open seats in a particular showing
     CREATE OR REPLACE FUNCTION update_seats_remaining()
     RETURNS TRIGGER AS $$
@@ -220,9 +224,25 @@ $$ LANGUAGE plpgsql;
     END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: tracking number of open seats in a particular showing
 CREATE TRIGGER adjust_seats_count
 AFTER INSERT OR UPDATE OF reservation_status ON show_seating_chart
 FOR EACH ROW EXECUTE FUNCTION update_seats_remaining();
 
 COMMIT;
+
+--Stored Procedure: updating show_seating_chart with new seats when a new show_id is created.
+CREATE OR REPLACE FUNCTION populate_show_seating()
+RETURNS TRIGGER AS $$
+BEGIN 
+	INSERT INTO show_seating_chart (show_id, seat_id)
+	SELECT NEW.show_id, seat_id
+	FROM seating_chart;
+
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql; 
+
+CREATE TRIGGER after_show_insert
+AFTER INSERT ON shows
+FOR EACH ROW
+EXECUTE FUNCTION populate_show_seating();

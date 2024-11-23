@@ -1,0 +1,28 @@
+.seating-chart {
+  width: fit-content;
+  padding: 2px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row{
+  display: flex;
+  flex-basis: 100%;
+  justify-content: space-between;
+}
+
+.seat {
+  width: fit-content;
+  margin: 5px;
+
+}
+.seat-selected {
+  background-color: #00ff118c;
+  width: fit-content;
+  margin: 5px;
+
+
+}
+.seat-selected:hover {
+  background-color: #04ff1556 !important;
+}

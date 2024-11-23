@@ -4,13 +4,16 @@ import axios from 'axios';
 
 const OrderConfirmation = () => {
     const location = useLocation();
-    const { tickets, total, userInfo, paymentInfo } = location.state || {};
+    const { tickets, total, userInfo, paymentInfo} = location.state || {};
     const navigate = useNavigate();
 
+//    const seats = tickets ? Object.entries(tickets).map(([type, count]) => `${type}: ${count}`).join(", ") : "N/A";
     const sendConfirmationEmail = async () => {
         try {
             await axios.post("http://localhost:8080/api/movies/sendConfirmationEmail", null, {
-                params: { email: userInfo.email }
+                params: {
+		    email: userInfo.email
+		}
             });
             console.log("Confirmation email sent!");
         } catch (error) {

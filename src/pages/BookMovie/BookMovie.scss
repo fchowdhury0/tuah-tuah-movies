@@ -3,7 +3,7 @@
   justify-content: space-between;
   height: 100vh;
   /* Full viewport height */
-  width: 100vw;
+  width: 100%;
   /* Full viewport width */
   overflow: hidden;
   align-items: center;
@@ -17,7 +17,7 @@
       /* Smooth transition for background color */
     }
 
-    .showtime-button:focus {
+    .showtime-button.focus {
       background-color: rgb(255, 0, 0);
     }
   }
@@ -54,6 +54,12 @@
     flex: 1;
     padding: 20px;
     text-align: center;
+  }
+
+  .seating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 }

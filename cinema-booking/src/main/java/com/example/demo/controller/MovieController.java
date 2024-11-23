@@ -4,7 +4,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,17 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Movie;
 import com.example.demo.repository.MovieRepository;
 import com.example.demo.service.EmailService;
-
-
-@RestController
-@RequestMapping("/api/movies")
-@CrossOrigin(origins = "http://localhost:3000")
-public class MovieController {
-
-    private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
-
-    @Autowired
-    private MovieRepository movieRepository;
 
     @Autowired  // Add this annotation to inject EmailService
     private EmailService emailService;
@@ -67,10 +61,28 @@ public class MovieController {
         return savedMovie;
     }
 
-    @PostMapping("/sendConfirmationEmail")
-    public String sendConfirmationEmail(@RequestParam String email) {
-        emailService.sendConfirmationEmail(email, "Booking", "thank you");
-        return "Confirmation email sent successfully!";
+@PostMapping("/sendConfirmationEmail")
+public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) {
+        if (!isValidEmail(email)) {
+            logger.warn("Invalid email address: {}", email);
+            return ResponseEntity.badRequest().body("Invalid email address.");
+        }
+
+        try {
+	    emailService.sendConfirmationEmail(email, "Booking Confirmation", "Thank you for your booking!\n Movie: \n Showtime: \n Seats: \n");
+            logger.info("Confirmation email sent to {}", email);
+            return ResponseEntity.ok("Confirmation email sent successfully!");
+
+        } catch (Exception e) {
+            logger.error("Error sending email to {}: {}", email, e.getMessage());
+            return ResponseEntity.status(500).body("Failed to send confirmation email.");
+        }
+    }
+
+    // Utility method to validate email format
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email != null && email.matches(emailRegex);
     }
     
     // Other endpoints as needed...
