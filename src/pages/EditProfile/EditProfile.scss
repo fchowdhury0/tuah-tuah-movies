@@ -21,11 +21,6 @@
       margin-top: 40px;
       display: flex;
       justify-content: space-around;
-<<<<<<< Updated upstream
-=======
-      flex-wrap: wrap;
-      gap: 20px;
->>>>>>> Stashed changes
 
       h3 {
         color: white;
@@ -35,58 +30,16 @@
 
   }
 
-<<<<<<< Updated upstream
   .basic-info {
     left: 0;
     display: flexbox;
     margin: 10px;
     color: #f0f0f0;
-=======
-  .edit-profile-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-    width: 100%;
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background-color: #2a2a2a;
-      color: white;
-      transition: border-color 0.3s ease;
-
-      &:focus {
-        border-color: #6299c3;
-        outline: none;
-      }
-
-      &[type="checkbox"] {
-        width: auto;
-        margin-right: 8px;
-      }
-    }
-  }
-
-  .form-row {
->>>>>>> Stashed changes
     display: flex;
     flex-direction: column;
   }
 
   .payment-methods {
-<<<<<<< Updated upstream
     display: flexbox;
     margin: 10px;
     color: #f0f0f0;
@@ -102,12 +55,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-=======
-    .payment-cards-list {
-      width: 100%;
-      margin-bottom: 30px;
-    }
->>>>>>> Stashed changes
 
     h3 {
       cursor: pointer;
@@ -115,7 +62,6 @@
     }
   }
 
-<<<<<<< Updated upstream
   .change-email {
     display: flexbox;
     margin: 10px;
@@ -147,22 +93,6 @@
     margin: 30px;
     border-bottom: 2px solid #f0f0f05b;
 
-=======
-  .error {
-    color: #dc3545;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: rgba(220, 53, 69, 0.1);
-  }
-
-  .success {
-    color: #28a745;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: rgba(40, 167, 69, 0.1);
->>>>>>> Stashed changes
   }
 
   .form {
