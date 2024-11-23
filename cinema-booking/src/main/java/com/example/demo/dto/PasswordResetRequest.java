@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.dto;
 
 public class PasswordResetRequest {
     private String email;

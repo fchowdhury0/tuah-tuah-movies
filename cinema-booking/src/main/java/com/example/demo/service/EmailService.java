@@ -1,6 +1,6 @@
 // src/main/java/com/example/demo/EmailService.java
 
-package com.example.demo;
+package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

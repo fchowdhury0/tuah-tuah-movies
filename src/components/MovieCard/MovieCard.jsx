@@ -1,26 +1,24 @@
-// src/components/MovieCard/MovieCard.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import convertYouTubeUrl from '../../utils/convertYouTubeUrl'; // Adjust the path as necessary
-import TrailerModal from '../TrailerModal/TrailerModal.jsx'; // Adjust the path as necessary
+import { useNavigate } from 'react-router-dom';
+import convertYouTubeUrl from '../../utils/convertYouTubeUrl';
+import TrailerModal from '../TrailerModal/TrailerModal.jsx';
 import './MovieCard.css';
 
 const MovieCard = ({ movie }) => {
   const [showTrailer, setShowTrailer] = useState(false);
-
   const navigate = useNavigate();
 
   const handleBookMovie = () => {
-    navigate(`/bookmovies/${movie.id}`, { state: { currentMovie: movie} });
+    navigate(`/bookmovies/${movie.id}`, { state: { currentMovie: movie } });
   };
 
   const toggleTrailer = () => {
     setShowTrailer((prev) => !prev);
   };
 
-  // Convert the trailer URL to embed format
-  const embedTrailerUrl = convertYouTubeUrl(movie.trailerUrl);
+  // Safely convert the trailer URL to embed format
+  const embedTrailerUrl = movie.trailerUrl ? convertYouTubeUrl(movie.trailerUrl) : null;
 
   return (
     <div className="movie">
@@ -34,19 +32,24 @@ const MovieCard = ({ movie }) => {
           {movie.status === "Currently Running" && (
             <button className="book-button" onClick={handleBookMovie}>Book Now</button>
           )}
-          <button className="watch-trailer" onClick={toggleTrailer}>Watch Trailer</button>
+          {movie.trailerUrl && (
+            <button className="watch-trailer" onClick={toggleTrailer}>Watch Trailer</button>
+          )}
         </div>
       </div>
 
-
-
-      {showTrailer && (
+      {showTrailer && embedTrailerUrl ? (
         <TrailerModal
           trailerUrl={embedTrailerUrl}
           title={movie.title}
           onClose={toggleTrailer}
         />
-      )}
+      ) : showTrailer ? (
+        <div className="no-trailer">
+          <p>Trailer not available.</p>
+          <button onClick={toggleTrailer}>Close</button>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -57,8 +60,7 @@ MovieCard.propTypes = {
     title: PropTypes.string.isRequired,
     posterUrl: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    trailerUrl: PropTypes.string.isRequired,
-    // Add other movie properties as needed
+    trailerUrl: PropTypes.string,
   }).isRequired,
 };
 
