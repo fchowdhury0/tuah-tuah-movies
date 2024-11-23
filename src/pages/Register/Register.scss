@@ -3,7 +3,7 @@
 /* Register Container */
 .register-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 900px; /* Increased from 500px to accommodate two columns */
   margin: 0 auto;
   padding: 2rem;
   background-color: #1f2123;
@@ -25,15 +25,30 @@
     .promotion-checkbox {
       margin: 5px;
     }
-
   }
-
-
 
   form {
     display: flex;
     flex-direction: column;
 
+    /* Flex container for two-column layout */
+    .form-flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px; /* Space between columns */
+      margin-bottom: 1rem;
+    }
+
+    /* Each column */
+    .form-column {
+      flex: 1;
+      min-width: 300px; /* Ensures columns don't get too narrow */
+      display: flex;
+      flex-direction: column;
+      gap: 1rem; /* Space between form groups within a column */
+    }
+
+    /* Form Group */
     .form-group {
       display: flex;
       flex-direction: column;
@@ -46,7 +61,7 @@
         font-weight: bold;
       }
 
-      input {
+      input, select {
         padding: 0.5rem;
         border: 1px solid #444;
         border-radius: 4px;
@@ -65,8 +80,22 @@
         margin-top: 0.25rem;
         font-size: 0.875rem;
       }
+    }
 
-      
+    /* Save Payment Information Checkbox */
+    .save-card {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      input[type="checkbox"] {
+        margin-right: 0.5rem;
+      }
+
+      label {
+        color: #ffffff;
+        font-weight: normal;
+      }
     }
 
     /* Submit Button */
@@ -79,6 +108,7 @@
       cursor: pointer;
       font-size: 1rem;
       transition: background-color 0.3s ease;
+      align-self: center; /* Center the button */
 
       &:hover {
         background-color: #1e7e34;
@@ -89,5 +119,20 @@
         cursor: not-allowed;
       }
     }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 1rem;
+  }
+
+  .form-flex-container {
+    flex-direction: column; /* Stack columns vertically on small screens */
+  }
+
+  .form-column {
+    min-width: 100%; /* Columns take full width on small screens */
   }
 }

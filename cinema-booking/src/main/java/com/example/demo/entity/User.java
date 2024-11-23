@@ -1,38 +1,51 @@
-package com.example.demo;
+package com.example.demo.entity;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId; // Renamed from user_id to userId
+    private Long userId;
 
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
-    private String passwordHash; // Renamed from password_hash to passwordHash
+    private String passwordHash;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String firstName; // Renamed from f_name to firstName
-    private String lastName;  // Renamed from l_name to lastName
-    
+    private String firstName;
+    private String lastName;
+
     @Column(nullable = false)
     private String role;
 
     private boolean status;
-    
+
     @Column(name = "is_subscribed", nullable = false)
-    private boolean isSubscribed; // Field to indicate promotions subscription
+    private boolean isSubscribed;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<UserPaymentCard> userPaymentCards;
 
     // Constructors
     public User() {}
@@ -114,11 +127,21 @@ public class User {
       this.status = status;
     }
 
-    public boolean getIsSubscribed() { // Updated getter
+    public boolean getIsSubscribed() {
       return isSubscribed;
     }
 
-    public void setIsSubscribed(boolean isSubscribed) { // Updated setter
+    public void setIsSubscribed(boolean isSubscribed) {
       this.isSubscribed = isSubscribed;
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    public Set<UserPaymentCard> getUserPaymentCards() {
+        return userPaymentCards;
+    }
+
+    public void setUserPaymentCards(Set<UserPaymentCard> userPaymentCards) {
+        this.userPaymentCards = userPaymentCards;
     }
 }
