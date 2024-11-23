@@ -1,24 +1,15 @@
 package com.example.demo.controller;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Movie;
 import com.example.demo.repository.MovieRepository;
 import com.example.demo.service.EmailService;
-
 
 @RestController
 @RequestMapping("/api/movies")
@@ -30,67 +21,84 @@ public class MovieController {
     @Autowired
     private MovieRepository movieRepository;
 
-    @Autowired  // Add this annotation to inject EmailService
+    @Autowired
     private EmailService emailService;
     
-    // Get all movies
     @GetMapping
-    public List<Movie> getAllMovies() {
-        List<Movie> movies = movieRepository.findAll();
-        for (Movie movie : movies) {
-            logger.info("Movie: {} - PosterUrl: {}, TrailerUrl: {}", movie.getTitle(), movie.getPosterUrl(), movie.getTrailerUrl());
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        try {
+            List<Movie> movies = movieRepository.findAll();
+            for (Movie movie : movies) {
+                logger.info("Movie: {} - PosterUrl: {}, TrailerUrl: {}", 
+                    movie.getTitle(), movie.getPosterUrl(), movie.getTrailerUrl());
+            }
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            logger.error("Error fetching all movies: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
-        return movies;
     }
 
-
-    // Search for movies by title
     @GetMapping("/search")
-    public List<Movie> searchMovies(@RequestParam String title) {
-        List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(title);
-        logger.info("Searched movies with title '{}': {}", title, movies);
-        return movies;
+    public ResponseEntity<List<Movie>> searchMovies(@RequestParam String title) {
+        try {
+            List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(title);
+            logger.info("Searched movies with title '{}': {}", title, movies);
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            logger.error("Error searching movies with title '{}': {}", title, e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-    // Get movies by status (e.g., Currently Running, Coming Soon)
     @GetMapping("/status/{status}")
-    public List<Movie> getMoviesByStatus(@PathVariable String status) {
-        List<Movie> movies = movieRepository.findByStatus(status);
-        logger.info("Movies with status '{}': {}", status, movies);
-        return movies;
+    public ResponseEntity<List<Movie>> getMoviesByStatus(@PathVariable String status) {
+        try {
+            List<Movie> movies = movieRepository.findByStatus(status);
+            logger.info("Movies with status '{}': {}", status, movies);
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            logger.error("Error fetching movies with status '{}': {}", status, e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-    // Add a new movie (protected endpoint)
     @PostMapping
-    public Movie addMovie(@RequestBody Movie movie) {
-        Movie savedMovie = movieRepository.save(movie);
-        logger.info("Added new movie: {}", savedMovie);
-        return savedMovie;
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+        try {
+            Movie savedMovie = movieRepository.save(movie);
+            logger.info("Added new movie: {}", savedMovie);
+            return ResponseEntity.ok(savedMovie);
+        } catch (Exception e) {
+            logger.error("Error adding new movie: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-@PostMapping("/sendConfirmationEmail")
-public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) {
+    @PostMapping("/sendConfirmationEmail")
+    public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) {
         if (!isValidEmail(email)) {
             logger.warn("Invalid email address: {}", email);
             return ResponseEntity.badRequest().body("Invalid email address.");
         }
 
         try {
-	    emailService.sendConfirmationEmail(email, "Booking Confirmation", "Thank you for your booking!\n Movie: \n Showtime: \n Seats: \n");
+            emailService.sendConfirmationEmail(
+                email, 
+                "Booking Confirmation", 
+                "Thank you for your booking!\nMovie: \nShowtime: \nSeats: \n"
+            );
             logger.info("Confirmation email sent to {}", email);
             return ResponseEntity.ok("Confirmation email sent successfully!");
-
         } catch (Exception e) {
             logger.error("Error sending email to {}: {}", email, e.getMessage());
-            return ResponseEntity.status(500).body("Failed to send confirmation email.");
+            return ResponseEntity.internalServerError()
+                .body("Failed to send confirmation email.");
         }
     }
 
-    // Utility method to validate email format
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email != null && email.matches(emailRegex);
     }
-    
-    // Other endpoints as needed...
 }
