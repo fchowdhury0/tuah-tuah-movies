@@ -1,84 +1,291 @@
+@use "sass:color";
+
+// Variables
+$primary-color: #6299c3;
+$error-color: #dc3545;
+$success-color: #28a745;
+$dark-bg: #2a2a2a;
+$text-light: #f0f0f0;
+$border-color: rgba(240, 240, 240, 0.36);
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$transition-default: all 0.3s ease;
+
 .main {
   margin-top: 75px;
-
+  color: $text-light;
+  min-height: calc(100vh - 75px);
+  background-color: #1a1a1a;
 
   .account-banner {
-    padding-top: 40px;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 20px;
-    border-top: 2px solid;
-    border-bottom: 2px solid;
+    padding: 40px;
+    border-top: 2px solid $border-color;
+    border-bottom: 2px solid $border-color;
     margin-bottom: 20px;
+    background-color: rgba($dark-bg, 0.5);
+
     h2 {
       color: white;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-align: center;
     }
-    
+
     .account-items {
       margin-top: 40px;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+
       h3 {
-        color:white;
+        color: white;
         cursor: pointer;
+        transition: $transition-default;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        background-color: transparent;
+        border: 1px solid transparent;
+
+        &:hover {
+          color: $primary-color;
+          border-color: $primary-color;
+        }
+
+        &.active {
+          background-color: $primary-color;
+          color: white;
+          border-color: transparent;
+        }
       }
     }
-
   }
-  
-  .basic-info {
-    left: 0;
-    display: flexbox;
-    margin: 10px;
-    color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
+
+  .edit-profile-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: $dark-bg;
+    border-radius: 12px;
+    box-shadow: $box-shadow;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+    width: 100%;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: $text-light;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba($text-light, 0.2);
+      border-radius: 8px;
+      background-color: rgba($dark-bg, 0.5);
+      color: white;
+      transition: $transition-default;
+      font-size: 1rem;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+      }
+
+      &[type="checkbox"] {
+        width: auto;
+        margin-right: 8px;
+      }
+    }
   }
 
   .payment-methods {
-    display: flexbox;
-    margin: 10px;
-    color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .promotions {
-    display: flexbox;
-    margin: 10px;
-    color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    .payment-cards-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
 
-    h3 {
+    .payment-card {
+      background-color: rgba($dark-bg, 0.7);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: $box-shadow;
+      transition: $transition-default;
+      border: 1px solid rgba($text-light, 0.1);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      p {
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        
+        strong {
+          color: $primary-color;
+          margin-right: 8px;
+          font-weight: 600;
+        }
+      }
+
+      .delete-button {
+        background-color: $error-color;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: $transition-default;
+        font-weight: 500;
+        width: 100%;
+        margin-top: 12px;
+
+        &:hover {
+          background-color: color.scale($error-color, $lightness: -10%);
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    .add-card-button {
+      background-color: $success-color;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
       cursor: pointer;
-      color: grey;
+      transition: $transition-default;
+      font-weight: 500;
+      margin: 20px 0;
+
+      &:hover {
+        background-color: color.scale($success-color, $lightness: -10%);
+        transform: translateY(-1px);
+      }
+    }
+
+    .add-card-form {
+      background-color: rgba($dark-bg, 0.7);
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 600px;
+      border: 1px solid rgba($text-light, 0.1);
+
+      h4 {
+        margin-bottom: 24px;
+        color: $primary-color;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+
+      .form-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+
+        button {
+          flex: 1;
+          padding: 12px 24px;
+          border-radius: 6px;
+          cursor: pointer;
+          border: none;
+          transition: $transition-default;
+          font-weight: 500;
+
+          &[type="submit"] {
+            background-color: $success-color;
+            color: white;
+
+            &:hover {
+              background-color: color.scale($success-color, $lightness: -10%);
+              transform: translateY(-1px);
+            }
+          }
+
+          &[type="button"] {
+            background-color: #6c757d;
+            color: white;
+
+            &:hover {
+              background-color: color.scale(#6c757d, $lightness: -10%);
+              transform: translateY(-1px);
+            }
+          }
+        }
+      }
     }
   }
-  .change-email {
-    display: flexbox;
-    margin: 10px;
-    color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+  .error, .success {
+    padding: 12px;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-weight: 500;
+    text-align: center;
   }
 
-
-  .save-button {
-    width: fit-content;
-  }
-  .item {
-    margin: 30px;
-    border-bottom: 2px solid #f0f0f05b;
-
+  .error {
+    color: $error-color;
+    background-color: rgba($error-color, 0.1);
+    border: 1px solid rgba($error-color, 0.2);
   }
 
-  .form {
-    display: flex;
-
+  .success {
+    color: $success-color;
+    background-color: rgba($success-color, 0.1);
+    border: 1px solid rgba($success-color, 0.2);
   }
 
+  @media (max-width: 768px) {
+    .account-banner {
+      padding: 20px;
 
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .account-items {
+        flex-direction: column;
+        align-items: center;
+
+        h3 {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+
+    .edit-profile-content {
+      margin: 10px;
+      padding: 15px;
+    }
+
+    .payment-methods {
+      .payment-cards-list {
+        grid-template-columns: 1fr;
+      }
+
+      .add-card-form {
+        padding: 15px;
+
+        .form-buttons {
+          flex-direction: column;
+        }
+      }
+    }
+
+    .form-row {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
 }

@@ -1,47 +1,47 @@
-// src/utils/convertYouTubeUrl.js
-
 /**
  * Converts a standard or shortened YouTube URL to the embed format.
  *
  * @param {string} url - The original YouTube URL.
- * @returns {string} - The converted embed URL or the original URL if conversion isn't possible.
+ * @returns {string|null} - The converted embed URL or null if conversion isn't possible.
  */
 const convertYouTubeUrl = (url) => {
-    try {
-      const urlObj = new URL(url);
-  
-      // Check if the hostname is YouTube
-      if (
-        urlObj.hostname === 'www.youtube.com' ||
-        urlObj.hostname === 'youtube.com' ||
-        urlObj.hostname === 'youtu.be'
-      ) {
-        let videoId = '';
-  
-        // Handle different YouTube URL formats
-        if (urlObj.hostname === 'youtu.be') {
-          // Shortened URL: https://youtu.be/VIDEO_ID
-          videoId = urlObj.pathname.slice(1);
-        } else if (urlObj.pathname === '/watch') {
-          // Standard URL: https://www.youtube.com/watch?v=VIDEO_ID
-          videoId = urlObj.searchParams.get('v');
-        } else if (urlObj.pathname.startsWith('/embed/')) {
-          // Already an embed URL: https://www.youtube.com/embed/VIDEO_ID
-          return url; // No conversion needed
-        }
-  
-        if (videoId) {
-          return `https://www.youtube.com/embed/${videoId}`;
-        }
+  if (!url) {
+    console.warn('convertYouTubeUrl called with null or undefined URL');
+    return null; // Return null to indicate invalid URL
+  }
+
+  try {
+    const urlObj = new URL(url);
+
+    // Check if the hostname is YouTube
+    if (
+      urlObj.hostname === 'www.youtube.com' ||
+      urlObj.hostname === 'youtube.com' ||
+      urlObj.hostname === 'youtu.be'
+    ) {
+      let videoId = '';
+
+      // Handle different YouTube URL formats
+      if (urlObj.hostname === 'youtu.be') {
+        videoId = urlObj.pathname.slice(1);
+      } else if (urlObj.pathname === '/watch') {
+        videoId = urlObj.searchParams.get('v');
+      } else if (urlObj.pathname.startsWith('/embed/')) {
+        return url;
       }
-  
-      // If not a YouTube URL or already embed, return the original URL
-      return url;
-    } catch (error) {
-      console.error('Invalid URL:', url);
-      return url;
+
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
     }
-  };
-  
-  export default convertYouTubeUrl;
-  
+
+    // If not a YouTube URL or already embed, return null
+    console.warn('convertYouTubeUrl received a non-YouTube or unsupported URL:', url);
+    return null;
+  } catch (error) {
+    console.error('Invalid URL:', url, error);
+    return null; // Return null to indicate invalid URL
+  }
+};
+
+export default convertYouTubeUrl;

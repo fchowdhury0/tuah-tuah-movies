@@ -9,6 +9,17 @@ const TrailerModal = ({ trailerUrl, title, onClose }) => {
   const [hasError, setHasError] = useState(false);
   const modalRef = useRef(null);
 
+  // Create or get the modal-root element
+  const getModalRoot = () => {
+    let modalRoot = document.getElementById('modal-root');
+    if (!modalRoot) {
+      modalRoot = document.createElement('div');
+      modalRoot.setAttribute('id', 'modal-root');
+      document.body.appendChild(modalRoot);
+    }
+    return modalRoot;
+  };
+
   // Prevent background scrolling when modal is open
   useEffect(() => {
     document.body.classList.add('modal-open');
@@ -37,12 +48,7 @@ const TrailerModal = ({ trailerUrl, title, onClose }) => {
     }
   }, []);
 
-  // Ensure modal-root exists
-  const modalRoot = document.getElementById('modal-root');
-  if (!modalRoot) {
-    console.error("Modal root element not found. Please add <div id='modal-root'></div> to your HTML.");
-    return null;
-  }
+  const modalRoot = getModalRoot();
 
   return ReactDOM.createPortal(
     <div
@@ -88,7 +94,7 @@ const TrailerModal = ({ trailerUrl, title, onClose }) => {
         </button>
       </div>
     </div>,
-    modalRoot // Ensure 'modal-root' exists
+    modalRoot
   );
 };
 

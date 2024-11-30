@@ -3,14 +3,19 @@
 /* NavBar Styles */
 .navbar {
   width: 100%;
-  padding: 20px 40px; /* Increased horizontal padding for better spacing */
+  padding: 20px 40px;
+  /* Increased horizontal padding for better spacing */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #212426; /* Matching the .app background color */
-  color: #ffffff; /* White text color */
-  position: sticky; /* Fixed position to stay at the top */
-  z-index: 1000; /* Ensure NavBar stays above other elements */
+  background-color: #212426;
+  /* Matching the .app background color */
+  color: #ffffff;
+  /* White text color */
+  position: sticky;
+  /* Fixed position to stay at the top */
+  z-index: 1000;
+  /* Ensure NavBar stays above other elements */
   top: 0;
   right: 0;
   border-bottom: 2px solid $cream;
@@ -18,12 +23,15 @@
 
   /* Logo Styling */
   .logo {
+    align-items: left;
+    flex-shrink: 1;
+
     .links {
       color: #ffffff;
       text-decoration: none;
       font-size: 1.5rem;
       font-weight: bold;
-      background-color: #6299c3;
+      background-color: $hawk-tuah-blue;
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -31,33 +39,53 @@
       color: #f0f0f0;
 
       &:hover {
-        color: #ffffff; /* Maintain white color on hover */
+        color: #ffffff;
+        /* Maintain white color on hover */
       }
     }
   }
 
   /* Navigation Links Styling */
-      .links {
-	  color: #f0f0f0;
-	  text-decoration: none;
-	  font-size: 1rem;
-	  padding: 10px 15px;
-	  &:hover {
-	      color: #ffffff;
+  .links {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 10px 15px;
 
-	  }
-      }
-      .login-button, .register-button {
-	  background-color: #6299c3; /* Example background color */
-	  color: white; /* Example text color */
-	  border: none; /* Remove default border */
-	  padding: 10px 15px; /* Adjust padding */
-	  cursor: pointer; /* Change cursor to pointer */
-	  transition: background-color 0.3s; /* Add transition for hover effect */
-	  
-	  &:hover {
-              background-color: #4f7f9d; /* Example hover color */
-	  }
-      }
+    .links-selected {
+      color: $hawk-tuah-blue;
+      font-size: 1rem;
+      padding: 10px 15px;
+    }
+
+    &:hover {
+      color: $hawk-tuah-blue;
+
+    }
+
+    &.focus {
+      color: $hawk-tuah-blue;
+    }
+  }
+
+  .login-button,
+  .register-button {
+    background-color: #6299c3;
+    /* Example background color */
+    color: white;
+    /* Example text color */
+    border: none;
+    /* Remove default border */
+    padding: 10px 15px;
+    /* Adjust padding */
+    cursor: pointer;
+    /* Change cursor to pointer */
+    transition: background-color 0.3s;
+    /* Add transition for hover effect */
+
+    &:hover {
+      background-color: #4f7f9d;
+      /* Example hover color */
+    }
+  }
 }
-
