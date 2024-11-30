@@ -39,10 +39,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
-                .requestMatchers("/api/movies/sendConfirmationEmail").permitAll()
+		.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		 .requestMatchers("/api/movies/sendConfirmationEmail").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/user/**").permitAll()
-                .anyRequest().authenticated()
-            )
+		.requestMatchers("/api/email/sendRegistrationEmail").permitAll()
+		.anyRequest().authenticated()
+
+				   )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
@@ -63,7 +66,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow frontend origin
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

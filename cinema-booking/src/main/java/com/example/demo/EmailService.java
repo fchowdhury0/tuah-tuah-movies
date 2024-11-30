@@ -32,4 +32,12 @@ public class EmailService {
 	mailSender.send(message);
     }
 
+
+    public void sendRegistrationConfirmationEmail(String toEmail, String userName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Registration Confirmation");
+        message.setText("Hello " + userName + ",\n\nThank you for registering! We're excited to have you on board.\n\nBest regards,\nCinema Booking Team");
+        mailSender.send(message);
+    }
 }

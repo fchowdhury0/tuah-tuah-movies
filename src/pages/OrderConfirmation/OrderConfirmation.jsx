@@ -20,9 +20,12 @@ const OrderConfirmation = () => {
             console.error("Failed to send confirmation email:", error);
         }
     };
+
+
     useEffect(() => {
         sendConfirmationEmail();
     }, []);
+
     
     const toHome = () => {
 	navigate('/home');

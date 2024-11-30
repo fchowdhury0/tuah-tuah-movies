@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './Register.scss';
 import NavBar from '../../components/NavBar/navbar.jsx';
+import { useLocation } from 'react-router-dom';
 
 const Register = () => {
   const navigate = useNavigate();
   const [promotions, setPromotions] = useState(false);
 
+    
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -58,7 +60,13 @@ const Register = () => {
         });
 
         console.log('Registration Successful:', res.data);
-        resetForm();
+//	  await axios.post(
+//	      'http://localhost:8080/api/email/sendRegistrationEmail', // Replace with your email endpoint
+//	      { email: values.email },
+//	      { headers: { 'Content-Type': 'application/json' } }
+//	  );
+//	  console.log('Registration Email Sent Successfully');
+	  resetForm();
         navigate('/registration-confirmation');
       } catch (err) {
         if (err.response) {

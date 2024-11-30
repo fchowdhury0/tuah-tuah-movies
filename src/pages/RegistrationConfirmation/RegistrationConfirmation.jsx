@@ -1,10 +1,39 @@
 // src/components/RegistrationConfirmation.jsx
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './RegistrationConfirmation.css';
+import axios from 'axios';
 
-const RegistrationConfirmation = () => {
+const RegistrationConfirmation = ({ email }) => {
+  useEffect(() => {
+    // Trigger the email when the component mounts
+    const sendConfirmationEmail = async () => {
+      if (!email) {
+        console.error("Email is not provided.");
+        return;
+      }
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/api/registration/sendConfirmationEmail",
+          null, // No body needed since we use query params
+          {
+            params: { email }, // Email passed as a query parameter
+          }
+        );
+	  console.log('error');
+	  
+        console.log(response.data); // Log success message
+      } catch (error) {
+        console.error("Error sending confirmation email:", error.response?.data || error.message);
+      }
+    };
+
+    sendConfirmationEmail();
+  }, [email]);
+
+
   return (
     <div className="confirmation-container">
       <div className="confirmation-card">

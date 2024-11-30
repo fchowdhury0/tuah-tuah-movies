@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -58,29 +58,29 @@ public class MovieController {
         return savedMovie;
     }
 
-@PostMapping("/sendConfirmationEmail")
-public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) {
+    @PostMapping("/sendConfirmationEmail")
+    public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) {
         if (!isValidEmail(email)) {
             logger.warn("Invalid email address: {}", email);
             return ResponseEntity.badRequest().body("Invalid email address.");
         }
-
-        try {
+       
+	try {
 	    emailService.sendConfirmationEmail(email, "Booking Confirmation", "Thank you for your booking!\n Movie: \n Showtime: \n Seats: \n");
             logger.info("Confirmation email sent to {}", email);
             return ResponseEntity.ok("Confirmation email sent successfully!");
-
+	    
         } catch (Exception e) {
             logger.error("Error sending email to {}: {}", email, e.getMessage());
             return ResponseEntity.status(500).body("Failed to send confirmation email.");
         }
     }
-
+    
     // Utility method to validate email format
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email != null && email.matches(emailRegex);
     }
     
-    // Other endpoints as needed...
+        // Other endpoints as needed...
 }
