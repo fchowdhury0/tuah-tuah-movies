@@ -6,13 +6,18 @@ import convertYouTubeUrl from '../../utils/convertYouTubeUrl'; // Adjust the pat
 import TrailerModal from '../TrailerModal/TrailerModal.jsx'; // Adjust the path as necessary
 import './MovieCard.css';
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, isAdmin }) => {
+  console.log("isAdmin: " + isAdmin)
   const [showTrailer, setShowTrailer] = useState(false);
 
   const navigate = useNavigate();
 
   const handleBookMovie = () => {
-    navigate(`/bookmovies/${movie.id}`, { state: { currentMovie: movie} });
+    navigate(`/bookmovies/${movie.id}`, { state: { currentMovie: movie } });
+  };
+
+  const handleEditMovie = () => {
+    navigate(`/editmovie/${movie.id}`, { state: { currentMovie: movie } });
   };
 
   const toggleTrailer = () => {
@@ -30,12 +35,18 @@ const MovieCard = ({ movie }) => {
 
       <div className="movie-poster">
         <img src={movie.posterUrl} alt={`${movie.title} Poster`} />
-        <div className="movie-buttons">
+        {isAdmin ? (
+          <div className="movie-buttons">
+            <button className="book-button" onClick={handleEditMovie}>Edit</button>
+          </div>
+        ) : (
+          <div className="movie-buttons">
           {movie.status === "Currently Running" && (
             <button className="book-button" onClick={handleBookMovie}>Book Now</button>
           )}
           <button className="watch-trailer" onClick={toggleTrailer}>Watch Trailer</button>
         </div>
+        )}
       </div>
 
 
@@ -60,6 +71,7 @@ MovieCard.propTypes = {
     trailerUrl: PropTypes.string.isRequired,
     // Add other movie properties as needed
   }).isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default MovieCard;

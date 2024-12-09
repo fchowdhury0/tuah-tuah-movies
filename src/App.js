@@ -19,6 +19,7 @@ import ManageMovies from './pages/AdminView/ManageMovies.jsx';
 import ManagePromotions from './pages/AdminView/ManagePromotions.jsx';
 import ManageUsers from './pages/AdminView/ManageUsers.jsx';
 import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx';
+import EditMovie from './pages/AdminView/EditMovie.jsx';
 
 // Regular User Pages
 import BookMovie from './pages/BookMovie/BookMovie.jsx';
@@ -118,6 +119,10 @@ const App = () => {
           path: 'addmovie', // Accessible at /admin/addmovie
           element: <AddMovie />,
         },
+        {
+          path: 'editmovie',
+          element: <EditMovie/>,
+        }
       ],
     },
     {

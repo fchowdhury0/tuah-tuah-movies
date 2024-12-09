@@ -50,6 +50,12 @@
   }
 
   .showtimes {
+
+    h5 {
+      font-size: small;
+      color: darkgrey;
+    }
+
     color: white;
     flex: 1;
     padding: 20px;
@@ -57,6 +63,7 @@
   }
 
   .seating-container {
+    border: solid black;
     display: flex;
     align-items: center;
     justify-content: center;
