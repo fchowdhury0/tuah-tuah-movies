@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import './OrderTickets.scss';
-import NavBar from '../../components/NavBar/navbar.jsx';
 
 const OrderTickets = () => {
     const { state } = useLocation();

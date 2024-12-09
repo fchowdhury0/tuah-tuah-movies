@@ -1,154 +1,131 @@
 /* src/components/MovieCard/MovieCard.css */
 
 .movie {
-  width: 200px !important;
-  height: 296px !important;
+  width: 250px !important; /* Increased width */
+  height: 375px !important; /* Increased height for better proportion */
   margin: 1.5rem;
   position: relative;
-  border-radius: 12px;
+  border-radius: 16px; /* Increased border radius */
   overflow: hidden;
   border: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
-  box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
-  background-color: #1f2123;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smoother animation */
+  box-shadow: 0 13px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  background-color: #1a1d1f; /* Darker background */
   color: #fff;
 }
 
 .movie-title {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
+  top: 20px;
+  left: 15px;
+  right: 15px;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.4rem; /* Larger font */
+  font-weight: 600;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
   z-index: 3;
+  transform: translateY(-10px);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .movie-poster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   cursor: pointer;
-  transition: opacity 0.3s ease;
-  justify-content: center;
-  align-items: center;
+  transition: transform 0.5s ease, opacity 0.4s ease;
 }
 
 .movie-buttons {
-  margin-top: 30px;
   position: absolute;
-  bottom: 10px;
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust position to center */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.movie:hover .movie-buttons {
-  opacity: 1;
+  transition: all 0.4s ease;
 }
 
-.watch-trailer-button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ff6347;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.book-button:hover,
-.watch-trailer-button:hover {
-  background-color: #ff4500;
-}
-
-.movie-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(24, 137, 213, 0.9);
-  padding: 16px 24px;
-  text-align: center;
-  transition: background 0.3s ease;
-}
-
-.movie-info span {
-  font-family: "Raleway", sans-serif;
-  text-transform: uppercase;
-  font-size: 8px !important;
-  letter-spacing: 1px;
-  font-weight: 500;
-  color: #f0f0f0;
-}
-
-.movie-info h3 {
-  margin-top: 5px;
-  margin-bottom: 20px;
-  font-family: "Roboto Slab", serif;
-  color: #f9d3b4;
-}
-
+.watch-trailer-button,
 .book-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #ff6347;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px; /* Rounded buttons */
+  background: linear-gradient(145deg, #ff6347, #ff4500); /* Gradient background */
   color: white;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  display: flex; /* Use flexbox */
-  flex-direction: column;
-  justify-content: center !important; /* Center horizontally */
-  align-items: center !important; /* Center vertically */
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
 }
 
+.watch-trailer-button:hover,
 .book-button:hover {
-  background-color: #ff4500;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4);
+  background: linear-gradient(145deg, #ff4500, #ff3300);
 }
 
 .movie:hover {
-  box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
-  transform: scale(1.05, 1.05);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
 }
 
 .movie:hover .movie-title {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .movie:hover .movie-poster img {
-  opacity: 0.3;
+  opacity: 0.2;
+  transform: scale(1.1);
 }
 
-.movie:hover .movie-info {
-  background: transparent;
+.movie:hover .movie-buttons {
+  opacity: 1;
+}
+
+/* No-trailer message styling */
+.no-trailer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 29, 31, 0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 1000;
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .movie {
-      width: 90%;
-      height: auto;
+    width: 200px !important;
+    height: 300px !important;
   }
-
-  /* Adjust movie-info padding for smaller screens */
-  .movie-info {
-      padding: 12px 18px;
+  
+  .movie-title {
+    font-size: 1.2rem;
   }
-
-  /* Adjust book-button size */
+  
+  .watch-trailer-button,
   .book-button {
-      padding: 8px 16px;
-      font-size: 0.9rem;
+    padding: 10px 20px;
+    font-size: 0.8rem;
   }
 }

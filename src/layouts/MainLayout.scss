@@ -65,16 +65,14 @@
 }
 
 /* Ensure main content area spans full width */
+// src/layouts/MainLayout.scss
 .main-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #212426; /* Match the NavBar background */
-  
-    .main-content {
-      flex: 1;
-      padding: 80px 20px 20px 20px; /* Added top padding */
-      background-color: #212426; /* Same as .app background to avoid white boxes */
-      color: #ffffff; /* Ensure text is visible against dark background */
-    }
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .main-content {
+    flex: 1;
+    padding-top: 70px;
   }
+}

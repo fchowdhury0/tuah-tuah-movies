@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
-import NavBar from '../../components/NavBar/navbar.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import './Home.scss';
 
 const Home = () => {

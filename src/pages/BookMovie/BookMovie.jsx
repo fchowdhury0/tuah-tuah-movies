@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import './BookMovie.scss'
-import NavBar from '../../components/NavBar/navbar.jsx';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import SeatingChart from '../../components/Seating/SeatingChart';
+import './BookMovie.scss';
 
 const BookMovie = () => {
   const { id } = useParams();

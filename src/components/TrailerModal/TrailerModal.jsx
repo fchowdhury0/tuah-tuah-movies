@@ -1,48 +1,51 @@
-// src/components/TrailerModal/TrailerModal.jsx
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from 'react-dom';
-import './TrailerModal.css'; // Ensure this CSS file is created
+import './TrailerModal.css';
 
 const TrailerModal = ({ trailerUrl, title, onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   const modalRef = useRef(null);
+  const MAX_RETRIES = 3;
 
-  // Prevent background scrolling when modal is open
+  const getModalRoot = () => {
+    let modalRoot = document.getElementById('modal-root');
+    if (!modalRoot) {
+      modalRoot = document.createElement('div');
+      modalRoot.setAttribute('id', 'modal-root');
+      document.body.appendChild(modalRoot);
+    }
+    return modalRoot;
+  };
+
   useEffect(() => {
     document.body.classList.add('modal-open');
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
+    return () => document.body.classList.remove('modal-open');
   }, []);
 
-  // Handle Escape key to close modal
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  // Ensure modalRef is focused for accessibility
   useEffect(() => {
-    if (modalRef.current) {
-      modalRef.current.focus();
-    }
+    if (modalRef.current) modalRef.current.focus();
   }, []);
 
-  // Ensure modal-root exists
-  const modalRoot = document.getElementById('modal-root');
-  if (!modalRoot) {
-    console.error("Modal root element not found. Please add <div id='modal-root'></div> to your HTML.");
-    return null;
-  }
+  const handleRetry = () => {
+    if (retryCount < MAX_RETRIES) {
+      setIsLoading(true);
+      setHasError(false);
+      setRetryCount(prev => prev + 1);
+    }
+  };
+
+  const modalRoot = getModalRoot();
 
   return ReactDOM.createPortal(
     <div
@@ -58,8 +61,10 @@ const TrailerModal = ({ trailerUrl, title, onClose }) => {
         {isLoading && (
           <div className="loader">
             <div className="spinner"></div>
+            <p>Loading trailer...</p>
           </div>
         )}
+        
         {!hasError ? (
           <iframe
             className={`trailer-iframe ${isLoading ? 'hidden' : 'visible'}`}
@@ -75,20 +80,33 @@ const TrailerModal = ({ trailerUrl, title, onClose }) => {
             }}
           ></iframe>
         ) : (
-          <div className="error-message">
-            <p>Failed to load trailer. Please try again later.</p>
+          <div className="error-container">
+            <div className="error-message">
+              <h3>Oops! Something went wrong</h3>
+              <p>Unable to load the trailer for {title}</p>
+              {retryCount < MAX_RETRIES ? (
+                <button className="retry-button" onClick={handleRetry}>
+                  Try Again
+                </button>
+              ) : (
+                <p className="max-retries">
+                  Maximum retry attempts reached. Please try again later.
+                </p>
+              )}
+            </div>
           </div>
         )}
+        
         <button
           className="close-trailer"
           onClick={onClose}
           aria-label="Close Trailer"
         >
-          ✖
+          ×
         </button>
       </div>
     </div>,
-    modalRoot // Ensure 'modal-root' exists
+    modalRoot
   );
 };
 

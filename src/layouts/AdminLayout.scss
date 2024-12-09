@@ -1,30 +1,59 @@
+// src/layouts/AdminLayout.scss
 .admin-layout {
   align-items: stretch;
   justify-content: flex-start;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-  background-color: #212426;
+  background: #f5f5f5;
 
-
-  .admin-container {
+  .admin-wrapper {
     display: flex;
     flex: 1;
-    width: 100%;
+    padding-top: 70px; // Account for fixed navbar
+  }
 
-    .menu-container {
-      margin-left: 10px;
-      width: 250px;
-      background-color: #2c3e50;
-      color: #ecf0f1;
-      padding: 20px;
+  .admin-sidebar {
+    width: 280px;
+    background: #1a1d1f;
+    position: fixed;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+  }
+
+  .admin-main {
+    flex: 1;
+    margin-left: 280px;
+    min-height: calc(100vh - 70px);
+    background: #f8f9fa;
+  }
+
+  .admin-header {
+    padding: 1.5rem 2rem;
+    background: white;
+    border-bottom: 1px solid #eaeaea;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1a1d1f;
+      margin: 0;
+    }
+  }
+
+  .admin-content {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      width: 240px;
     }
 
-    .admin-content {
-      flex: 1;
-      padding: 20px;
-      background-color: inherit;
+    .admin-main {
+      margin-left: 240px;
     }
   }
 }

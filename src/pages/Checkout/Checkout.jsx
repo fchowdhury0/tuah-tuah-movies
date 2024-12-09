@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Footer from '../../components/Footer/footer.jsx';
-import NavBar from '../../components/NavBar/navbar.jsx';
+import Footer from '../../components/Footer/Footer.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 
 
 const Checkout = () => {
@@ -36,6 +36,9 @@ const Checkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+      console.log('Tickets:', tickets);
+    console.log('Total:', total);
     console.log('User Info:', userInfo);
     console.log('Payment Info:', paymentInfo);
 
