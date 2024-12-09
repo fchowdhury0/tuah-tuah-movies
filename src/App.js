@@ -121,7 +121,7 @@ const App = () => {
         },
         {
           path: 'editmovie',
-          element: <EditMovie/>,
+          element: <EditMovie />,
         }
       ],
     },

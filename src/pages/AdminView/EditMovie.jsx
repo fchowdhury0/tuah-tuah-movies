@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import NavBar from '../../components/NavBar/navbar.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import SeatingChart from '../../components/Seating/SeatingChart';
 
 const EditMovie = () => {
