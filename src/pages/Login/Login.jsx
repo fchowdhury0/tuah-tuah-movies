@@ -2,7 +2,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Corrected import
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import NavBar from '../../components/NavBar/navbar.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import './Login.scss';
 
 const Login = () => {

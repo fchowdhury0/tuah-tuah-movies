@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Footer from '../components/Footer/footer.jsx';
-import NavBar from '../components/NavBar/navbar.jsx';
-import './MainLayout.scss'; // Import SCSS for MainLayout
+import Footer from '../components/Footer/Footer.jsx';
+import NavBar from '../components/NavBar/NavBar.jsx';
+import './MainLayout.scss';
 
 const MainLayout = () => {
   return (

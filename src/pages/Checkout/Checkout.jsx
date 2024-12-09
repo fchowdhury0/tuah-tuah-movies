@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Footer from '../../components/Footer/footer.jsx';
-import NavBar from '../../components/NavBar/navbar.jsx';
+import Footer from '../../components/Footer/Footer.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 
 
 const Checkout = () => {

@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import "./navbar.scss";
+import "./NavBar.scss";
 
 const NavBar = () => {
   const [username, setUsername] = useState('');

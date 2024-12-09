@@ -1,8 +1,8 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../../components/Footer/footer.jsx';
-import NavBar from '../../components/NavBar/navbar.jsx';
+import Footer from '../../components/Footer/Footer.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import './EditProfile.scss';
 
 import { getAuthToken } from '../../utils/auth';

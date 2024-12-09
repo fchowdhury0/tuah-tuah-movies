@@ -3,8 +3,7 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import NavBar from '../../components/NavBar/navbar.jsx';
-import { useLocation } from 'react-router-dom';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 import './Register.scss';
 
 const Register = () => {

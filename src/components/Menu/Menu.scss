@@ -1,37 +1,92 @@
-@import "src/App.scss";
-@import "src/styles/variables.scss";
+// Variables
+$menu-bg: #1a1d1f;
+$menu-text: #f0f0f0;
+$menu-hover: rgba(255, 255, 255, 0.1);
+$accent-color: #6299c3;
+$transition-speed: 0.3s;
 
-.menu{
-  padding-left: 10px;
-  padding-top: 10px;
-  border-right: 2px solid;
+.menu {
+  padding: 20px;
+  background: $menu-bg;
+  height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 
-  .item{
+  .item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-    color: #f0f0f0;
+    gap: 12px;
+    margin-bottom: 30px;
 
-    .title{
-      font-size: 12px;
-      font-weight: 200px;
-      color: #f0f0f0;
+    .title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba($menu-text, 0.6);
+      padding: 0 10px;
+      margin-bottom: 5px;
     }
 
-    .list-item{
+    .list-item {
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-radius: 5px;
-      color: #f0f0f0;
+      gap: 12px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      color: $menu-text;
+      transition: all $transition-speed ease;
+      
+      img {
+        width: 20px;
+        height: 20px;
+        opacity: 0.7;
+        filter: brightness(0) invert(1); // Makes SVG white
+        transition: all $transition-speed ease;
+      }
+  
+      &:hover {
+        background: $menu-hover;
+        transform: translateX(5px);
+        
+        img {
+          opacity: 1;
+        }
+      }
 
-      &:hover{
-        background-color: rgba(245, 245, 245, 0.108);
+      .listItemTitle {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      &.active {
+        background: $menu-hover;
+        color: $accent-color;
+        
+        img {
+          opacity: 0.7;
+          filter: brightness(0) invert(1);
+        }
+      }
+
+      &.active {
+        background: $menu-hover;
+        color: $accent-color;
+        
+        img {
+          width: 20px;
+          height: 20px;
+          opacity: 0.7;
+          filter: invert(1);
+          transition: all $transition-speed ease;
+        }
+    
+        &:hover {
+          img {
+            opacity: 1;
+          }
+        }
       }
     }
   }
-
 }

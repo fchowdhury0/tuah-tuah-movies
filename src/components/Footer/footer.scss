@@ -1,5 +1,18 @@
-.footer{
-  color:#f0f0f0;
-  position:absolute;
-  right: 10px;
+// src/components/Footer/Footer.scss
+.footer {
+  background: rgba(33, 36, 38, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  color: white;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  .footer-bottom {
+    text-align: center;
+    
+    p {
+      color: #a1a1a1;
+      font-size: 0.9rem;
+    }
+  }
 }
