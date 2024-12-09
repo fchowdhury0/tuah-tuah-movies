@@ -1,299 +1,229 @@
 /* src/pages/Home/Home.scss */
 
-@import '../../styles/variables.scss';
+// Variables & Mixins
+$primary-blue: #1889d5;
+$primary-green: #28a745;
+$dark-bg: #212426;
+$card-bg: #1f2123;
+$text-light: #ffffff;
+$text-muted: #a1a1a1;
+$accent-color: #6299c3;
+$cream: #f8ddc8;
 
-/* Root Styles */
+@mixin glass-effect {
+  background: rgba(31, 33, 35, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@mixin button-base {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Root Styles
 .app {
-  /* Remove or adjust padding if necessary since MainLayout handles padding */
-  /* padding: 4rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #212426;
+  background: linear-gradient(135deg, $dark-bg 0%, darken($dark-bg, 5%) 100%);
   min-height: 100vh;
-  color: #ffffff;
+  color: $text-light;
   position: relative;
-  width: 100%; /* Ensure it takes full width */
+  width: 100%;
 }
 
-/* Page Title */
+// Typography
 .app h1 {
-  font-size: 3rem;
-  letter-spacing: 0.9px;
-  background-color: #6299c3;
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, $accent-color, lighten($accent-color, 15%));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
-/* Authentication Buttons Container */
+// Auth Buttons
 .auth-buttons {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  z-index: 100;
 }
 
-/* Login Button */
 .login-button {
-  padding: 8px 16px;
-  background-color: #1889d5;
-  /* Blue */
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  @include button-base;
+  background: linear-gradient(135deg, $primary-blue, darken($primary-blue, 10%));
+  box-shadow: 0 4px 15px rgba($primary-blue, 0.3);
+  
+  &:hover {
+    box-shadow: 0 6px 20px rgba($primary-blue, 0.4);
+  }
 }
 
-.login-button:hover {
-  background-color: #0f6ab5;
-  /* Darker Blue */
-}
-
-/* Registration Button */
 .register-button {
-  padding: 8px 16px;
-  background-color: #28a745;
-  /* Green */
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  @include button-base;
+  background: linear-gradient(135deg, $primary-green, darken($primary-green, 10%));
+  box-shadow: 0 4px 15px rgba($primary-green, 0.3);
+  
+  &:hover {
+    box-shadow: 0 6px 20px rgba($primary-green, 0.4);
+  }
 }
 
-.register-button:hover {
-  background-color: #1e7e34;
-  /* Darker Green */
-}
-
-/* Search Bar */
+// Search Bar
 .search {
-  width: 71%;
+  width: 70%;
   margin: 2rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1.75rem;
+  @include glass-effect;
   border-radius: 3rem;
-  background: #1f2123;
-  box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
-}
-
-.search form {
-  display: flex;
-  width: 100%;
-}
-
-.search input {
-  flex: 1;
-  border: none;
-  font-size: 1.5rem;
-  font-family: var(--font-raleway);
-  font-weight: 500;
-  padding-right: 1rem;
-  outline: none;
-  color: #a1a1a1;
-  background: #1f2123;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  form {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+  }
+  
+  input {
+    flex: 1;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    background: transparent;
+    color: $text-light;
+    
+    &::placeholder {
+      color: rgba($text-muted, 0.7);
+    }
+  }
 }
 
 .search-button {
-  width: fit-content;
-  cursor: pointer;
-  color: #a1a1a1;
-  font-size: 1.5rem;
-  padding: 0;
-  border: none;
-  background: none;
-  text-decoration: none;
+  @include button-base;
+  width: 45px;  // Fixed width
+  height: 45px; // Fixed height
+  padding: 0;   // Remove padding
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+  color: $text-light;
+  flex-shrink: 0;
+  
+  &:hover {
+    background: linear-gradient(135deg, lighten($accent-color, 5%), $accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba($accent-color, 0.3);
+  }
+
+  svg, i {  // If using icons
+    width: 20px;
+    height: 20px;
+  }
 }
 
-/* Movie Sections */
+// Movie Sections
 section {
   width: 100%;
-  margin-top: 2rem;
+  padding: 2rem;
+  
+  h2 {
+    color: $cream;
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: $accent-color;
+      border-radius: 2px;
+    }
+  }
 }
 
-section h2 {
-  color: #f8ddc8;
-  margin-bottom: 1rem;
-  font-size: 2rem;
-  text-align: left;
-  padding-left: 2rem;
-}
-
-/* Container for Movie Cards */
+// Container & Cards
 .container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
 }
 
-/* Movie Card Styles */
 .movie {
-  width: 310px;
-  height: 460px;
-  margin: 1.5rem;
-  position: relative;
-  border-radius: 12px;
+  aspect-ratio: 2/3;
+  border-radius: 16px;
   overflow: hidden;
-  border: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
-  box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
-  background-color: #1f2123;
-  color: #fff;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  @include glass-effect;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
 }
 
-.movie-title p {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.movie-poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease;
-}
-
-.movie-info span {
-  display: block;
-  font-family: "Raleway", sans-serif;
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 2px;
-  font-weight: 500;
-  color: $cream;
-}
-
-.movie-info h3 {
-  margin-top: 5px;
-  font-family: "Roboto Slab", serif;
-  color: $cream;
-}
-
-.movie:hover {
-  box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
-  transform: scale(1.05);
-}
-
-.movie:hover .movie-poster img {
-  opacity: 0.3;
-}
-
-.movie:hover .movie-info {
-  background-color: transparent;
-}
-
-/* Responsive Adjustments */
-
-/* For screens up to 1200px */
+// Responsive Design
 @media screen and (max-width: 1200px) {
-  .search {
-    width: 80%;
-  }
-
-  .container {
-    padding: 0 1rem;
-  }
+  .search { width: 80%; }
 }
 
-/* For screens up to 800px */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   .search {
     width: 90%;
-  }
-
-  section h2 {
-    font-size: 1.75rem;
-    padding-left: 1.5rem;
-  }
-
-  .auth-buttons {
-    top: 15px;
-    right: 15px;
-  }
-
-  .login-button,
-  .register-button {
-    padding: 6px 12px;
-    font-size: 0.9rem;
-  }
-}
-
-/* For screens up to 600px */
-@media screen and (max-width: 600px) {
-  .app {
-    padding: 2rem 1rem;
-  }
-
-  .search {
     padding: 1rem 1.5rem;
-    width: 100%;
   }
-
-  .search input {
-    font-size: 1.2rem;
-  }
-
-  .search form button {
-    font-size: 1.2rem;
-    padding: 0 0.5rem;
-  }
-
+  
   section h2 {
-    font-size: 1.5rem;
-    padding-left: 1rem;
+    font-size: 1.8rem;
   }
-
-  .auth-buttons {
-    top: 10px;
-    right: 10px;
-  }
-
-  .login-button,
-  .register-button {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
-
-  .movie {
-    width: 100%;
-    margin: 1rem;
+  
+  .container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 }
 
-/* For screens up to 400px */
-@media screen and (max-width: 400px) {
-  .app {
-    padding: 1rem;
+@media screen and (max-width: 480px) {
+  .app h1 {
+    font-size: 2.5rem;
   }
-
-  .search input {
-    font-size: 1rem;
+  
+  .search {
+    width: 95%;
+    input {
+      font-size: 1.2rem;
+    }
   }
-
-  section h2 {
-    font-size: 1.25rem;
-    padding-left: 0.5rem;
+  
+  .container {
+    grid-template-columns: 1fr;
   }
-
+  
   .auth-buttons {
-    top: 8px;
-    right: 8px;
-  }
-
-  .login-button,
-  .register-button {
-    padding: 4px 8px;
-    font-size: 0.75rem;
+    flex-direction: column;
   }
 }
