@@ -1,0 +1,36 @@
+@import '../../styles/variables.scss';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%
+}
+.admin-view {
+  display:flex;
+  flex-direction: column;
+  color: #f0f0f0;
+  justify-content: center;
+  align-items: center;
+
+  .box {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid  #3f4549;
+  }
+}
+.top-style{
+  display: flex
+}
+.form-container {
+  display:flex;
+  flex-direction:column;
+
+  .input {
+    size:large
+  }
+}
+
+.button {
+  width:fit-content
+}

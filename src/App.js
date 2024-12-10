@@ -17,6 +17,8 @@ import ManageMovies from './pages/Admin/Movies/ManageMovies/ManageMovies';
 import ManagePromotions from './pages/Admin/Promotions/ManagePromotions';
 import ScheduleMovie from './pages/Admin/Schedule/ScheduleMovie';
 import ManageUsers from './pages/Admin/Users/ManageUsers';
+import EditMovie from './pages/Admin/Movies/ManageMovies/EditMovie.jsx';
+import AddMovie from './pages/Admin/Movies/AddMovie/AddMovie';
 
 // Regular User Pages
 import BookMovie from './pages/BookMovie/BookMovie.jsx';
@@ -88,31 +90,39 @@ const App = () => {
       },
 
       {
-        path: '/admin',
-        element: <AdminLayout />,
-        children: [
-          {
-            path: '',
-            element: <AdminDashboard />
-          },
-          {
-            path: 'managemovies',
-            element: <ManageMovies />
-          },
-          {
-            path: 'manageusers',
-            element: <ManageUsers />
-          },
-          {
-            path: 'managepromotions',
-            element: <ManagePromotions />
-          },
-          {
-            path: 'schedulemovie',
-            element: <ScheduleMovie />
-          }
-        ]
-      },
+      path: '/admin',
+      element: <AdminLayout />, // Wrap admin routes with AdminLayout
+      children: [
+        {
+          path: 'home', // Accessible at /admin/home
+          element: <AdminDashboard />,
+        },
+        {
+          path: 'managemovies', // Accessible at /admin/managemovies
+          element: <ManageMovies />,
+        },
+        {
+          path: 'manageusers', // Accessible at /admin/manageusers
+          element: <ManageUsers />,
+        },
+        {
+          path: 'managepromotions', // Accessible at /admin/managepromotions
+          element: <ManagePromotions />,
+        },
+        {
+          path: 'schedulemovie', // Accessible at /admin/schedulemovie
+          element: <ScheduleMovie />,
+        },
+        {
+          path: 'addmovie', // Accessible at /admin/addmovie
+          element: <AddMovie />,
+        },
+        {
+          path: `editmovie/:id`,
+          element: <EditMovie />,
+        }
+      ],
+    },
     {
       path: '*',
       element: <NotFound />, // Fallback Route for 404

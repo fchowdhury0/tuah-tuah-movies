@@ -29,7 +29,7 @@ $dark-bg: #1a1d1f;
   .admin-main {
     flex: 1;
     margin-left: $sidebar-width;
-    background: #f8f9fa;
+    background: $dark-bg;
     display: flex;
     flex-direction: column;
     overflow: hidden;

@@ -1,5 +1,5 @@
 /* src/components/MovieCard/MovieCard.css */
-
+@import '../../styles/variables.scss';
 .movie {
   width: 250px !important; /* Increased width */
   height: 375px !important; /* Increased height for better proportion */
@@ -73,6 +73,20 @@
   text-transform: uppercase;
   box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
 }
+.edit-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px; /* Rounded buttons */
+  background: linear-gradient(145deg, #1889d5, #1889d5); /* Gradient background */
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
+}
 
 .watch-trailer-button {
   padding: 12px 24px;
@@ -93,6 +107,11 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4);
   background: linear-gradient(145deg, #ff4500, #ff3300);
+}
+.edit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4);
+  background: linear-gradient(145deg, #1889d5, #1889d5);
 }
 
 .watch-trailer-button:hover {
