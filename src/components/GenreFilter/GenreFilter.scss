@@ -1,0 +1,42 @@
+// Variables
+$primary-color: #6299c3;
+$secondary-color: #1889d5;
+$dark-bg: #212426;
+$darker-bg: #1a1d1f;
+$text-light: #ffffff;
+$text-muted: #a1a1a1;
+$transition: all 0.3s ease;
+
+.genre-filter {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .genre-button {
+    width: fit-content;
+    margin: 5px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: $text-light;
+    cursor: pointer;
+    transition: $transition;
+    text-align: center;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+  
+    &.active {
+      background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+    }
+  }
+  
+}
+
+

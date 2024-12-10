@@ -19,4 +19,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     
     // Find by status
     List<Movie> findByStatus(String status);
+
+    //Find by category
+    List<Movie> findByCategory(String category);
 }
