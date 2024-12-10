@@ -45,24 +45,24 @@ public class EmailService {
         }
     }
 
-    public void sendRegistrationEmail(String to) {
+    public void sendRegistrationEmail(String to, String activationToken) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(FROM_EMAIL);
             message.setTo(to);
-            message.setSubject("Confirmation Email - Verify Your Account");
-            String verificationLink = "http://localhost:3000/verify-account";
+            message.setSubject("Confirm Your Account - Hawk Tuah Movies");
+            String activationLink = "http://localhost:8080/api/auth/activate-account?token=" + activationToken;
             String text = String.format("""
                 Welcome to Hawk Tuah Movies!
-                
-                Please verify your account by clicking on the link below:
+
+                Please activate your account by clicking on the link below:
                 %s
-                
+
                 If you did not create this account, please ignore this email.
-                
+
                 Best regards,
                 Hawk Tuah Movies Team
-                """, verificationLink);
+                """, activationLink);
             message.setText(text);
             mailSender.send(message);
             logger.info("Registration email sent to: {}", to);
