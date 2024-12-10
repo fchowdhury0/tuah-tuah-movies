@@ -219,7 +219,7 @@ public class AuthController {
         logger.info("Account activation initiated with token.");
 
         try {
-            String username = jwtUtil.extractUsernameFromActivationToken(token);
+            String username = jwtUtil.extractUsername(token);
 
             User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid activation token"));

@@ -17,9 +17,8 @@ export const AuthProvider = ({ children }) => {
         token: token,
         isAuthenticated: true,
         loading: false,
-        user: null, // You can decode JWT to get user info or fetch from backend
+        user: null,
       });
-      // Optionally, fetch user details here
     } else {
       setAuth({
         token: null,
