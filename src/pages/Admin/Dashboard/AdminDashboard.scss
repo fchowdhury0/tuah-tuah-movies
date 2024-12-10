@@ -1,0 +1,92 @@
+// Variables
+$primary-blue: #6299c3;
+$dark-bg: #1a1d1f;
+$card-bg: lighten($dark-bg, 3%);
+$text-light: #ffffff;
+$border-color: rgba(255, 255, 255, 0.1);
+$transition: all 0.3s ease;
+
+.admin-dashboard {
+  padding: 2rem;
+  background: $dark-bg;
+  min-height: 100%;
+  color: $text-light;
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    .stats-card {
+      background: $card-bg;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid $border-color;
+      transition: $transition;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      h3 {
+        font-size: 1rem;
+        color: rgba($text-light, 0.7);
+        margin-bottom: 1rem;
+      }
+
+      .stats-value {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: $primary-blue;
+      }
+    }
+  }
+
+  .quick-actions {
+    background: $card-bg;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid $border-color;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .action-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: $transition;
+        color: $text-light;
+
+        &.add-movie {
+          background: linear-gradient(135deg, $primary-blue, darken($primary-blue, 10%));
+        }
+
+        &.schedule {
+          background: linear-gradient(135deg, #28a745, darken(#28a745, 10%));
+        }
+
+        &.promotion {
+          background: linear-gradient(135deg, #ffc107, darken(#ffc107, 10%));
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
+}

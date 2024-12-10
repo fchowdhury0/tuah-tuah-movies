@@ -1,4 +1,4 @@
-import './AdminView.scss';
+import './ManageUsers.scss';
 
 
 const ManageUsers = () => {

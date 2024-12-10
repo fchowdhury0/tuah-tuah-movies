@@ -10,16 +10,13 @@ import './App.scss';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout.jsx';
-import MainLayout from './layouts/MainLayout.jsx';
 
 // Admin Pages
-import AddMovie from './pages/AdminView/AddMovieForm.jsx';
-import AdminView from './pages/AdminView/AdminView.jsx';
-import ManageMovies from './pages/AdminView/ManageMovies.jsx';
-import ManagePromotions from './pages/AdminView/ManagePromotions.jsx';
-import ManageUsers from './pages/AdminView/ManageUsers.jsx';
-import ScheduleMovie from './pages/AdminView/ScheduleMovie.jsx';
-import EditMovie from './pages/AdminView/EditMovie.jsx';
+import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
+import ManageMovies from './pages/Admin/Movies/ManageMovies/ManageMovies';
+import ManagePromotions from './pages/Admin/Promotions/ManagePromotions';
+import ScheduleMovie from './pages/Admin/Schedule/ScheduleMovie';
+import ManageUsers from './pages/Admin/Users/ManageUsers';
 
 // Regular User Pages
 import BookMovie from './pages/BookMovie/BookMovie.jsx';
@@ -27,7 +24,7 @@ import Checkout from './pages/Checkout/Checkout.jsx';
 import EditProfile from './pages/EditProfile/EditProfile.jsx';
 import Home from './pages/Home/Home.jsx';
 import Login from './pages/Login/Login.jsx';
-import Logout from './pages/Logout/Logout'
+import Logout from './pages/Logout/Logout';
 import OrderConfirmation from './pages/OrderConfirmation/OrderConfirmation.jsx';
 import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 import Register from './pages/Register/Register.jsx';
@@ -35,7 +32,6 @@ import RegistrationConfirmation from './pages/RegistrationConfirmation/Registrat
 
 // New Forgot Password and Reset Password Pages
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
-import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 
 // 404 Page
 import NotFound from './pages/NotFound/NotFound.jsx';

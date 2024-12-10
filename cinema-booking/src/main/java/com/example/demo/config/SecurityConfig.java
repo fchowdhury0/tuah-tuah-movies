@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import java.util.List;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,59 +39,47 @@ public class SecurityConfig {
             .cors().and()
             .csrf().disable()
             .headers(headers -> headers
-                .httpStrictTransportSecurity(hsts -> hsts
-                    .maxAgeInSeconds(31536000)
-                    .includeSubDomains(true)
-                )
                 .frameOptions().deny()
-                .contentTypeOptions()
-                .and()
-                .contentSecurityPolicy("default-src 'self'; script-src 'self'; object-src 'none';")
+                .httpStrictTransportSecurity()
+                .includeSubDomains(true)
+                .maxAgeInSeconds(31536000)
             )
             .authorizeHttpRequests(authorize -> authorize
-                // Permit all OPTIONS requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/userPaymentCard/**").authenticated()
-                .requestMatchers(HttpMethod.POST, "/api/userPaymentCard").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/api/userPaymentCard/**").authenticated()
-                .requestMatchers(HttpMethod.GET, "/api/movies/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll() // Permits /api/auth/register and others
-                .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
-		.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		 .requestMatchers("/api/movies/sendConfirmationEmail").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/user/**").permitAll()
-		.requestMatchers("/api/email/sendRegistrationEmail").permitAll()
-		.anyRequest().authenticated()
-
-				   )
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/api/movies/**",
+                    "/api/movies/sendConfirmationEmail",
+                    "/api/email/sendRegistrationEmail",
+                    "/api/user/**"
+                ).permitAll()
+                .anyRequest().permitAll() // Temporarily allow all requests for testing
+            )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .exceptionHandling(exception -> exception
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
-                })
-                .authenticationEntryPoint((request, response, authException) -> {
+                .authenticationEntryPoint((request, response, ex) -> {
+                    logger.error("Authentication error for path: {} - Error: {}", 
+                        request.getRequestURI(), ex.getMessage());
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                 })
-            );
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // Add JWT filter before UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        logger.info("Configuring security: Permitting /api/auth/** and /api/user/**");
-    
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); 
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setMaxAge(3600L);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

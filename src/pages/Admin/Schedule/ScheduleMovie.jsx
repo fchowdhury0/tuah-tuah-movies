@@ -1,4 +1,4 @@
-import './AdminView.scss';
+import './ScheduleMovie.scss';
 
 const ScheduleMovie = () => {
 

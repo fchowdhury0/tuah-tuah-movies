@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import './AdminView.scss'
-import { useFormik, Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import './ManagePromotions.scss';
 
 const ManagePromotions = () => {
   const [promotions, setPromotions] = useState([{
