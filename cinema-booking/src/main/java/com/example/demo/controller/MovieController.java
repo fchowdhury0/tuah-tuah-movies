@@ -57,6 +57,18 @@ public class MovieController {
         }
     }
 
+    @GetMapping("/genre")
+    public ResponseEntity<List<Movie>> searchMoviesByGenre(@RequestParam String category) {
+        try {
+            List<Movie> movies = movieRepository.findByCategory(category);
+            logger.info("Found {} movies matching category '{}'", movies.size(), category);
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            logger.error("Error searching movies with category '{}': {}", category, e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Movie>> getMoviesByStatus(@PathVariable String status) {
         try {
