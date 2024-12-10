@@ -1,107 +1,177 @@
-@import '../../styles/variables.scss';
+// Variables
+$primary-color: #6299c3;
+$secondary-color: #1889d5;
+$dark-bg: #1f2123;
+$darker-bg: #1a1d1f;
+$text-light: #ffffff;
+$text-muted: #a1a1a1;
+$error-color: #dc3545;
+$transition: all 0.3s ease;
 
 .login-page {
+  min-height: calc(100vh - var(--navbar-height));
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
+  background: linear-gradient(to bottom, $dark-bg, $darker-bg);
 }
 
 .login-container {
-  margin-top: 100px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   max-width: 400px;
-  padding: 20px;
-  background-color: #1f2123;
-  color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  justify-content: center;
-  align-items: center;
-}
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
-.login-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: $cream;
-}
+  .login-title {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.form-group {
-  margin-bottom: 15px;
-  justify-content: center;
-  align-items: center;
-}
+  .form-group {
+    margin-bottom: 1.5rem;
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $text-light;
+      font-size: 0.9rem;
+    }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #333;
-  color: #fff;
-}
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: $text-light;
+      font-size: 1rem;
+      transition: $transition;
 
-.form-group input:focus {
-  outline: none;
-  border-color: #1889d5;
-}
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+      }
 
-.error {
-  color: #ff6347;
-  margin-bottom: 10px;
-  text-align: center;
-}
+      &.input-error {
+        border-color: $error-color;
+      }
 
-.remember-me {
-  padding: 5px;
-}
+      &::placeholder {
+        color: rgba($text-light, 0.5);
+      }
+    }
+  }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #1889d5;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.button-container {
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .login-box {
-    width: 360px;
+  .form-options {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $text-muted;
+      font-size: 0.9rem;
+
+      input[type="checkbox"] {
+        accent-color: $primary-color;
+      }
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+    border: none;
+    border-radius: 8px;
+    color: $text-light;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-color, 0.3);
+    }
+  }
+
+  .forgot-password {
+    text-align: center;
+    margin: 1rem 0;
+    
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: $transition;
+      
+      &:hover {
+        color: lighten($primary-color, 10%);
+      }
+    }
+  }
+
+  .register-link {
+    text-align: center;
+    color: $text-muted;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      font-weight: 600;
+      transition: $transition;
+      
+      &:hover {
+        color: lighten($primary-color, 10%);
+      }
+    }
+  }
+
+  .error-message {
+    color: $error-color;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
   }
 }
 
-.forgot-password {
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  color: $softer-blue;
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $primary-color;
+  font-size: 1.2rem;
 }
 
-.forgot-button {
-  color: $cream;
-  margin: 10px;
+@media screen and (max-width: 480px) {
+  .login-container {
+    padding: 1.5rem;
+    
+    .login-title {
+      font-size: 1.8rem;
+    }
+  }
 }
-
-button:hover {
-  background-color: #0f6ab5;
-}
-
