@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Extract JWT from the Authorization header
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            username = jwtUtil.extractUsernameFromActivationToken(jwt);
+            username = jwtUtil.extractUsername(jwt);
             logger.info("Extracted JWT: " + jwt);
             logger.info("Extracted Username: " + username);
         }
@@ -71,10 +71,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            if (jwtUtil.validateActivationToken(jwt, (com.example.demo.entity.User) userDetails)) {
+            if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
-
+        
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 logger.info("Authentication successful for user: " + username);
             } else {

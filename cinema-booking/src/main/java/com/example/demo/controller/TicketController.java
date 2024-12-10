@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,9 +88,12 @@ public class TicketController {
 
     // New endpoint to get current ticket prices
     @GetMapping("/prices")
-    public ResponseEntity<?> getCurrentPrices() {
-        // Implementation based on your PriceService
-        return ResponseEntity.ok("Current prices data.");
+    public ResponseEntity<Map<String, Object>> getCurrentPrices() {
+        Map<String, Object> prices = new HashMap<>();
+        prices.put("adult", 12.00);
+        prices.put("child", 8.00);
+        prices.put("senior", 10.00);
+        return ResponseEntity.ok(prices);
     }
 
     // Endpoint to update ticket prices (admin only)

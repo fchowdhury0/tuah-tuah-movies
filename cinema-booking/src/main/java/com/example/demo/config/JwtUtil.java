@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.User;
@@ -44,8 +45,8 @@ public class JwtUtil {
     }
 
     // Extract username from the activation token
-    public String extractUsernameFromActivationToken(String token) {
-        return extractClaim(token, Claims::getSubject, ACTIVATION_SECRET_KEY);
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject, AUTH_SECRET_KEY);
     }
 
     // Extract a specific claim from token using a secret key
@@ -75,8 +76,14 @@ public class JwtUtil {
 
     // Validate activation token
     public Boolean validateActivationToken(String token, User user) {
-        final String username = extractUsernameFromActivationToken(token);
+        final String username = extractUsername(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token, ACTIVATION_SECRET_KEY));
+    }
+
+    // Validate JWT token
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     // Check if token is expired using secret key
