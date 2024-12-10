@@ -1,0 +1,22 @@
+/* mixins.scss */
+
+/* Mixins */
+@mixin button-style {
+  padding: 10px 20px;
+  border: none;
+  border-radius: $button-radius;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition-speed ease;
+  background: linear-gradient(135deg, $primary-btn-color, $secondary-btn-color);
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(98, 153, 195, 0.2);
+  
+  &:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, lighten($primary-btn-color, 5%), lighten($secondary-btn-color, 5%));
+    box-shadow: 0 6px 20px rgba(98, 153, 195, 0.3);
+  }
+}
