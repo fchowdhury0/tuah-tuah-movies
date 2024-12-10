@@ -1,17 +1,249 @@
+/* OrderTickets.scss */
+
+@import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
+
 .order-tickets {
-  justify-content: center;
-  align-items: center;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 40px;
+  background-color: $main-bg-color;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  margin: 120px auto;
+
+  h1 {
+    font-size: 36px;
+    color: $softer-blue;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+
+  p {
+    font-size: 18px;
+    color: $text-light;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .ticket-type-container {
+    display: flex;
+    justify-content: center; /* Changed from space-around to center */
+    gap: 30px; /* Added gap for spacing between tickets */
+    width: 100%;
+    margin-bottom: 40px;
+
+    .ticket-type {
+      background-color: lighten($main-bg-color, 5%);
+      border: 1px solid $border-color;
+      border-radius: 12px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      }
+
+      span {
+        display: block;
+        font-size: 20px;
+        color: $primary-text-color;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .ticket-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .calc-button {
+          background-color: $primary-btn-color;
+          color: #fff;
+          border: none;
+          border-radius: 50%;
+          width: 35px;
+          height: 35px;
+          font-size: 20px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, transform 0.2s ease;
+
+          &:hover {
+            background-color: lighten($primary-btn-color, 10%);
+            transform: scale(1.05);
+          }
+
+          &:active {
+            background-color: darken($primary-btn-color, 10%);
+            transform: scale(0.95);
+          }
+
+          &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+          }
+        }
+
+        span {
+          margin: 0 15px;
+          font-size: 18px;
+          color: $text-light;
+          width: 30px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  h2 {
+    font-size: 28px;
+    color: $softer-blue;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .total-display {
+    background-color: $main-bg-color;
+    border: 2px solid $bright-blue;
+    border-radius: 12px;
+    padding: 20px 30px;
+    margin-bottom: 40px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    color: $primary-text-color;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  button.continue-button {
+    @include button-style;
+    width: 250px;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(135deg, $primary-btn-color, $secondary-btn-color);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, lighten($primary-btn-color, 10%), lighten($secondary-btn-color, 10%));
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background: linear-gradient(135deg, darken($primary-btn-color, 10%), darken($secondary-btn-color, 10%));
+      box-shadow: none;
+    }
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(24, 137, 213, 0.4);
+    }
+  }
+
+  .error-message,
+  .success-message {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .error-message {
+    background-color: #ffe6e6;
+    color: #cc0000;
+    border: 1px solid #ffcccc;
+  }
+
+  .success-message {
+    background-color: #e6ffed;
+    color: #009900;
+    border: 1px solid #b3ffb3;
+  }
+
+  .loading-message {
+    font-size: 18px;
+    color: $text-light;
+    text-align: center;
+    margin-top: 50px;
+  }
 }
 
+@media (max-width: 768px) {
+  .order-tickets {
+    padding: 40px 20px;
+    margin: 80px 10px;
 
-.calc-button {
-  width: fit-content;
-  margin: 10px;
-}
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
 
-.order-button {
-  margin: 10px;
-  width: auto
+    p {
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    .ticket-type-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px; /* Adjusted gap for smaller screens */
+
+      .ticket-type {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 20px;
+      }
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .total-display {
+      font-size: 20px;
+      padding: 15px 20px;
+    }
+
+    button.continue-button {
+      width: 100%;
+      padding: 12px 0;
+      font-size: 16px;
+    }
+
+    .error-message,
+    .success-message {
+      font-size: 16px;
+      padding: 15px 18px;
+    }
+
+    .loading-message {
+      font-size: 16px;
+      padding: 15px 18px;
+    }
+  }
 }
