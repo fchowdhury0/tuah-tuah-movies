@@ -1,72 +1,241 @@
+// Variables
+$primary-color: #6299c3;
+$secondary-color: #1889d5;
+$dark-bg: #212426;
+$darker-bg: #1a1d1f;
+$text-light: #ffffff;
+$text-muted: #a1a1a1;
+$transition: all 0.3s ease;
+
 .book-movie {
-  display: flex;
-  justify-content: space-between;
-  height: 100vh;
-  /* Full viewport height */
-  width: 100%;
-  /* Full viewport width */
-  overflow: hidden;
-  align-items: center;
-
-  li {
-    .showtime-button {
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      /* Smooth transition for background color */
-    }
-
-    .showtime-button.focus {
-      background-color: rgb(255, 0, 0);
-    }
-  }
-
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) 2fr;
+  min-height: calc(100vh - var(--navbar-height));
+  background: linear-gradient(to bottom, $dark-bg, $darker-bg);
+  color: $text-light;
+  
+  // Movie Details Section
   .movie-detail {
-    color: white;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
     display: flex;
-    flex: 1;
-    padding: 20px;
+    flex-direction: column;
     align-items: center;
-
+    gap: 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+  
     .movie-poster {
-      width: 300px;
-      height: 450px;
-      object-fit: cover;
-      /* Ensures the poster image covers the entire area without distortion */
-    }
-
-    .movie-text {
+      width: 250px; // Fixed width
+      height: 375px; // Fixed height for 2:3 aspect ratio
       display: flex;
-      flex-direction: column;
-      width: 200px;
-      margin-left: 50px;
-      margin-right: 50px;
-      justify-content: space-between;
-      text-align: center;
-      height: 400px;
-
+      justify-content: center;
+      margin-bottom: 1rem;
+  
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // Maintain aspect ratio
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        transition: $transition;
+  
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+    }
+  
+    .movie-text {
+      width: 250px; // Match poster width
+      text-align: left;
+  
+      p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: $text-muted;
+        margin-bottom: 0.75rem;
+  
+        strong {
+          color: $text-light;
+          margin-right: 0.5rem;
+          display: inline-block;
+        }
+      }
     }
   }
 
+  // Booking Section
   .showtimes {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-y: auto;
 
-    h5 {
-      font-size: small;
-      color: darkgrey;
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    color: white;
-    flex: 1;
-    padding: 20px;
-    text-align: center;
+    h2 {
+      font-size: 1.5rem;
+      color: $text-light;
+      margin-bottom: 1rem;
+    }
+
+    // Date Selector
+    .date-selector {
+      .date-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+
+        .date-button {
+          padding: 1rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          color: $text-light;
+          cursor: pointer;
+          transition: $transition;
+          text-align: center;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+          }
+
+          &.active {
+            background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+          }
+        }
+      }
+    }
+
+    // Showtimes List
+    .showtime-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+      list-style: none;
+      padding: 0;
+
+      button {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: $text-light;
+        cursor: pointer;
+        transition: $transition;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          background: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+          border-color: transparent;
+          box-shadow: 0 8px 20px rgba($secondary-color, 0.3);
+        }
+      }
+    }
+
+    // Seating Section
+    .seating-section {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 1rem 0;
+
+      h5 {
+        text-align: center;
+        color: $primary-color;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+
+    // Booking Summary
+    .booking-summary {
+      position: sticky;
+      bottom: 0;
+      background: $darker-bg;
+      padding: 1.5rem;
+      border-radius: 12px 12px 0 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+
+      h4 {
+        color: $primary-color;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        margin: 0.5rem 0;
+        color: $text-muted;
+      }
+
+      .continue-button {
+        width: 100%;
+        padding: 1rem;
+        margin-top: 1rem;
+        background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+        border: none;
+        border-radius: 8px;
+        color: $text-light;
+        font-weight: 600;
+        cursor: pointer;
+        transition: $transition;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        &:not(:disabled):hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+        }
+      }
+    }
   }
 
-  .seating-container {
-    border: solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  // Responsive Design
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    
+    .movie-detail {
+      padding: 1.5rem;
+      
+      .movie-poster img {
+        max-width: 250px;
+        margin: 0 auto;
+      }
+    }
+
+    .showtimes {
+      padding: 1.5rem;
+    }
   }
 
+  @media screen and (max-width: 768px) {
+    .date-selector .date-buttons {
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    }
+
+    .showtime-list {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+  }
 }
