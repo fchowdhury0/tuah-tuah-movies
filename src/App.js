@@ -17,6 +17,8 @@ import ManageMovies from './pages/Admin/Movies/ManageMovies/ManageMovies';
 import ManagePromotions from './pages/Admin/Promotions/ManagePromotions';
 import ScheduleMovie from './pages/Admin/Schedule/ScheduleMovie';
 import ManageUsers from './pages/Admin/Users/ManageUsers';
+import EditMovie from './pages/Admin/Movies/ManageMovies/EditMovie.jsx';
+import AddMovie from './pages/Admin/Movies/AddMovie/AddMovie';
 
 // Regular User Pages
 import BookMovie from './pages/BookMovie/BookMovie.jsx';
@@ -93,7 +95,7 @@ const App = () => {
       children: [
         {
           path: 'home', // Accessible at /admin/home
-          element: <AdminView />,
+          element: <AdminDashboard />,
         },
         {
           path: 'managemovies', // Accessible at /admin/managemovies
