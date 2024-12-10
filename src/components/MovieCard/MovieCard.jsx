@@ -43,7 +43,7 @@ const MovieCard = ({ movie, isAdmin }) => {
             <button className="book-button" onClick={handleBookMovie}>Book Now</button>
           )}
           {movie.trailerUrl && (
-            <button className="watch-trailer" onClick={toggleTrailer}>Watch Trailer</button>
+            <button className="watch-trailer-button" onClick={toggleTrailer}>Watch Trailer</button>
           )}
         </div>
         )}
