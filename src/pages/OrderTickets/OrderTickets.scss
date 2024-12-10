@@ -32,8 +32,8 @@
 
   .ticket-type-container {
     display: flex;
-    justify-content: center; /* Changed from space-around to center */
-    gap: 30px; /* Added gap for spacing between tickets */
+    justify-content: center;
+    gap: 30px;
     width: 100%;
     margin-bottom: 40px;
 
@@ -76,12 +76,12 @@
           cursor: pointer;
           transition: background-color 0.3s ease, transform 0.2s ease;
 
-          &:hover {
+          &:hover:not(:disabled) {
             background-color: lighten($primary-btn-color, 10%);
             transform: scale(1.05);
           }
 
-          &:active {
+          &:active:not(:disabled) {
             background-color: darken($primary-btn-color, 10%);
             transform: scale(0.95);
           }
@@ -89,6 +89,7 @@
           &:disabled {
             background-color: #ccc;
             cursor: not-allowed;
+            transform: scale(1);
           }
         }
 
@@ -137,13 +138,13 @@
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: linear-gradient(135deg, lighten($primary-btn-color, 10%), lighten($secondary-btn-color, 10%));
       transform: translateY(-3px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    &:active {
+    &:active:not(:disabled) {
       transform: translateY(0);
       background: linear-gradient(135deg, darken($primary-btn-color, 10%), darken($secondary-btn-color, 10%));
       box-shadow: none;

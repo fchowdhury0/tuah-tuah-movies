@@ -36,14 +36,17 @@ const OrderTickets = () => {
 
   const handleTicketChange = (type, increment) => {
     setTickets((prev) => {
-      const newCount = Math.max(0, prev[type] + increment); // Ensure no negative tickets
-      if (newCount > seatCount) {
+      const updatedCount = Math.max(0, prev[type] + increment); // Ensure no negative tickets
+      const updatedTickets = { ...prev, [type]: updatedCount };
+      const newTotal = Object.values(updatedTickets).reduce((acc, count) => acc + count, 0);
+
+      if (newTotal > seatCount) {
         alert(`You cannot select more than ${seatCount} tickets!`);
         return prev; // Prevent exceeding the allowed number of tickets
       }
-      const newTickets = { ...prev, [type]: newCount };
-      calculateTotal(newTickets, ticketPrices);
-      return newTickets;
+
+      calculateTotal(updatedTickets, ticketPrices);
+      return updatedTickets;
     });
   };
 
@@ -83,9 +86,21 @@ const OrderTickets = () => {
           <div key={type} className="ticket-type">
             <span>{type.charAt(0).toUpperCase() + type.slice(1)} Ticket</span>
             <div className="ticket-controls">
-              <button className="calc-button" onClick={() => handleTicketChange(type, -1)}>-</button>
+              <button 
+                className="calc-button" 
+                onClick={() => handleTicketChange(type, -1)} 
+                disabled={tickets[type] === 0}
+              >
+                -
+              </button>
               <span>{tickets[type]}</span>
-              <button className="calc-button" onClick={() => handleTicketChange(type, 1)}>+</button>
+              <button 
+                className="calc-button" 
+                onClick={() => handleTicketChange(type, 1)} 
+                disabled={total >= seatCount}
+              >
+                +
+              </button>
             </div>
           </div>
         ))}
