@@ -8,8 +8,7 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-    useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,26 +16,31 @@ const ForgotPassword = () => {
     setError('');
     setIsSubmitting(true);
 
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/movies/sendConfirmationEmail',
+        null,
+        {
+          params: {
+            email: email,
+            emailType: 'password'
+          }
+        }
+      );
+      setMessage('Password reset instructions have been sent to your email.');
       setTimeout(() => {
-	  setMessage('Email sent!'); 
-	  setIsSubmitting(false); 
-	  setEmail('');
-      }, 1000);
-   
+        navigate('/login');
+      }, 3000);
+    } catch (err) {
+      if (err.response?.data) {
+        setError(err.response.data);
+      } else {
+        setError('Failed to send password reset email. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-//    try {
-//      const response = await axios.post('http://localhost:8080/api/auth/forgot-password', { email });
-//      setMessage(response.data);
-//    } catch (err) {
-//      if (err.response) {
-//        setError(err.response.data);
-//      } else {
-//        setError('An unexpected error occurred.');
-//      }
-//    } finally {
-//      setIsSubmitting(false);
-//    }
-//  };
 
   return (
     <div className="forgot-password-page">
@@ -60,12 +64,20 @@ const ForgotPassword = () => {
           {message && <div className="success-message" role="alert">{message}</div>}
           {error && <div className="error-message" role="alert">{error}</div>}
 
-          <button type="submit" className="submit-button" disabled={isSubmitting || !email}>
+          <button 
+            type="submit" 
+            className="submit-button" 
+            disabled={isSubmitting || !email}
+          >
             {isSubmitting ? 'Sending...' : 'Send Reset Link'}
           </button>
-	</form>
-      <button onClick={() => navigate('/home')} className="back-home-button">Back to Home</button>
-      
+        </form>
+        <button 
+          onClick={() => navigate('/home')}
+          className="back-home-button"
+        >
+          Back to Home
+        </button>
       </div>
     </div>
   );

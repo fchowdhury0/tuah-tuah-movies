@@ -91,28 +91,31 @@ public class MovieController {
         
         logger.info("Received email request - email: {}, type: {}, movie: {}, showtime: {}, seats: {}", 
             email, emailType, movieTitle, showtime, seats);
-        
+    
         if (!isValidEmail(email)) {
             logger.warn("Invalid email address: {}", email);
             return ResponseEntity.badRequest().body("Invalid email address.");
         }
     
         try {
+            String subject;
+            String body;
+    
             if ("booking".equalsIgnoreCase(emailType)) {
-                // Validate booking parameters
-                StringBuilder missingParams = new StringBuilder();
-                if (movieTitle == null) missingParams.append("movieTitle ");
-                if (showtime == null) missingParams.append("showtime ");
-                if (seats == null) missingParams.append("seats");
-                
-                if (missingParams.length() > 0) {
-                    String error = "Missing required booking parameters: " + missingParams.toString().trim();
+                // For booking emails, require all booking parameters
+                if (movieTitle == null || showtime == null || seats == null) {
+                    String missingParams = String.join(", ", 
+                        movieTitle == null ? "movieTitle" : "",
+                        showtime == null ? "showtime" : "",
+                        seats == null ? "seats" : ""
+                    ).trim();
+                    String error = "Missing required booking parameters: " + missingParams;
                     logger.warn(error);
                     return ResponseEntity.badRequest().body(error);
                 }
     
-                String subject = "Movie Booking Confirmation";
-                String body = String.format("""
+                subject = "Movie Booking Confirmation";
+                body = String.format("""
                     Thank you for your booking!
                     
                     Booking Details:
@@ -125,33 +128,18 @@ public class MovieController {
                     Best regards,
                     Hawk Tuah Movies Team
                     """, movieTitle, showtime, seats);
-                    
-                emailService.sendConfirmationEmail(email, subject, body);
-                logger.info("Successfully sent booking confirmation to {} for movie {}", email, movieTitle);
-                return ResponseEntity.ok("Booking confirmation email sent successfully!");
-            }
-            
-            // Handle other email types...
-            String subject;
-            String body;
-            
-            switch(emailType.toLowerCase()) {
-                case "registration":
-                    subject = "Registration Successful";
-                    body = "Welcome! Your registration was successful.\n" +
-                          "You can now log in and enjoy our services.";
-                    break;
-                
-                case "password":
-                    subject = "Password Reset Request";
-                    body = "You have requested a password reset.\n" +
-                          "Please follow the instructions to reset your password.";
-                    break;
-                
-                default:
-                    logger.warn("Invalid email type requested: {}", emailType);
-                    return ResponseEntity.badRequest()
-                        .body("Invalid email type. Supported types: booking, registration, password");
+            } else if ("registration".equalsIgnoreCase(emailType)) {
+                subject = "Registration Successful";
+                body = "Welcome! Your registration was successful.\n" +
+                      "You can now log in and enjoy our services.";
+            } else if ("password".equalsIgnoreCase(emailType)) {
+                subject = "Password Reset Request";
+                body = "You have requested a password reset.\n" +
+                      "Please follow the instructions to reset your password.";
+            } else {
+                logger.warn("Invalid email type: {}", emailType);
+                return ResponseEntity.badRequest()
+                    .body("Invalid email type. Supported types: booking, registration, password");
             }
     
             emailService.sendConfirmationEmail(email, subject, body);
@@ -159,7 +147,7 @@ public class MovieController {
             return ResponseEntity.ok(String.format("%s email sent successfully!", emailType));
     
         } catch (Exception e) {
-            logger.error("Error sending {} email to {}: {}", emailType, email, e.getMessage(), e);
+            logger.error("Error sending {} email to {}: {}", emailType, email, e.getMessage());
             return ResponseEntity.internalServerError()
                 .body(String.format("Failed to send %s email: %s", emailType, e.getMessage()));
         }
