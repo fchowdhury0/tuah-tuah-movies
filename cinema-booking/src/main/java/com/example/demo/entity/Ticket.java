@@ -24,5 +24,17 @@ public class Ticket {
     @Column(name = "ticket_price", nullable = false)
     private Double ticketPrice;
     
+    @Column(name = "ticket_status", nullable = false)
+    private String ticketStatus;
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
+
     // Getters, setters, constructors...
 }

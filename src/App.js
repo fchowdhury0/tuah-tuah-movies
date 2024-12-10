@@ -13,9 +13,11 @@ import AdminLayout from './layouts/AdminLayout.jsx';
 
 // Admin Pages
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
+import ManageFees from './pages/Admin/Fees/ManageFees';
 import AddMovie from './pages/Admin/Movies/AddMovie/AddMovie';
 import EditMovie from './pages/Admin/Movies/ManageMovies/EditMovie.jsx';
 import ManageMovies from './pages/Admin/Movies/ManageMovies/ManageMovies';
+import ManagePrices from './pages/Admin/Prices/ManagePrices';
 import ManagePromotions from './pages/Admin/Promotions/ManagePromotions';
 import ScheduleMovie from './pages/Admin/Schedule/ScheduleMovie';
 import ManageUsers from './pages/Admin/Users/ManageUsers';
@@ -120,6 +122,14 @@ const App = () => {
         {
           path: `editmovie/:id`,
           element: <EditMovie />,
+        },
+        {
+          path: 'manageprices', // Accessible at /admin/manageprices
+          element: <ManagePrices />,
+        },
+        {
+          path: 'managefees', // Accessible at /admin/managefees
+          element: <ManageFees />,
         }
       ],
     },
