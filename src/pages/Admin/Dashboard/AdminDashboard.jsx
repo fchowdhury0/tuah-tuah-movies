@@ -1,8 +1,12 @@
 // src/pages/Admin/Dashboard/AdminDashboard.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Updated import
+
 import './AdminDashboard.scss';
 
 const AdminDashboard = () => {
+  const navigate = useNavigate(); // Initialize the navigate hook
+
   const [stats, setStats] = useState({
     totalMovies: 0,
     activeMovies: 0,
@@ -64,11 +68,10 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchStats();
-  }, []);
+  }, [retryCount]);
 
   const handleRetry = () => {
     setRetryCount(prev => prev + 1);
-    fetchStats();
   };
 
   if (loading) {
@@ -118,9 +121,21 @@ const AdminDashboard = () => {
       <div className="quick-actions">
         <h2>Quick Actions</h2>
         <div className="action-buttons">
-          <button className="action-btn add-movie">Add New Movie</button>
-          <button className="action-btn schedule">Schedule Movie</button>
-          <button className="action-btn promotion">Create Promotion</button>
+          <button className="action-btn add-movie" onClick={() => navigate('/admin/add-movie')}>
+            Add New Movie
+          </button>
+          <button className="action-btn schedule" onClick={() => navigate('/admin/schedule-movie')}>
+            Schedule Movie
+          </button>
+          <button className="action-btn promotion" onClick={() => navigate('/admin/manage-promotions')}>
+            Manage Promotions
+          </button>
+          <button className="action-btn prices" onClick={() => navigate('/admin/manageprices')}>
+            Manage Prices
+          </button>
+          <button className="action-btn fees" onClick={() => navigate('/admin/managefees')}>
+            Manage Booking Fees
+          </button>
         </div>
       </div>
     </div>

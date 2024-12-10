@@ -25,5 +25,12 @@ public class TicketService {
         return ticketRepository.findById(id);
     }
 
+    public void deleteById(Integer id) {
+        ticketRepository.deleteById(id);
+    }
+
+    public Ticket save(Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
     // Additional logic for pricing, creation, etc.
 }
