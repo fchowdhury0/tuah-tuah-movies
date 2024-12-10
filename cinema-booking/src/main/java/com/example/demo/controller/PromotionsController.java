@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,5 +33,18 @@ public class PromotionsController {
         return promotionsService.findById(id).orElse(null);
     }
 
-    // Create, update, and apply promo codes
+    @PostMapping
+    public Promotions createPromotion(@RequestBody Promotions promotion) {
+        return promotionsService.save(promotion);
+    }
+
+    @PutMapping("/{id}")
+    public Promotions updatePromotion(@PathVariable Integer id, @RequestBody Promotions promotion) {
+        return promotionsService.update(id, promotion);
+    }
+
+    // @PostMapping("/apply")
+    // public String applyPromoCode(@RequestBody String promoCode) {
+    //     return promotionsService.applyPromoCode(promoCode);
+    // }
 }
