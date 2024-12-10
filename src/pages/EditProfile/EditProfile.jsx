@@ -41,8 +41,8 @@ const EditProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   // Email State
-  const [newEmail, setNewEmail] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
+//  const [newEmail, setNewEmail] = useState('');
+//  const [confirmEmail, setConfirmEmail] = useState('');
 
   // Toggle Sections
   const [activeSection, setActiveSection] = useState('basicInfo');
@@ -237,29 +237,29 @@ const EditProfile = () => {
   };
 
   // Update Email
-  const handleEmailUpdate = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
+//  const handleEmailUpdate = async (e) => {
+//    e.preventDefault();
+//    setError('');
+//    setSuccess('');
 
-    if (newEmail.trim() !== confirmEmail.trim()) {
-      setError("New email and confirm email do not match.");
-      return;
-    }
+//    if (newEmail.trim() !== confirmEmail.trim()) {
+//      setError("New email and confirm email do not match.");
+//      return;
+//    }
 
-    try {
-      const response = await axiosInstance.put(`/api/user/${user.userId}/email`, { email: newEmail.trim() });
-      console.log("Email updated:", response.data);
-      setUser((prevUser) => ({ ...prevUser, email: response.data.email }));
-      setSuccess("Email updated successfully.");
-      setNewEmail('');
-      setConfirmEmail('');
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to update email.';
-      setError(errorMessage);
-      console.error("Error updating email:", err);
-    }
-  };
+//    try {
+//      const response = await axiosInstance.put(`/api/user/${user.userId}/email`, { email: newEmail.trim() });
+//      console.log("Email updated:", response.data);
+//      setUser((prevUser) => ({ ...prevUser, email: response.data.email }));
+//      setSuccess("Email updated successfully.");
+//      setNewEmail('');
+//      setConfirmEmail('');
+//    } catch (err) {
+//      const errorMessage = err.response?.data?.message || err.message || 'Failed to update email.';
+//      setError(errorMessage);
+//      console.error("Error updating email:", err);
+//    }
+//  };
 
   // Update Password
   const handlePasswordUpdate = async (e) => {
@@ -353,34 +353,34 @@ const EditProfile = () => {
             )}
           </div>
         );
-      case 'changeEmail':
-        return (
-          <div className="change-email">
-            <form onSubmit={handleEmailUpdate}>
-              <div className="form-group">
-                <label>New Email:</label>
-                <input
-                  type="email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Confirm New Email:</label>
-                <input
-                  type="email"
-                  value={confirmEmail}
-                  onChange={(e) => setConfirmEmail(e.target.value)}
-                  required
-                />
-              </div>
-              {error && <p className="error">{error}</p>}
-              {success && <p className="success">{success}</p>}
-              <button type="submit" className="update-button">Update Email</button>
-            </form>
-          </div>
-        );
+//      case 'changeEmail':
+//        return (
+//          <div className="change-email">
+//            <form onSubmit={handleEmailUpdate}>
+//              <div className="form-group">
+//                <label>New Email:</label>
+//                <input
+//                  type="email"
+//                  value={newEmail}
+//                  onChange={(e) => setNewEmail(e.target.value)}
+//                  required
+//                />
+//              </div>
+//              <div className="form-group">
+//                <label>Confirm New Email:</label>
+//                <input
+//                  type="email"
+//                  value={confirmEmail}
+//                  onChange={(e) => setConfirmEmail(e.target.value)}
+//                  required
+//                />
+//              </div>
+//              {error && <p className="error">{error}</p>}
+//              {success && <p className="success">{success}</p>}
+//              <button type="submit" className="update-button">Update Email</button>
+//          </form>
+//         </div>
+//        );
       case 'changePassword':
         return (
           <div className="change-password">
@@ -592,12 +592,6 @@ const EditProfile = () => {
             className={activeSection === 'promotions' ? 'active' : ''}
           >
             Promotions
-          </h3>
-          <h3
-            onClick={() => setActiveSection('changeEmail')}
-            className={activeSection === 'changeEmail' ? 'active' : ''}
-          >
-            Change Email
           </h3>
           <h3
             onClick={() => setActiveSection('changePassword')}
