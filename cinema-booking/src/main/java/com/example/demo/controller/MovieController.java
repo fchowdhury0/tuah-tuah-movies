@@ -1,11 +1,19 @@
 package com.example.demo.controller;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Movie;
 import com.example.demo.repository.MovieRepository;
@@ -23,15 +31,13 @@ public class MovieController {
 
     @Autowired
     private EmailService emailService;
-    
+
+    // Existing movie management endpoints
     @GetMapping
     public ResponseEntity<List<Movie>> getAllMovies() {
         try {
             List<Movie> movies = movieRepository.findAll();
-            for (Movie movie : movies) {
-                logger.info("Movie: {} - PosterUrl: {}, TrailerUrl: {}", 
-                    movie.getTitle(), movie.getPosterUrl(), movie.getTrailerUrl());
-            }
+            logger.info("Retrieved {} movies", movies.size());
             return ResponseEntity.ok(movies);
         } catch (Exception e) {
             logger.error("Error fetching all movies: {}", e.getMessage());
@@ -43,7 +49,7 @@ public class MovieController {
     public ResponseEntity<List<Movie>> searchMovies(@RequestParam String title) {
         try {
             List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(title);
-            logger.info("Searched movies with title '{}': {}", title, movies);
+            logger.info("Found {} movies matching title '{}'", movies.size(), title);
             return ResponseEntity.ok(movies);
         } catch (Exception e) {
             logger.error("Error searching movies with title '{}': {}", title, e.getMessage());
@@ -55,7 +61,7 @@ public class MovieController {
     public ResponseEntity<List<Movie>> getMoviesByStatus(@PathVariable String status) {
         try {
             List<Movie> movies = movieRepository.findByStatus(status);
-            logger.info("Movies with status '{}': {}", status, movies);
+            logger.info("Found {} movies with status '{}'", movies.size(), status);
             return ResponseEntity.ok(movies);
         } catch (Exception e) {
             logger.error("Error fetching movies with status '{}': {}", status, e.getMessage());
@@ -67,7 +73,7 @@ public class MovieController {
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
         try {
             Movie savedMovie = movieRepository.save(movie);
-            logger.info("Added new movie: {}", savedMovie);
+            logger.info("Successfully added new movie: {}", savedMovie.getTitle());
             return ResponseEntity.ok(savedMovie);
         } catch (Exception e) {
             logger.error("Error adding new movie: {}", e.getMessage());
@@ -76,27 +82,77 @@ public class MovieController {
     }
 
     @PostMapping("/sendConfirmationEmail")
-    public ResponseEntity<String> sendConfirmationEmail(@RequestParam String email) {
+    public ResponseEntity<String> sendConfirmationEmail(
+            @RequestParam String email,
+            @RequestParam(defaultValue = "booking") String emailType,
+            @RequestParam(required = false) String movieTitle,
+            @RequestParam(required = false) String showtime,
+            @RequestParam(required = false) String seats) {
+        
+        logger.info("Received email request - email: {}, type: {}, movie: {}, showtime: {}, seats: {}", 
+            email, emailType, movieTitle, showtime, seats);
+    
         if (!isValidEmail(email)) {
             logger.warn("Invalid email address: {}", email);
             return ResponseEntity.badRequest().body("Invalid email address.");
         }
-
+    
         try {
-            emailService.sendConfirmationEmail(
-                email, 
-                "Booking Confirmation", 
-                "Thank you for your booking!\nMovie: \nShowtime: \nSeats: \n"
-            );
-            logger.info("Confirmation email sent to {}", email);
-            return ResponseEntity.ok("Confirmation email sent successfully!");
+            String subject;
+            String body;
+    
+            if ("booking".equalsIgnoreCase(emailType)) {
+                // For booking emails, require all booking parameters
+                if (movieTitle == null || showtime == null || seats == null) {
+                    String missingParams = String.join(", ", 
+                        movieTitle == null ? "movieTitle" : "",
+                        showtime == null ? "showtime" : "",
+                        seats == null ? "seats" : ""
+                    ).trim();
+                    String error = "Missing required booking parameters: " + missingParams;
+                    logger.warn(error);
+                    return ResponseEntity.badRequest().body(error);
+                }
+    
+                subject = "Movie Booking Confirmation";
+                body = String.format("""
+                    Thank you for your booking!
+                    
+                    Booking Details:
+                    Movie: %s
+                    Showtime: %s
+                    Seats: %s
+                    
+                    We look forward to seeing you!
+                    
+                    Best regards,
+                    Hawk Tuah Movies Team
+                    """, movieTitle, showtime, seats);
+            } else if ("registration".equalsIgnoreCase(emailType)) {
+                subject = "Registration Successful";
+                body = "Welcome! Your registration was successful.\n" +
+                      "You can now log in and enjoy our services.";
+            } else if ("password".equalsIgnoreCase(emailType)) {
+                subject = "Password Reset Request";
+                body = "You have requested a password reset.\n" +
+                      "Please follow the instructions to reset your password.";
+            } else {
+                logger.warn("Invalid email type: {}", emailType);
+                return ResponseEntity.badRequest()
+                    .body("Invalid email type. Supported types: booking, registration, password");
+            }
+    
+            emailService.sendConfirmationEmail(email, subject, body);
+            logger.info("Successfully sent {} email to {}", emailType, email);
+            return ResponseEntity.ok(String.format("%s email sent successfully!", emailType));
+    
         } catch (Exception e) {
-            logger.error("Error sending email to {}: {}", email, e.getMessage());
+            logger.error("Error sending {} email to {}: {}", emailType, email, e.getMessage());
             return ResponseEntity.internalServerError()
-                .body("Failed to send confirmation email.");
+                .body(String.format("Failed to send %s email: %s", emailType, e.getMessage()));
         }
     }
-
+    
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email != null && email.matches(emailRegex);

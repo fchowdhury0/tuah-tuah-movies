@@ -1,5 +1,9 @@
 @import '../styles/variables.scss';
 
+/* Variables */
+$navbar-height: 70px;
+$content-padding: 2rem;
+
 /* Root Styles */
 .app {
   padding: 4rem;
@@ -10,8 +14,7 @@
   min-height: 100vh;
   color: #ffffff;
   position: relative;
-
-  padding-top: 80px;
+  padding-top: calc(#{$navbar-height} + #{$content-padding});
 }
 
 .app h1 {
@@ -25,11 +28,12 @@
 }
 
 .auth-buttons {
-  position: absolute;
+  position: fixed; // Changed to fixed
   top: 20px;
   right: 20px;
   display: flex;
   gap: 10px;
+  z-index: 100;
 }
 
 /* Login Button */
@@ -64,15 +68,19 @@
   }
 }
 
-/* Ensure main content area spans full width */
-// src/layouts/MainLayout.scss
+/* Main Layout */
 .main-layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: $navbar-height;
 
   .main-content {
     flex: 1;
-    padding-top: 70px;
+    margin-top: $navbar-height;
+    padding: $content-padding;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }
