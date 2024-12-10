@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.Prices;
 import com.example.demo.entity.Ticket;
+import com.example.demo.service.PricesService;
 import com.example.demo.service.TicketService;
 
 @RestController
@@ -84,24 +86,57 @@ public class TicketController {
         return ResponseEntity.ok("Ticket deleted successfully.");
     }
 
-    // Existing endpoints for prices and promotions...
+    @Autowired
+    private PricesService pricesService;
 
-    // New endpoint to get current ticket prices
-    @GetMapping("/prices")
-    public ResponseEntity<Map<String, Object>> getCurrentPrices() {
-        Map<String, Object> prices = new HashMap<>();
-        prices.put("adult", 12.00);
-        prices.put("child", 8.00);
-        prices.put("senior", 10.00);
-        return ResponseEntity.ok(prices);
+    public static class UpdatePricesRequest {
+        private Double adult;
+        private Double child;
+        private Double senior;
+
+        public Double getAdult() {
+            return adult;
+        }
+
+        public void setAdult(Double adult) {
+            this.adult = adult;
+        }
+
+        public Double getChild() {
+            return child;
+        }
+
+        public void setChild(Double child) {
+            this.child = child;
+        }
+
+        public Double getSenior() {
+            return senior;
+        }
+
+        public void setSenior(Double senior) {
+            this.senior = senior;
+        }
     }
 
-    // Endpoint to update ticket prices (admin only)
+    @GetMapping("/prices")
+    public ResponseEntity<Map<String, Object>> getCurrentPrices() {
+        Prices p = pricesService.getPrices();
+        Map<String, Object> priceMap = new HashMap<>();
+        priceMap.put("adult", p.getAdult());
+        priceMap.put("child", p.getChild());
+        priceMap.put("senior", p.getSenior());
+        return ResponseEntity.ok(priceMap);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/prices")
-    public ResponseEntity<?> updateTicketPrices(@RequestBody Object newPrices) {
-        // Implementation based on your PriceService
-        return ResponseEntity.ok("Ticket prices updated successfully.");
+    public ResponseEntity<?> updateTicketPrices(@RequestBody UpdatePricesRequest request) {
+        Prices updated = pricesService.updatePrices(request.getAdult(), request.getChild(), request.getSenior());
+        return ResponseEntity.ok("Ticket prices updated to: " +
+            "Adult: " + updated.getAdult() +
+            ", Child: " + updated.getChild() +
+            ", Senior: " + updated.getSenior());
     }
 
     // Other existing endpoints...
