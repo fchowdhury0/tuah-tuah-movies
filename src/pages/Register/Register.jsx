@@ -8,9 +8,12 @@ import './Register.scss';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
   const [promotions, setPromotions] = useState(false);
+  const handleSaveCard = (e) => {
+    formik.setFieldValue('saveCard', e.target.checked);
+  };
 
-    
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -21,6 +24,7 @@ const Register = () => {
       lastName: '',
       role: 'customer',
       isSubscribed: promotions,
+      // Payment info - optional
       cardNumber: '',
       expiryDate: '',
       cvv: '',
@@ -32,6 +36,7 @@ const Register = () => {
       saveCard: false,
     },
     validationSchema: Yup.object({
+      // Required fields
       username: Yup.string()
         .matches(/^[a-zA-Z0-9_]{3,20}$/, 'Username must be 3-20 characters and can only contain letters, numbers, and underscores')
         .required('Username is required'),
@@ -49,30 +54,51 @@ const Register = () => {
       lastName: Yup.string()
         .required('Last name is required'),
 
-      // Credit Card Validations
-      cardNumber: Yup.string()
-        .matches(/^\d{16}$/, 'Card number must be exactly 16 digits')
-        .required('Credit Card Number is required'),
-      expiryDate: Yup.string()
-        .matches(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/, 'Expiry date must be in MM/YY or MM/YYYY format')
-        .required('Expiry Date is required'),
-      cvv: Yup.string()
-        .matches(/^\d{3,4}$/, 'CVV must be 3 or 4 digits')
-        .required('CVV is required'),
-      cardholderName: Yup.string()
-        .matches(/^[a-zA-Z\s]+$/, 'Cardholder name can only contain letters and spaces')
-        .required('Cardholder Name is required'),
-      billingAddress: Yup.string()
-        .required('Billing Address is required'),
-      zip: Yup.string()
-        .matches(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code format')
-        .required('ZIP Code is required'),
-      city: Yup.string()
-        .required('City is required'),
-      state: Yup.string()
-        .matches(/^[A-Z]{2}$/, 'State must be a 2-letter code')
-        .required('State is required'),
-      saveCard: Yup.boolean(), // Optional field
+      // Optional payment fields - only validate if showPaymentInfo is true
+      cardNumber: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string()
+          .matches(/^\d{16}$/, 'Card number must be exactly 16 digits')
+          .required('Credit Card Number is required'),
+      }),
+      expiryDate: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string()
+          .matches(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/, 'Expiry date must be in MM/YY or MM/YYYY format')
+          .required('Expiry Date is required'),
+      }),
+      cvv: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string()
+          .matches(/^\d{3,4}$/, 'CVV must be 3 or 4 digits')
+          .required('CVV is required'),
+      }),
+      cardholderName: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string()
+          .matches(/^[a-zA-Z\s]+$/, 'Cardholder name can only contain letters and spaces')
+          .required('Cardholder Name is required'),
+      }),
+      billingAddress: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string().required('Billing Address is required'),
+      }),
+      zip: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string()
+          .matches(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code format')
+          .required('ZIP Code is required'),
+      }),
+      city: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string().required('City is required'),
+      }),
+      state: Yup.string().when('$showPaymentInfo', {
+        is: true,
+        then: () => Yup.string()
+          .matches(/^[A-Z]{2}$/, 'State must be a 2-letter code')
+          .required('State is required'),
+      }),
     }),
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       const registrationData = {
@@ -84,50 +110,33 @@ const Register = () => {
         lastName: values.lastName,
         role: "customer",
         isSubscribed: values.isSubscribed,
+      };
 
-        // Credit Card Data
-        creditCard: {
+      // Only add credit card data if payment info was shown and filled
+      if (showPaymentInfo) {
+        registrationData.creditCard = {
           cardNumber: values.cardNumber,
           expiryDate: values.expiryDate,
-          cvv: values.cvv, // **⚠️ Security Warning:** Do NOT store CVV codes
+          cvv: values.cvv,
           cardholderName: values.cardholderName,
           billingAddress: values.billingAddress,
           zip: values.zip,
           city: values.city,
           state: values.state,
-          saveCard: values.saveCard, // Include saveCard field
-        },
-      };
-
-      console.log('Submitting Registration Data:', registrationData);
+          saveCard: values.saveCard,
+        };
+      }
 
       try {
-        const res = await axios.post('http://localhost:8080/api/auth/register', registrationData, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-
-        console.log('Registration Successful:', res.data);
-//	  await axios.post(
-//	      'http://localhost:8080/api/email/sendRegistrationEmail', // Replace with your email endpoint
-//	      { email: values.email },
-//	      { headers: { 'Content-Type': 'application/json' } }
-//	  );
-//	  console.log('Registration Email Sent Successfully');
-	  resetForm();
+        const res = await axios.post('http://localhost:8080/api/auth/register', registrationData);
+        resetForm();
         navigate('/registration-confirmation');
       } catch (err) {
         if (err.response) {
-          // Server responded with a status other than 2xx
-          console.error('Registration Error:', err.response.data);
-          const errorMessage = err.response.data.message || 'Registration failed. Please try again.';
-          setErrors({ submit: errorMessage });
+          setErrors({ submit: err.response.data.message || 'Registration failed. Please try again.' });
         } else if (err.request) {
-          // Request was made but no response received
-          console.error('No response received:', err.request);
           setErrors({ submit: 'No response from server. Please try again later.' });
         } else {
-          // Something else happened while setting up the request
-          console.error('Unexpected Error:', err.message);
           setErrors({ submit: 'An unexpected error occurred.' });
         }
       } finally {
@@ -136,117 +145,103 @@ const Register = () => {
     },
   });
 
-  const handlePromotions = (e) => {
-    setPromotions(e.target.checked);
-    formik.setFieldValue('isSubscribed', e.target.checked);
-  };
-
-  const handleSaveCard = (e) => {
-    formik.setFieldValue('saveCard', e.target.checked);
-  };
-
   return (
     <div>
       <NavBar />
       <div className="register-container">
         <h2>Register</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
-          <div className="form-flex-container">
-            {/* Left Column: User Information */}
-            <div className="form-column">
-              {/* Username Field */}
-              <div className="form-group">
-                <label htmlFor="username">Username:</label>
-                <input
-                  id="username"
-                  type="text"
-                  name="username"
-                  {...formik.getFieldProps('username')}
-                  required
-                />
-                {formik.touched.username && formik.errors.username ? (
-                  <span className="error" role="alert">{formik.errors.username}</span>
-                ) : null}
-              </div>
-
-              {/* First Name Field */}
-              <div className="form-group">
-                <label htmlFor="firstName">First Name:</label>
-                <input
-                  id="firstName"
-                  type="text"
-                  name="firstName"
-                  {...formik.getFieldProps('firstName')}
-                  required
-                />
-                {formik.touched.firstName && formik.errors.firstName ? (
-                  <span className="error" role="alert">{formik.errors.firstName}</span>
-                ) : null}
-              </div>
-
-              {/* Last Name Field */}
-              <div className="form-group">
-                <label htmlFor="lastName">Last Name:</label>
-                <input
-                  id="lastName"
-                  type="text"
-                  name="lastName"
-                  {...formik.getFieldProps('lastName')}
-                  required
-                />
-                {formik.touched.lastName && formik.errors.lastName ? (
-                  <span className="error" role="alert">{formik.errors.lastName}</span>
-                ) : null}
-              </div>
-
-              {/* Email Field */}
-              <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  {...formik.getFieldProps('email')}
-                  required
-                />
-                {formik.touched.email && formik.errors.email ? (
-                  <span className="error" role="alert">{formik.errors.email}</span>
-                ) : null}
-              </div>
-
-              {/* Password Field */}
-              <div className="form-group">
-                <label htmlFor="password">Password:</label>
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  {...formik.getFieldProps('password')}
-                  required
-                />
-                {formik.touched.password && formik.errors.password ? (
-                  <span className="error" role="alert">{formik.errors.password}</span>
-                ) : null}
-              </div>
-
-              {/* Confirm Password Field */}
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password:</label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  name="confirmPassword"
-                  {...formik.getFieldProps('confirmPassword')}
-                  required
-                />
-                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                  <span className="error" role="alert">{formik.errors.confirmPassword}</span>
-                ) : null}
-              </div>
+          {/* Personal Information Section */}
+          <div className="form-section">
+            <h3>Personal Information</h3>
+            <div className="form-group">
+              <label htmlFor="username">Username:</label>
+              <input
+                id="username"
+                type="text"
+                {...formik.getFieldProps('username')}
+              />
+              {formik.touched.username && formik.errors.username && (
+                <span className="error">{formik.errors.username}</span>
+              )}
             </div>
 
-            {/* Right Column: Payment Information */}
-            <div className="form-column">
+            <div className="form-group">
+              <label htmlFor="firstName">First Name:</label>
+              <input
+                id="firstName"
+                type="text"
+                {...formik.getFieldProps('firstName')}
+              />
+              {formik.touched.firstName && formik.errors.firstName && (
+                <span className="error">{formik.errors.firstName}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name:</label>
+              <input
+                id="lastName"
+                type="text"
+                {...formik.getFieldProps('lastName')}
+              />
+              {formik.touched.lastName && formik.errors.lastName && (
+                <span className="error">{formik.errors.lastName}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                id="email"
+                type="email"
+                {...formik.getFieldProps('email')}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <span className="error">{formik.errors.email}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input
+                id="password"
+                type="password"
+                {...formik.getFieldProps('password')}
+              />
+              {formik.touched.password && formik.errors.password && (
+                <span className="error">{formik.errors.password}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password:</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                {...formik.getFieldProps('confirmPassword')}
+              />
+              {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                <span className="error">{formik.errors.confirmPassword}</span>
+              )}
+            </div>
+          </div>
+
+          {/* Payment Information Toggle Button */}
+          <button
+            type="button"
+            className="toggle-payment-btn"
+            onClick={() => setShowPaymentInfo(!showPaymentInfo)}
+          >
+            {showPaymentInfo ? 'Hide Payment Information' : 'Add Payment Information'}
+          </button>
+
+          {/* Payment Information Section */}
+          {showPaymentInfo && (
+            <div className="form-section payment-section">
+              <h3>Payment Information</h3>
+              {/* Payment form fields here */}
+              <div className="form-column">
               {/* Credit Card Section */}
               <h3>Credit Card Information</h3>
 
@@ -391,27 +386,29 @@ const Register = () => {
                 </label>
               </div>
             </div>
-          </div>
+            </div>
+          )}
 
-          {/* Promotions Checkbox */}
-          <div className="promotions">
-            <label htmlFor="isSubscribed">
+          <div className="form-group">
+            <label>
               <input
-                id="isSubscribed"
                 type="checkbox"
-                name="isSubscribed"
-                checked={formik.values.isSubscribed}
-                onChange={handlePromotions}
-                className="promotion-checkbox"
+                checked={promotions}
+                onChange={(e) => setPromotions(e.target.checked)}
               />
-              Sign me up for promotional emails
+              Sign up for promotional emails
             </label>
           </div>
 
-          {/* Submit Error */}
-          {formik.errors.submit && <span className="error" role="alert">{formik.errors.submit}</span>}
+          {formik.errors.submit && (
+            <div className="error-message">{formik.errors.submit}</div>
+          )}
 
-          <button type="submit" disabled={formik.isSubmitting}>
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={formik.isSubmitting}
+          >
             {formik.isSubmitting ? 'Registering...' : 'Register'}
           </button>
         </form>
