@@ -15,7 +15,7 @@ const MovieCard = ({ movie, isAdmin }) => {
   };
 
   const handleEditMovie = () => {
-    navigate(`/editmovie/${movie.id}`, { state: { currentMovie: movie } });
+    navigate(`/admin/editmovie/${movie.id}`, { state: { currentMovie: movie } });
   };
 
   const toggleTrailer = () => {
@@ -35,7 +35,8 @@ const MovieCard = ({ movie, isAdmin }) => {
         <img src={movie.posterUrl} alt={`${movie.title} Poster`} />
         {isAdmin ? (
           <div className="movie-buttons">
-            <button className="book-button" onClick={handleEditMovie}>Edit</button>
+            <button className="edit-button" onClick={handleEditMovie}>Edit</button>
+            <button className="book-button">Delete</button>
           </div>
         ) : (
           <div className="movie-buttons">

@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar.jsx';
+import { useFormik } from 'formik';
 import SeatingChart from '../../components/Seating/SeatingChart';
 
+
 const EditMovie = () => {
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      poster: '',
+      synopsis: '',
+      genre: '',
+      cast: '',
+      director: '',
+    }
+  })
+
   const { id } = useParams();
   const location = useLocation();
   const { currentMovie } = location.state || {};
@@ -45,6 +58,7 @@ const EditMovie = () => {
           <div className="movie-text">
             <p>{currentMovie.synopsis}</p>
             <p><strong>GENRE:</strong>{currentMovie.category}</p>
+            <p><strong>RATING:</strong>{currentMovie.ratingcode}</p>
           </div>
         </div>
         <div className="showtimes">
@@ -58,17 +72,6 @@ const EditMovie = () => {
               </li>
             ))}
           </ul>
-          <h3>Select Seats:</h3>
-          <div style={{ margin: '10px 0' }}>
-              <h5> Screen </h5>
-              <div className="seating-container">
-              <SeatingChart selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats}/>
-              </div>
-          </div>
-          <h4>Continue to Checkout</h4>
-          <p>Selected Showtime: {selectedShowtime}</p>
-          <p>Number of Seats Selected: {selectedSeats.length}</p>
-          <button onClick={handleBooking} disabled={selectedSeats.length === 0 || !selectedShowtime}>Continue</button>
         </div>
       </div>
     </div>

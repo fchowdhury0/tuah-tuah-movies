@@ -120,7 +120,7 @@ const App = () => {
           element: <AddMovie />,
         },
         {
-          path: 'editmovie',
+          path: `editmovie/:id`,
           element: <EditMovie />,
         }
       ],
