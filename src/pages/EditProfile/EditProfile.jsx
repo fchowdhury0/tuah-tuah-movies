@@ -377,7 +377,7 @@ const EditProfile = () => {
               </div>
               {error && <p className="error">{error}</p>}
               {success && <p className="success">{success}</p>}
-              <button type="submit">Update Email</button>
+              <button type="submit" className="update-button">Update Email</button>
             </form>
           </div>
         );
@@ -405,7 +405,7 @@ const EditProfile = () => {
               </div>
               {error && <p className="error">{error}</p>}
               {success && <p className="success">{success}</p>}
-              <button type="submit">Update Password</button>
+              <button type="submit" className="update-button">Update Password</button>
             </form>
           </div>
         );

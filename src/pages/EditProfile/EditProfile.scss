@@ -7,55 +7,58 @@ $success-color: #28a745;
 $dark-bg: #2a2a2a;
 $text-light: #f0f0f0;
 $border-color: rgba(240, 240, 240, 0.36);
-$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-$transition-default: all 0.3s ease;
+$box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+$transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 .main {
-  margin-top: 75px;
   color: $text-light;
-  min-height: calc(100vh - 75px);
-  background-color: #1a1a1a;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #1a1a1a, #212426);
+  padding-bottom: 70px;
 
   .account-banner {
-    padding: 40px;
-    border-top: 2px solid $border-color;
-    border-bottom: 2px solid $border-color;
-    margin-bottom: 20px;
-    background-color: rgba($dark-bg, 0.5);
+    padding: 3rem 2rem;
+    background: rgba($dark-bg, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba($text-light, 0.1);
+    margin-bottom: 2rem;
 
     h2 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
       text-align: center;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .account-items {
-      margin-top: 40px;
       display: flex;
       justify-content: center;
+      gap: 1.5rem;
       flex-wrap: wrap;
-      gap: 20px;
 
       h3 {
-        color: white;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
         cursor: pointer;
         transition: $transition-default;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 500;
-        background-color: transparent;
-        border: 1px solid transparent;
+        background: rgba($text-light, 0.05);
+        border: 1px solid rgba($text-light, 0.1);
 
         &:hover {
-          color: $primary-color;
+          background: rgba($primary-color, 0.1);
           border-color: $primary-color;
+          transform: translateY(-2px);
         }
 
         &.active {
-          background-color: $primary-color;
+          background: $primary-color;
           color: white;
           border-color: transparent;
+          box-shadow: 0 8px 20px rgba($primary-color, 0.3);
         }
       }
     }
@@ -64,160 +67,219 @@ $transition-default: all 0.3s ease;
   .edit-profile-content {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: $dark-bg;
-    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    background: rgba($dark-bg, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
     box-shadow: $box-shadow;
+    border: 1px solid rgba($text-light, 0.1);
   }
 
-  .form-group {
-    margin-bottom: 24px;
-    width: 100%;
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: $text-light;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid rgba($text-light, 0.2);
-      border-radius: 8px;
-      background-color: rgba($dark-bg, 0.5);
-      color: white;
-      transition: $transition-default;
-      font-size: 1rem;
-
-      &:focus {
-        border-color: $primary-color;
-        outline: none;
-        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    .form-group {
+      margin-bottom: 1.5rem;
+  
+      label {
+        display: block;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+        color: $text-light;
+        font-size: 0.95rem;
+  
+        // Special styling for checkbox label
+        &:has(+ input[type="checkbox"]) {
+          display: inline-block;
+          margin-right: 1rem;
+        }
       }
-
-      &[type="checkbox"] {
-        width: auto;
-        margin-right: 8px;
+  
+      input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba($dark-bg, 0.5);
+        border: 1px solid rgba($text-light, 0.1);
+        border-radius: 12px;
+        color: $text-light;
+        font-size: 1rem;
+        transition: $transition-default;
+  
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+          outline: none;
+        }
+  
+        // Checkbox styling
+        &[type="checkbox"] {
+          width: auto;
+          height: 20px;
+          width: 20px;
+          margin: 0;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+      }
+  
+      // Container for checkbox and label
+      &:has(input[type="checkbox"]) {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
       }
     }
-  }
+  
+    // Save Changes Button
+    .save-button {
+      margin-top: 2rem;
+      
+      button {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: $transition-default;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+  
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba($primary-color, 0.3);
+          background: linear-gradient(135deg, lighten($primary-color, 5%), $primary-color);
+        }
+  
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+      }
+    }
 
   .payment-methods {
     .payment-cards-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .payment-card {
-      background-color: rgba($dark-bg, 0.7);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: $box-shadow;
-      transition: $transition-default;
+      background: rgba($dark-bg, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
       border: 1px solid rgba($text-light, 0.1);
+      transition: $transition-default;
 
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
       }
 
       p {
-        margin-bottom: 12px;
+        margin-bottom: 1rem;
         font-size: 0.95rem;
         
         strong {
           color: $primary-color;
-          margin-right: 8px;
           font-weight: 600;
+          margin-right: 0.75rem;
         }
       }
 
       .delete-button {
-        background-color: $error-color;
+        width: 100%;
+        padding: 0.75rem;
+        background: $error-color;
         color: white;
         border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
+        border-radius: 12px;
+        font-weight: 600;
         cursor: pointer;
         transition: $transition-default;
-        font-weight: 500;
-        width: 100%;
-        margin-top: 12px;
+        margin-top: 1rem;
 
         &:hover {
-          background-color: color.scale($error-color, $lightness: -10%);
-          transform: translateY(-1px);
+          background: darken($error-color, 5%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($error-color, 0.3);
         }
       }
     }
 
     .add-card-button {
-      background-color: $success-color;
+      padding: 1rem 2rem;
+      background: $success-color;
       color: white;
       border: none;
-      padding: 12px 24px;
-      border-radius: 6px;
+      border-radius: 12px;
+      font-weight: 600;
       cursor: pointer;
       transition: $transition-default;
-      font-weight: 500;
-      margin: 20px 0;
+      margin: 1.5rem 0;
 
       &:hover {
-        background-color: color.scale($success-color, $lightness: -10%);
-        transform: translateY(-1px);
+        background: darken($success-color, 5%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($success-color, 0.3);
       }
     }
 
     .add-card-form {
-      background-color: rgba($dark-bg, 0.7);
-      border-radius: 12px;
-      padding: 24px;
-      width: 100%;
-      max-width: 600px;
+      background: rgba($dark-bg, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
       border: 1px solid rgba($text-light, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
 
       h4 {
-        margin-bottom: 24px;
+        font-size: 1.8rem;
         color: $primary-color;
-        font-size: 1.5rem;
         text-align: center;
+        margin-bottom: 2rem;
       }
 
       .form-buttons {
         display: flex;
-        gap: 12px;
-        margin-top: 24px;
+        gap: 1rem;
+        margin-top: 2rem;
 
         button {
           flex: 1;
-          padding: 12px 24px;
-          border-radius: 6px;
+          padding: 1rem;
+          border-radius: 12px;
+          font-weight: 600;
           cursor: pointer;
-          border: none;
           transition: $transition-default;
-          font-weight: 500;
+          border: none;
 
           &[type="submit"] {
-            background-color: $success-color;
+            background: $success-color;
             color: white;
 
             &:hover {
-              background-color: color.scale($success-color, $lightness: -10%);
-              transform: translateY(-1px);
+              background: darken($success-color, 5%);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba($success-color, 0.3);
             }
           }
 
           &[type="button"] {
-            background-color: #6c757d;
+            background: #6c757d;
             color: white;
 
             &:hover {
-              background-color: color.scale(#6c757d, $lightness: -10%);
-              transform: translateY(-1px);
+              background: darken(#6c757d, 5%);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(#6c757d, 0.3);
             }
           }
         }
@@ -225,37 +287,17 @@ $transition-default: all 0.3s ease;
     }
   }
 
-  .error, .success {
-    padding: 12px;
-    border-radius: 8px;
-    margin: 12px 0;
-    font-weight: 500;
-    text-align: center;
-  }
-
-  .error {
-    color: $error-color;
-    background-color: rgba($error-color, 0.1);
-    border: 1px solid rgba($error-color, 0.2);
-  }
-
-  .success {
-    color: $success-color;
-    background-color: rgba($success-color, 0.1);
-    border: 1px solid rgba($success-color, 0.2);
-  }
-
   @media (max-width: 768px) {
     .account-banner {
-      padding: 20px;
+      padding: 2rem 1rem;
 
       h2 {
-        font-size: 1.5rem;
+        font-size: 2rem;
       }
 
       .account-items {
         flex-direction: column;
-        align-items: center;
+        width: 100%;
 
         h3 {
           width: 100%;
@@ -265,8 +307,8 @@ $transition-default: all 0.3s ease;
     }
 
     .edit-profile-content {
-      margin: 10px;
-      padding: 15px;
+      margin: 1rem;
+      padding: 1.5rem;
     }
 
     .payment-methods {
@@ -275,17 +317,41 @@ $transition-default: all 0.3s ease;
       }
 
       .add-card-form {
-        padding: 15px;
+        padding: 1.5rem;
 
         .form-buttons {
           flex-direction: column;
         }
       }
     }
+  }
 
-    .form-row {
-      flex-direction: column;
-      gap: 15px;
+  .update-button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: $transition-default;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1.5rem;
+  
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-color, 0.3);
+      background: linear-gradient(135deg, lighten($primary-color, 5%), $primary-color);
+    }
+  
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
   }
 }
