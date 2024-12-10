@@ -13,54 +13,54 @@ const AdminDashboard = () => {
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
 
-  // src/pages/Admin/Dashboard/AdminDashboard.jsx
-const fetchStats = async () => {
-  const fetchOptions = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include'
-  };
+  const fetchStats = async () => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    };
 
-  try {
-    setLoading(true);
-    setError(null);
-    
-    // Fetch all movies
-    const moviesResponse = await fetch('http://localhost:8080/api/movies', fetchOptions);
-    if (!moviesResponse.ok) throw new Error(`Movies API error: ${moviesResponse.statusText}`);
-    const movies = await moviesResponse.json();
-    
-    // Fetch active movies
-    const activeMoviesResponse = await fetch(
-      'http://localhost:8080/api/movies/status/Currently Running', 
-      fetchOptions
-    );
-    if (!activeMoviesResponse.ok) throw new Error(`Active movies API error: ${activeMoviesResponse.statusText}`);
-    const activeMovies = await activeMoviesResponse.json();
-    
-    // Updated users endpoint
-    const usersResponse = await fetch('http://localhost:8080/api/users/all', fetchOptions);
-    if (!usersResponse.ok) {
-      console.error('Users API error status:', usersResponse.status);
-      throw new Error(`Users API error: ${usersResponse.statusText}`);
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Fetch all movies
+      const moviesResponse = await fetch('http://localhost:8080/api/movies', fetchOptions);
+      if (!moviesResponse.ok) throw new Error(`Movies API error: ${moviesResponse.statusText}`);
+      const movies = await moviesResponse.json();
+      
+      // Fetch active movies
+      const activeMoviesResponse = await fetch(
+        'http://localhost:8080/api/movies/status/Currently Running', 
+        fetchOptions
+      );
+      if (!activeMoviesResponse.ok) throw new Error(`Active movies API error: ${activeMoviesResponse.statusText}`);
+      const activeMovies = await activeMoviesResponse.json();
+      
+      // Updated users endpoint to match UserController path
+      const usersResponse = await fetch('http://localhost:8080/api/user/all', fetchOptions);
+      if (!usersResponse.ok) {
+        console.error('Users API error status:', usersResponse.status);
+        throw new Error(`Users API error: ${usersResponse.statusText}`);
+      }
+      const users = await usersResponse.json();
+      console.log('Users response:', users); // Debug log
+
+      setStats({
+        totalMovies: Array.isArray(movies) ? movies.length : 0,
+        activeMovies: Array.isArray(activeMovies) ? activeMovies.length : 0,
+        totalUsers: Array.isArray(users) ? users.length : 0,
+        activePromotions: 0,
+      });
+    } catch (err) {
+      console.error('Error fetching stats:', err);
+      setError(err.message || 'Failed to load dashboard stats');
+    } finally {
+      setLoading(false);
     }
-    const users = await usersResponse.json();
-
-    setStats({
-      totalMovies: Array.isArray(movies) ? movies.length : 0,
-      activeMovies: Array.isArray(activeMovies) ? activeMovies.length : 0,
-      totalUsers: Array.isArray(users) ? users.length : 0,
-      activePromotions: 0,
-    });
-  } catch (err) {
-    console.error('Error fetching stats:', err);
-    setError(err.message || 'Failed to load dashboard stats');
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   useEffect(() => {
     fetchStats();
