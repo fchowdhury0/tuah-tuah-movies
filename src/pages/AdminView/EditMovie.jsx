@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import SeatingChart from '../../components/Seating/SeatingChart';
-import './BookMovie.scss';
 
-const BookMovie = () => {
+const EditMovie = () => {
   const { id } = useParams();
   const location = useLocation();
   const { currentMovie } = location.state || {};
@@ -76,6 +75,6 @@ const BookMovie = () => {
   );
 };
 
-export default BookMovie;
+export default EditMovie;
 
 

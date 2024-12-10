@@ -120,7 +120,7 @@ const Home = () => {
           <div className="container">
             {currentlyRunning.length > 0 ? (
               currentlyRunning.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard isAdmin={false} key={movie.id} movie={movie} />
               ))
             ) : (
               <div>No Currently Running movies found.</div>
@@ -134,7 +134,7 @@ const Home = () => {
           <div className="container">
             {comingSoon.length > 0 ? (
               comingSoon.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard isAdmin={false} key={movie.id} movie={movie} />
               ))
             ) : (
               <div>No Coming Soon movies found.</div>

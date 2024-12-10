@@ -99,7 +99,7 @@ const ManageMovies = () => {
         <div className="container">
           {movies.length > 0 ? (
             movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard key={movie.id} movie={movie} isAdmin={true}/>
             ))
           ) : (
             <div>No movies found.</div>

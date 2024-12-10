@@ -96,19 +96,19 @@ const App = () => {
             element: <AdminDashboard />
           },
           {
-            path: 'managemovies', // Changed from 'movies' to match Menu link
+            path: 'managemovies',
             element: <ManageMovies />
           },
           {
-            path: 'manageusers', // Changed from 'users' to match Menu link
+            path: 'manageusers',
             element: <ManageUsers />
           },
           {
-            path: 'managepromotions', // Changed from 'promotions' to match Menu link
+            path: 'managepromotions',
             element: <ManagePromotions />
           },
           {
-            path: 'schedulemovie', // Changed from 'schedule' to match Menu link
+            path: 'schedulemovie',
             element: <ScheduleMovie />
           }
         ]
