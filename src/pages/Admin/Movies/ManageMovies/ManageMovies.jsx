@@ -1,9 +1,11 @@
-import { Formik } from 'formik';
+// src/pages/Admin/Movies/ManageMovies.jsx
+
+import axios from 'axios';
+import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import MovieCard from '../../../../components/MovieCard/MovieCard.jsx';
 import AddMovieForm from '../AddMovie/AddMovie.jsx';
 import './ManageMovies.scss';
-
 
 const ManageMovies = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -11,103 +13,180 @@ const ManageMovies = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchMovies();
   }, []);
-  
-  function showAddComponent() {
+
+  const toggleAdd = () => {
     setShowAdd(!showAdd);
-  }
+  };
 
-  function showDeleteComponent() {
-    setShowDelete(!showDelete)
-  }
+  const toggleDelete = () => {
+    setShowDelete(!showDelete);
+  };
 
-  const fetchMovies = () => {
-    fetch('http://localhost:8080/api/movies')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log('Movies data:', data); // Log the data to check for Interstellar
-        if (!Array.isArray(data)) {
-          throw new Error('Invalid data format received from API');
-        }
-        setMovies(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-      console.log(movies)
+  const fetchMovies = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/movies');
+      if (!Array.isArray(response.data)) {
+        throw new Error('Invalid data format received from API');
+      }
+      setMovies(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  const handleAddMovie = async (formData, { setSubmitting, resetForm }) => {
+    try {
+      const { showTimes, ...dataToSend } = formData; // Exclude showTimes
+      const response = await axios.post('http://localhost:8080/api/movies', dataToSend);
+      console.log('Movie added:', response.data);
+      fetchMovies();
+      resetForm();
+      setShowAdd(false);
+      setSubmitting(false);
+    } catch (err) {
+      console.error('Error adding movie:', err);
+      setError(err.response?.data?.message || err.message);
+      setSubmitting(false);
+    }
+  };
+
+  const handleDeleteMovie = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const { searchTerm } = values;
+      // Find the movie by title (assuming titles are unique)
+      const movieToDelete = movies.find(
+        (movie) => movie.movieTitle.toLowerCase() === searchTerm.toLowerCase()
+      );
+
+      if (!movieToDelete) {
+        setError('Movie not found.');
+        setSubmitting(false);
+        return;
+      }
+
+      // Confirm deletion
+      const confirmDelete = window.confirm(
+        `Are you sure you want to delete "${movieToDelete.movieTitle}"?`
+      );
+      if (!confirmDelete) {
+        setSubmitting(false);
+        return;
+      }
+
+      // Replace the URL with your actual API endpoint and use movie's unique identifier
+      await axios.delete(`http://localhost:8080/api/movies/${movieToDelete.id}`);
+      console.log('Movie deleted:', movieToDelete.movieTitle);
+      fetchMovies(); // Refresh the movies list
+      resetForm();
+      setShowDelete(false);
+      setSubmitting(false);
+    } catch (err) {
+      console.error('Error deleting movie:', err);
+      setError(err.response?.data?.message || err.message);
+      setSubmitting(false);
+    }
   };
 
   return (
-    <div className="main">
+    <div className="manage-movies">
       <div className="top-style">
         <div className="button-container">
-          <button className="add-movie-button" onClick={showAddComponent}>Add Movie</button>
+          <button className="add-movie-button" onClick={toggleAdd}>
+            {showAdd ? 'Cancel' : 'Add Movie'}
+          </button>
         </div>
-        {/* TODO should reveal a component for finding a movie*/}
         <div className="button-container">
-          <button className="delete-movie-button" onClick={showDeleteComponent}>Delete Movie</button>
+          <button className="delete-movie-button" onClick={toggleDelete}>
+            {showDelete ? 'Cancel' : 'Delete Movie'}
+          </button>
         </div>
-
       </div>
+
       {showAdd && (
-          <div className="form-container">
-            <Formik
-              /*these are the form values, may be updated as needed*/
-              initialValues={{
-                movieTitle: '',
-                description: '',
-                posterUrl: '',
-                trailerUrl: '',
-                status: '',
-                id: ''
-              }}
-              onSubmit={async (formsData, { setSubmitting }) => {
-                setSubmitting(true)
-                console.log(formsData)
-                setSubmitting(false)
-              }}>
-              {({ values, handleChange, onSubmit }) => (
-                <AddMovieForm values={values} handleChange={handleChange} onSubmit={onSubmit} />
-              )}
-            </Formik>
+        <div className="form-container">
+          <Formik
+            initialValues={{
+              movieTitle: '',
+              category: '',
+              cast: [''],
+              director: '',
+              producer: '',
+              synopsis: '',
+              reviews: '',
+              trailerImageUrl: '',
+              trailerVideoUrl: '',
+              mpaaRating: '',
+            }}
+            onSubmit={handleAddMovie}
+          >
+            {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+              <AddMovieForm
+                values={values}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                handleSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+              />
+            )}
+          </Formik>
+        </div>
+      )}
 
-          </div>
-        )}
       {showDelete && (
-          <div className="form-container">
-            <input className="text-input" type="text" placeholder="Search for movie to delete" />
+        <div className="form-container">
+          <Formik
+            initialValues={{ searchTerm: '' }}
+            onSubmit={handleDeleteMovie}
+          >
+            {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+              <Form className="delete-movie-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="searchTerm">Search Movie to Delete</label>
+                  <Field
+                    type="text"
+                    id="searchTerm"
+                    name="searchTerm"
+                    placeholder="Enter movie title"
+                    className="input"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <button type="submit" className="submit-button" disabled={isSubmitting}>
+                    {isSubmitting ? 'Deleting...' : 'Delete Movie'}
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      )}
 
+      {error && <div className="error">Error: {error}</div>}
 
-          </div>
-        )}
       <div className="admin-view">
         <div className="box box1">Active Movies</div>
       </div>
+
       <section>
         <h2>Currently Running</h2>
         <div className="container">
-          {movies.length > 0 ? (
-            movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} isAdmin={true}/>
-            ))
+          {loading ? (
+            <div>Loading movies...</div>
+          ) : movies.length > 0 ? (
+            movies.map((movie) => <MovieCard key={movie.id} movie={movie} isAdmin={true} />)
           ) : (
             <div>No movies found.</div>
           )}
         </div>
       </section>
     </div>
-
   );
 };
 
