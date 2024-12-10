@@ -1,8 +1,8 @@
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import MovieCard from '../../components/MovieCard/MovieCard';
-import AddMovieForm from './AddMovieForm.jsx';
-import './AdminView.scss';
+import MovieCard from '../../../../components/MovieCard/MovieCard.jsx';
+import AddMovieForm from '../AddMovie/AddMovie.jsx';
+import './ManageMovies.scss';
 
 
 const ManageMovies = () => {

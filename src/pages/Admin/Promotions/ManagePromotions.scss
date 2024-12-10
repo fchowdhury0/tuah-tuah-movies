@@ -1,0 +1,90 @@
+// Variables
+$primary-blue: #6299c3;
+$dark-bg: #1a1d1f;
+$text-light: #ffffff;
+$border-color: rgba(255, 255, 255, 0.1);
+$transition: all 0.3s ease;
+
+.admin-view {
+  padding: 2rem;
+  
+  .button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, $primary-blue, darken($primary-blue, 10%));
+    color: $text-light;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    box-shadow: 0 4px 15px rgba($primary-blue, 0.3);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-blue, 0.4);
+    }
+  }
+
+  .form-container {
+    max-width: 600px;
+    margin: 2rem 0;
+    padding: 2rem;
+    background: $dark-bg;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid $border-color;
+      border-radius: 8px;
+      color: $text-light;
+      font-size: 1rem;
+      transition: $transition;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-blue;
+        box-shadow: 0 0 0 2px rgba($primary-blue, 0.2);
+      }
+
+      &::placeholder {
+        color: rgba($text-light, 0.5);
+      }
+    }
+
+    .button {
+      margin-top: 1rem;
+      align-self: flex-start;
+    }
+  }
+
+  .box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: $dark-bg;
+    border-radius: 12px;
+    color: $text-light;
+    font-weight: 600;
+    
+    &.box1 {
+      border-left: 4px solid $primary-blue;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-view {
+    padding: 1rem;
+    
+    .form-container {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+    }
+  }
+}

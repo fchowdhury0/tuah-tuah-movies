@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import './AdminView.scss'
-import { useFormik, Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import { Form } from 'formik';
+import React from 'react';
+import './AddMovie.scss';
 
 const MovieForm = ({ values, handleChange, onSubmit }) => (
   <Form className="form-container">

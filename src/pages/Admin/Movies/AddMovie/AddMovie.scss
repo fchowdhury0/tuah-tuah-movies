@@ -1,0 +1,73 @@
+// Variables
+$primary-color: #6299c3;
+$dark-bg: #1a1d1f;
+$input-bg: rgba(255, 255, 255, 0.05);
+$border-color: rgba(255, 255, 255, 0.1);
+$transition: 0.3s ease;
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: $dark-bg;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    background: $input-bg;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    transition: all $transition;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .add-movie-button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition;
+    margin-top: 1rem;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-color, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .form-container {
+    margin: 1rem;
+    padding: 1.5rem;
+    
+    input {
+      padding: 10px 14px;
+    }
+  }
+}
