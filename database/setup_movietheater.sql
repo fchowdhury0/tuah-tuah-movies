@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS movies (
     posterUrl VARCHAR(255),
     imdb_id VARCHAR(20) UNIQUE,
     ratingCode VARCHAR(10),
-    showDate DATE,
     releaseDate DATE,
     status VARCHAR(20) CHECK (status IN ('Currently Running', 'Coming Soon', 'Archived'))
 );
