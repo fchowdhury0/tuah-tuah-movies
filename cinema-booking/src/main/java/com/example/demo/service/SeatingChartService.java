@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.SeatingChart;
@@ -10,11 +11,14 @@ import com.example.demo.repository.SeatingChartRepository;
 
 @Service
 public class SeatingChartService {
+    @Autowired
     private final SeatingChartRepository seatingChartRepository;
 
     public SeatingChartService(SeatingChartRepository seatingChartRepository) {
         this.seatingChartRepository = seatingChartRepository;
     }
+
+
 
     public List<SeatingChart> findAll() {
         return seatingChartRepository.findAll();

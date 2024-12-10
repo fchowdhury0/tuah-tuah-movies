@@ -8,9 +8,10 @@ $text-muted: #a1a1a1;
 $transition: all 0.3s ease;
 
 .seating-chart {
-  width: fit-content;
+  width: 200px;
   padding: 2px;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
