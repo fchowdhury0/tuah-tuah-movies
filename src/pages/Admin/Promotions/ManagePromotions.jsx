@@ -1,4 +1,3 @@
-// ManagePromotions.jsx
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +11,7 @@ const ManagePromotions = () => {
   const navigate = useNavigate();
   const [promotions, setPromotions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [newPromotion, setNewPromotion] = useState({
@@ -19,21 +19,17 @@ const ManagePromotions = () => {
     startDate: '',
     expDate: '',
     description: '',
-    isActive: true
+    isActive: true,
+    sendEmail: false,
+    emailSubject: '',
+    emailMessage: ''
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!auth.token) {
-        setError('You must be logged in to access this page');
-        setLoading(false);
-        navigate('/login');
-        return;
-      }
-      await fetchPromotions();
-    };
-    fetchData();
-  }, [auth.token, navigate]);
+    if (auth.token) {
+      fetchPromotions();
+    }
+  }, [auth.token]);
 
   const fetchPromotions = async () => {
     try {
@@ -44,38 +40,30 @@ const ManagePromotions = () => {
         }
       });
       setPromotions(response.data);
-      setLoading(false);
     } catch (err) {
-      console.error('Error fetching promotions:', err);
       setError('Failed to load promotions');
+      console.error('Error fetching promotions:', err);
+    } finally {
       setLoading(false);
     }
   };
 
   const handleChange = (e) => {
-    setNewPromotion({
-      ...newPromotion,
-      [e.target.name]: e.target.value
-    });
+    const { name, value, type, checked } = e.target;
+    setNewPromotion(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
-  const sendPromotionEmails = async (promotionData) => {
-    try {
-      await axios.post(
-        `${API_BASE_URL}/api/promotions/send-emails`,
-        promotionData,
-        {
-          headers: {
-            'Authorization': `Bearer ${auth.token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      setSuccess('Promotion created and emails sent successfully');
-    } catch (err) {
-      console.error('Error sending promotion emails:', err);
-      setError('Failed to send promotion emails');
+  const validateDates = () => {
+    const start = new Date(newPromotion.startDate);
+    const end = new Date(newPromotion.expDate);
+    if (end <= start) {
+      setError('Expiry date must be after start date');
+      return false;
     }
+    return true;
   };
 
   const handleAddPromotion = async (e) => {
@@ -84,7 +72,14 @@ const ManagePromotions = () => {
       setError('You must be logged in to add promotions');
       return;
     }
-  
+
+    if (!validateDates()) {
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+    
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/promotions`, 
@@ -113,24 +108,24 @@ const ManagePromotions = () => {
           }
         );
       }
-  
+
       setSuccess('Promotion created successfully');
-      setError(null);
       setNewPromotion({
         promoCode: '',
         startDate: '',
         expDate: '',
         description: '',
         isActive: true,
+        sendEmail: false,
         emailSubject: '',
-        emailMessage: '',
-        sendEmail: false
+        emailMessage: ''
       });
       fetchPromotions();
     } catch (err) {
-      console.error('Error creating promotion:', err);
       setError('Failed to create promotion');
-      setSuccess(null);
+      console.error('Error creating promotion:', err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -139,7 +134,7 @@ const ManagePromotions = () => {
   }
 
   if (loading) return <div className="loading">Loading promotions...</div>;
-  
+
   return (
     <div className="manage-promotions">
       <h2>Manage Promotions</h2>
@@ -147,48 +142,9 @@ const ManagePromotions = () => {
       {success && <div className="success-message">{success}</div>}
       {error && <div className="error-message">{error}</div>}
       
-      <div className="form-group">
-          <label>
-            <input 
-              type="checkbox" 
-              name="sendEmail" 
-              checked={newPromotion.sendEmail} 
-              onChange={(e) => setNewPromotion({
-                ...newPromotion,
-                sendEmail: e.target.checked
-              })} 
-            />
-            Send Email to Subscribed Users
-          </label>
-        </div>
-
-        {newPromotion.sendEmail && (
-          <>
-            <div className="form-group">
-              <label>Email Subject:</label>
-              <input 
-                type="text" 
-                name="emailSubject" 
-                value={newPromotion.emailSubject || ''} 
-                onChange={handleChange} 
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Email Message:</label>
-              <textarea 
-                name="emailMessage" 
-                value={newPromotion.emailMessage || ''} 
-                onChange={handleChange} 
-                required
-                rows="4"
-              />
-            </div>
-          </>
-        )}
-
       <form onSubmit={handleAddPromotion}>
         <h3>Add New Promotion</h3>
+        
         <div className="form-group">
           <label>Promotion Code:</label>
           <input 
@@ -208,6 +164,7 @@ const ManagePromotions = () => {
             value={newPromotion.startDate} 
             onChange={handleChange} 
             required 
+            min={new Date().toISOString().split('T')[0]}
           />
         </div>
 
@@ -219,6 +176,7 @@ const ManagePromotions = () => {
             value={newPromotion.expDate} 
             onChange={handleChange} 
             required 
+            min={newPromotion.startDate || new Date().toISOString().split('T')[0]}
           />
         </div>
 
@@ -232,35 +190,82 @@ const ManagePromotions = () => {
           />
         </div>
 
-        <button type="submit" className="submit-button">Add Promotion</button>
+        <div className="form-group">
+          <label>
+            <input 
+              type="checkbox" 
+              name="sendEmail" 
+              checked={newPromotion.sendEmail} 
+              onChange={handleChange}
+            />
+            Send Email to Subscribed Users
+          </label>
+        </div>
+
+        {newPromotion.sendEmail && (
+          <>
+            <div className="form-group">
+              <label>Email Subject:</label>
+              <input 
+                type="text" 
+                name="emailSubject" 
+                value={newPromotion.emailSubject} 
+                onChange={handleChange} 
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Email Message:</label>
+              <textarea 
+                name="emailMessage" 
+                value={newPromotion.emailMessage} 
+                onChange={handleChange} 
+                required
+                rows="4"
+              />
+            </div>
+          </>
+        )}
+
+        <button 
+          type="submit" 
+          className="submit-button" 
+          disabled={submitting}
+        >
+          {submitting ? 'Adding...' : 'Add Promotion'}
+        </button>
       </form>
 
       <div className="promotions-list">
         <h3>Existing Promotions</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Start Date</th>
-              <th>Expiry Date</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Use Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            {promotions.map(promotion => (
-              <tr key={promotion.promoId}>
-                <td>{promotion.promoCode}</td>
-                <td>{new Date(promotion.startDate).toLocaleDateString()}</td>
-                <td>{new Date(promotion.expDate).toLocaleDateString()}</td>
-                <td>{promotion.description}</td>
-                <td>{promotion.isActive ? 'Active' : 'Inactive'}</td>
-                <td>{promotion.useCount}</td>
+        {promotions.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Start Date</th>
+                <th>Expiry Date</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Use Count</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {promotions.map(promotion => (
+                <tr key={promotion.promoId}>
+                  <td>{promotion.promoCode}</td>
+                  <td>{new Date(promotion.startDate).toLocaleDateString()}</td>
+                  <td>{new Date(promotion.expDate).toLocaleDateString()}</td>
+                  <td>{promotion.description}</td>
+                  <td>{promotion.isActive ? 'Active' : 'Inactive'}</td>
+                  <td>{promotion.useCount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No promotions found</p>
+        )}
       </div>
     </div>
   );
