@@ -1,13 +1,12 @@
 // src/components/ManagePrices.jsx
+
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
+import React, { useEffect, useState } from 'react';
 import './ManagePrices.scss';
 
 const API_BASE_URL = 'http://localhost:8080';
 
 const ManagePrices = () => {
-  const { auth } = useContext(AuthContext);
   const [prices, setPrices] = useState([]);
   const [formPrices, setFormPrices] = useState({});
   const [error, setError] = useState(null);
@@ -15,31 +14,23 @@ const ManagePrices = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth.loading && auth.token) {
-      axios.get(`${API_BASE_URL}/api/tickets/prices`, {
-        headers: {
-          'Authorization': `Bearer ${auth.token}`,
-        },
-      })
-        .then(response => {
-          setPrices(response.data);
-          const initialForm = {};
-          response.data.forEach(price => {
-            initialForm[price.category] = price.basePrice;
-          });
-          setFormPrices(initialForm);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error('Error fetching prices:', error);
-          setError('Failed to fetch prices. Please check your credentials.');
-          setLoading(false);
+    axios.get(`${API_BASE_URL}/api/tickets/pricing`)
+      .then(response => {
+        console.log('Fetched Prices:', response.data); // Debugging line
+        setPrices(response.data);
+        const initialForm = {};
+        response.data.forEach(price => {
+          initialForm[price.category] = price.basePrice;
         });
-    } else if (!auth.loading && !auth.token) {
-      setError('You must be logged in to view prices.');
-      setLoading(false);
-    }
-  }, [auth]);
+        setFormPrices(initialForm);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching prices:', error);
+        setError('Failed to fetch prices.');
+        setLoading(false);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFormPrices({
@@ -50,20 +41,17 @@ const ManagePrices = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!auth.token) {
-      setError('You must be logged in to update prices.');
-      return;
-    }
 
     const updatePromises = prices.map(price => {
-      return axios.put(`${API_BASE_URL}/api/tickets/prices/${price.pricingId}`, {
+      if (price.id === undefined || price.id === null) {
+        console.error(`Missing id for category: ${price.category}`);
+        return Promise.reject(new Error(`Missing id for category: ${price.category}`));
+      }
+
+      return axios.put(`${API_BASE_URL}/api/tickets/pricing/${price.id}`, {
         basePrice: parseFloat(formPrices[price.category]),
         effectiveDate: price.effectiveDate,
         isActive: price.isActive,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${auth.token}`,
-        },
       });
     });
 
@@ -79,7 +67,7 @@ const ManagePrices = () => {
       });
   };
 
-  if (auth.loading || loading) {
+  if (loading) {
     return <div>Loading current prices...</div>;
   }
 
@@ -93,13 +81,16 @@ const ManagePrices = () => {
       <div className="current-prices">
         <h3>Current Prices</h3>
         {prices.map(price => (
-          <p key={price.pricingId}><strong>{price.category}:</strong> ${price.basePrice}</p>
+          <p key={price.id}><strong>{price.category}:</strong> ${price.basePrice}</p>
         ))}
       </div>
 
+      {/* Debugging Section: Display fetched prices
+      <pre>{JSON.stringify(prices, null, 2)}</pre> */}
+
       <form onSubmit={handleSubmit}>
         {prices.map(price => (
-          <div className="form-group" key={price.pricingId}>
+          <div className="form-group" key={price.id}>
             <label htmlFor={price.category}>{price.category} Ticket Price:</label>
             <input 
               type="number" 
