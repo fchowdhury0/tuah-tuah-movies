@@ -1,8 +1,7 @@
+// src/main/java/com/example/demo/controller/TicketController.java
 package com.example.demo.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.PriceUpdateDTO;
 import com.example.demo.entity.Prices;
 import com.example.demo.entity.Ticket;
 import com.example.demo.service.PricesService;
@@ -28,10 +28,12 @@ import com.example.demo.service.TicketService;
 public class TicketController {
 
     private final TicketService ticketService;
+    private final PricesService pricesService;
 
     @Autowired
-    public TicketController(TicketService ticketService) {
+    public TicketController(TicketService ticketService, PricesService pricesService) {
         this.ticketService = ticketService;
+        this.pricesService = pricesService;
     }
 
     // Get all tickets
@@ -86,58 +88,35 @@ public class TicketController {
         return ResponseEntity.ok("Ticket deleted successfully.");
     }
 
-    @Autowired
-    private PricesService pricesService;
-
+    // DTO for updating multiple prices
     public static class UpdatePricesRequest {
-        private Double adult;
-        private Double child;
-        private Double senior;
+        private List<PriceUpdateDTO> prices;
 
-        public Double getAdult() {
-            return adult;
+        public List<PriceUpdateDTO> getPrices() {
+            return prices;
         }
 
-        public void setAdult(Double adult) {
-            this.adult = adult;
-        }
-
-        public Double getChild() {
-            return child;
-        }
-
-        public void setChild(Double child) {
-            this.child = child;
-        }
-
-        public Double getSenior() {
-            return senior;
-        }
-
-        public void setSenior(Double senior) {
-            this.senior = senior;
+        public void setPrices(List<PriceUpdateDTO> prices) {
+            this.prices = prices;
         }
     }
 
+    // Get all active prices
     @GetMapping("/prices")
-    public ResponseEntity<Map<String, Object>> getCurrentPrices() {
-        Prices p = pricesService.getPrices();
-        Map<String, Object> priceMap = new HashMap<>();
-        priceMap.put("adult", p.getAdult());
-        priceMap.put("child", p.getChild());
-        priceMap.put("senior", p.getSenior());
-        return ResponseEntity.ok(priceMap);
+    public ResponseEntity<List<Prices>> getCurrentPrices() {
+        List<Prices> activePrices = pricesService.getActivePrices();
+        return ResponseEntity.ok(activePrices);
     }
 
+    // Update multiple ticket prices (Admin only)
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/prices")
+    @PutMapping("/prices")
     public ResponseEntity<?> updateTicketPrices(@RequestBody UpdatePricesRequest request) {
-        Prices updated = pricesService.updatePrices(request.getAdult(), request.getChild(), request.getSenior());
-        return ResponseEntity.ok("Ticket prices updated to: " +
-            "Adult: " + updated.getAdult() +
-            ", Child: " + updated.getChild() +
-            ", Senior: " + updated.getSenior());
+        try {
+            List<Prices> updatedPrices = pricesService.updatePrices(request.getPrices());
+            return ResponseEntity.ok(updatedPrices);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error updating prices: " + e.getMessage());
+        }
     }
-
-    // Other existing endpoints...
 }

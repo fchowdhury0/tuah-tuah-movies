@@ -18,9 +18,6 @@ public class Shows {
     @Column(name = "show_id")
     private Long showId;
 
-    @Column(name = "show_date", nullable = false) 
-    private LocalDateTime showDate;
-
     @Column(name = "show_time", nullable = false)
     private LocalDateTime showTime;
 
@@ -57,12 +54,6 @@ public class Shows {
         this.showId = showId;
     }
 
-    public LocalDateTime getShowDate() {
-      return showDate;
-  }
-  public void setShowDate(LocalDateTime showDate) {
-    this.showDate = showDate;
-}
     public LocalDateTime getShowTime() {
         return showTime;
     }

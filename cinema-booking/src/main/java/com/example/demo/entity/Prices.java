@@ -1,5 +1,7 @@
-
+// Prices.java
 package com.example.demo.entity;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,65 +11,65 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "prices")
+@Table(name = "pricing") // Updated table name from "prices" to "pricing"
 public class Prices {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "pricing_id") // Ensure this column exists in the "pricing" table
+    private Long pricingId;
 
-    @Column(name = "adult_price", nullable = false)
-    private Double adult;
+    @Column(name = "base_price")
+    private Double basePrice;
 
-    @Column(name = "child_price", nullable = false)
-    private Double child;
+    @Column(name = "category")
+    private String category;
 
-    @Column(name = "senior_price", nullable = false)
-    private Double senior;
+    @Column(name = "effective_date")
+    private LocalDate effectiveDate;
 
-    public Double getAdult() {
+    @Column(name = "is_active")
+    private Boolean isActive;
 
-        return adult;
+    // Getters and Setters
 
+    public Long getPricingId() {
+        return pricingId;
     }
 
-
-
-    public void setAdult(Double adult) {
-
-        this.adult = adult;
-
+    public void setPricingId(Long pricingId) {
+        this.pricingId = pricingId;
     }
 
-
-
-    public Double getChild() {
-
-        return child;
-
+    public Double getBasePrice() {
+        return basePrice;
     }
 
-
-
-    public void setChild(Double child) {
-
-        this.child = child;
-
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
     }
 
-
-
-    public Double getSenior() {
-
-        return senior;
-
+    public String getCategory() {
+        return category;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
+    public LocalDate getEffectiveDate() {
+        return effectiveDate;
+    }
 
-    public void setSenior(Double senior) {
+    public void setEffectiveDate(LocalDate effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 
-        this.senior = senior;
+    public Boolean getIsActive() {
+        return isActive;
+    }
 
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }
