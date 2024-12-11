@@ -36,7 +36,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Define public endpoints with pattern matching
     private static final List<String> PUBLIC_URL_PATTERNS = Arrays.asList(
         "/api/auth/**",
-        "/api/user/**"
+        "/api/user/**",
+        "/api/movies/**", // Add other public endpoints
+        "/api/promotions/**" // Add promotions endpoint
     );
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();

@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.entity.Promotions;
 import com.example.demo.service.PromotionsService;
@@ -19,8 +23,22 @@ public class PromotionsController {
 
     private final PromotionsService promotionsService;
 
+    @Autowired
     public PromotionsController(PromotionsService promotionsService) {
         this.promotionsService = promotionsService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Promotions> createPromotion(@RequestBody Promotions promotion) {
+        try {
+            Promotions savedPromotion = promotionsService.save(promotion);
+            return ResponseEntity.ok(savedPromotion);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR, 
+                "Error creating promotion: " + e.getMessage()
+            );
+        }
     }
 
     @GetMapping
@@ -30,21 +48,14 @@ public class PromotionsController {
 
     @GetMapping("/{id}")
     public Promotions getPromotion(@PathVariable Integer id) {
-        return promotionsService.findById(id).orElse(null);
-    }
-
-    @PostMapping
-    public Promotions createPromotion(@RequestBody Promotions promotion) {
-        return promotionsService.save(promotion);
+        return promotionsService.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Promotion not found"
+            ));
     }
 
     @PutMapping("/{id}")
     public Promotions updatePromotion(@PathVariable Integer id, @RequestBody Promotions promotion) {
         return promotionsService.update(id, promotion);
     }
-
-    // @PostMapping("/apply")
-    // public String applyPromoCode(@RequestBody String promoCode) {
-    //     return promotionsService.applyPromoCode(promoCode);
-    // }
 }
