@@ -231,9 +231,9 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/activate-account")
+    @GetMapping("/api/auth/activate-account")
     public ResponseEntity<?> activateUserAccount(@RequestParam("token") String token) {
-        logger.info("Account activation initiated with token.");
+        logger.info("Account activation initiated with token: {}", token);
 
         try {
             String username = jwtUtil.extractUsername(token);

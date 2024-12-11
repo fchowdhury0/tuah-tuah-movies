@@ -14,6 +14,7 @@ const Register = () => {
     formik.setFieldValue('saveCard', e.target.checked);
   };
 
+		    
   const formik = useFormik({
     initialValues: {
       username: '',

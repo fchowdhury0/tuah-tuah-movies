@@ -51,7 +51,8 @@ public class EmailService {
             message.setFrom(FROM_EMAIL);
             message.setTo(to);
             message.setSubject("Confirm Your Account - Hawk Tuah Movies");
-            String activationLink = "http://localhost:8080/api/auth/activate-account?token=" + activationToken;
+	    //            String activationLink = "http://localhost:8080/api/auth/activate-account?token=" + activationToken;
+	    String activationLink = "http://localhost:3000/activate-account?token=ksnslkam123@nks$1ad";
             String text = String.format("""
                 Welcome to Hawk Tuah Movies!
 

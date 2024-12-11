@@ -8,7 +8,8 @@ const API_BASE_URL = 'http://localhost:8080';
 
 const OrderTickets = () => {
   const { state } = useLocation();
-  const { seatCount, selectedSeats } = state || { seatCount: 0, selectedSeats: [] };
+    const { seatCount, selectedSeats, selectedMovie, selectedShowtime } = state || { seatCount: 0, selectedSeats: [], selectedMovie: {}, selectedShowtime: '' };
+
 
   const [tickets, setTickets] = useState({
     adult: 0,
@@ -67,7 +68,7 @@ const OrderTickets = () => {
     console.log('Total amount:', total);
     setTickets({ adult: 0, child: 0, senior: 0 });
     setTotal(0);
-    navigate('/checkout', { state: { tickets, total, seatCount, selectedSeats } });
+      navigate('/checkout', { state: { tickets, total, seatCount, selectedSeats, selectedMovie, selectedShowtime } });
   };
 
   if (error) {

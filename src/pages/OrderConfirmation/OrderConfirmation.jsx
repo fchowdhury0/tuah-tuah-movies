@@ -16,21 +16,19 @@ const OrderConfirmation = () => {
 
             const response = await axios.post(
                 'http://localhost:8080/api/movies/sendConfirmationEmail',
-                null,
-                {
-                    params: {
-                        email: userInfo.email,
-                        emailType: 'booking',
-                        movieTitle: selectedMovie?.title || 'Your movie',
-                        showtime: selectedShowtime || 'Selected time',
-                        seats: seatInfo
-                    }
-                }
+                {                
+                    email: userInfo.email,
+                    emailType: 'booking',
+                    movieTitle: selectedMovie?.title || 'Your movie',
+                    showtime: selectedShowtime || 'Selected time',
+                    seats: seatInfo
+		    
+		}
             );
             console.log('Email sent successfully:', response.data);
-        } catch (error) {
+	} catch (error) {
             console.error('Failed to send confirmation email:', error);
-        }
+	}
     };
 
     useEffect(() => {

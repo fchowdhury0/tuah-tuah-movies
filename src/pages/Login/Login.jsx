@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Ensure correct import
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import './Login.scss';
 
@@ -10,10 +10,30 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const [rememberMe, setRememberMe] = useState(false);
+const location = useLocation(); 
+    const [rememberMe, setRememberMe] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
+    const [activationSuccess, setActivationSuccess] = useState(false);
 
+    useEffect(() => {
+	const params = new URLSearchParams(location.search);
+	const activationToken = params.get('activationToken');
+	
+	if (activationToken) {
+	    // Call backend to validate and activate the account
+	    axios
+		.get(`http://localhost:8080/api/auth/activate-account?token=${activationToken}`)
+		.then((response) => {
+		    setActivationSuccess(true); // Set activation success state
+		    alert('Account activated successfully! You can now log in.');
+		})
+		.catch((err) => {
+		    setError('Failed to activate the account. Please check the token.');
+		    console.error('Activation error:', err);
+		});
+	}
+    }, [location]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -41,6 +61,7 @@ const Login = () => {
         const decoded = jwtDecode(jwt);
         console.log("Decoded token:", decoded);
 
+	  
         // Check role - ensure the role is included in the token claims
         // If your backend sets `role` in lowercase:
         const userRole = decoded.role ? decoded.role.toLowerCase() : null;

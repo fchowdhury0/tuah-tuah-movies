@@ -34,7 +34,7 @@ import OrderConfirmation from './pages/OrderConfirmation/OrderConfirmation.jsx';
 import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 import Register from './pages/Register/Register.jsx';
 import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation.jsx';
-
+import ActivationPage from './pages/ActivationPage/ActivationPage.jsx';
 // Forgot Password Pages
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
 
@@ -90,6 +90,10 @@ const App = () => {
     {
       path: "/forgot-password",
       element: <ForgotPassword />
+    },
+      {
+      path: '/activate-account', // Added this route for activation
+      element: <ActivationPage />
     },
     {
       path: '/admin',
