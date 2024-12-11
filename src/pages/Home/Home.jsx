@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard/MovieCard.jsx';
 import NavBar from '../../components/NavBar/NavBar.jsx';
+import GenreFilter from '../../components/GenreFilter/GenreFilter'
 import './Home.scss';
 
 const Home = () => {
@@ -10,6 +11,8 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+
+  const [selectedGenre, setSelectedGenre] = useState('')
 
   useEffect(() => {
     fetchMovies();
@@ -36,6 +39,48 @@ const Home = () => {
         setLoading(false);
       });
   };
+
+  const handleGenreSearch = (genre) => {
+    setSearchTerm('')
+    setSelectedGenre(genre)
+    
+    if (selectedGenre === genre) {
+      setSelectedGenre('')
+      genre = ''
+    }
+    
+    if (genre === '') {
+      // If the search term is empty, fetch all movies
+      setLoading(true); // Set loading to true before fetching
+      fetchMovies();
+      return;
+    } else {
+
+    // Set loading to true when initiating a search
+    setLoading(true);
+
+    // Update the API endpoint to use the correct port (8080)
+    fetch(`http://localhost:8080/api/movies/genre?category=${genre}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Search failed! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log('Search results:', data); // Log the search results
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format received from API');
+        }
+        setMovies(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+    }
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -97,7 +142,7 @@ const Home = () => {
 
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <div className="app">
         {/* Search Bar */}
         <div className="search">
@@ -112,6 +157,13 @@ const Home = () => {
               🔍
             </button>
           </form>
+        </div>
+        <div className="filter-container">
+          <h4>Filter by Genre:</h4>
+          <GenreFilter
+            selectedGenre={selectedGenre}
+            handleGenreSearch={handleGenreSearch}
+          />
         </div>
 
         {/* Currently Running Movies Section */}

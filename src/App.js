@@ -7,15 +7,18 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import './App.scss';
+import { AuthProvider } from './context/AuthContext';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout.jsx';
 
 // Admin Pages
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
+import ManageFees from './pages/Admin/Fees/ManageFees';
 import AddMovie from './pages/Admin/Movies/AddMovie/AddMovie';
 import EditMovie from './pages/Admin/Movies/ManageMovies/EditMovie.jsx';
 import ManageMovies from './pages/Admin/Movies/ManageMovies/ManageMovies';
+import ManagePrices from './pages/Admin/Prices/ManagePrices';
 import ManagePromotions from './pages/Admin/Promotions/ManagePromotions';
 import ScheduleMovie from './pages/Admin/Schedule/ScheduleMovie';
 import ManageUsers from './pages/Admin/Users/ManageUsers';
@@ -32,14 +35,13 @@ import OrderTickets from './pages/OrderTickets/OrderTickets.jsx';
 import Register from './pages/Register/Register.jsx';
 import RegistrationConfirmation from './pages/RegistrationConfirmation/RegistrationConfirmation.jsx';
 
-// New Forgot Password and Reset Password Pages
+// Forgot Password Pages
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
 
 // 404 Page
 import NotFound from './pages/NotFound/NotFound.jsx';
 
 const App = () => {
-
   const router = createBrowserRouter([
     {
       path: '/',
@@ -65,7 +67,8 @@ const App = () => {
       path: "/login",
       element: <Login />
     },
-    { path: "/logout",
+    { 
+      path: "/logout",
       element: <Logout />
     },
     {
@@ -80,61 +83,69 @@ const App = () => {
       path: "/editprofile",
       element: <EditProfile />
     },
-      {
-	  path: "/checkout",
-	  element: <Checkout />
-      },
-      {
-	  path: "/forgot-password",
-	  element: <ForgotPassword />
-      },
-
-      {
+    {
+      path: "/checkout",
+      element: <Checkout />
+    },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />
+    },
+    {
       path: '/admin',
       element: <AdminLayout />, // Wrap admin routes with AdminLayout
       children: [
         {
-          path: '', // Accessible at /admin/home
+          path: '', // Accessible at /admin
           element: <AdminDashboard />,
         },
         {
-          path: 'managemovies', // Accessible at /admin/managemovies
+          path: 'managemovies', // /admin/managemovies
           element: <ManageMovies />,
         },
         {
-          path: 'manageusers', // Accessible at /admin/manageusers
+          path: 'manageusers', // /admin/manageusers
           element: <ManageUsers />,
         },
         {
-          path: 'managepromotions', // Accessible at /admin/managepromotions
+          path: 'managepromotions', // /admin/managepromotions
           element: <ManagePromotions />,
         },
         {
-          path: 'schedulemovie', // Accessible at /admin/schedulemovie
+          path: 'schedulemovie', // /admin/schedulemovie
           element: <ScheduleMovie />,
         },
         {
-          path: 'addmovie', // Accessible at /admin/addmovie
+          path: 'addmovie', // /admin/addmovie
           element: <AddMovie />,
         },
         {
           path: `editmovie/:id`,
           element: <EditMovie />,
+        },
+        {
+          path: 'manageprices', // /admin/manageprices
+          element: <ManagePrices />,
+        },
+        {
+          path: 'managefees', // /admin/managefees
+          element: <ManageFees />,
         }
       ],
     },
     {
       path: '*',
-      element: <NotFound />, // Fallback Route for 404
+      element: <NotFound />, // Fallback for 404
     },
   ]);
 
   return (
-    <div className="wrapper">
-      <RouterProvider router={router} />
-    </div>
+    <AuthProvider>
+      <div className="wrapper">
+        <RouterProvider router={router} />
+      </div>
+    </AuthProvider>
   );
-  
 };
 
 export default App;

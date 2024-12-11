@@ -1,5 +1,5 @@
 import './SeatingChart.scss'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 const seatingArray = [
@@ -7,6 +7,36 @@ const seatingArray = [
   ['B1', 'B2', 'B3']
 ];
 const SeatingChart = ({ selectedSeats, setSelectedSeats }) => {
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [seats, setSeats] = useState([]);
+  useEffect(() => {
+    fetchSeats();
+  }, []);
+
+  const fetchSeats = () => {
+    fetch('http://localhost:8080/api/seating')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log('Seats data:', data); // Log the data to verify
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format received from API');
+        }
+        setSeats(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  };
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -20,21 +50,18 @@ const SeatingChart = ({ selectedSeats, setSelectedSeats }) => {
     });
     console.log(selectedSeats);
   };
+  
 
   return (
     <div className="seating-chart">
-      {seatingArray.map((row, rowIndex) => (
-        <div key={rowIndex} className="row">
-          {row.map((seat, seatIndex) => (
+      {seats.map((seat) => (
+        <div key={seat}>
             <button
-              key={seatIndex}
               className={`seat${selectedSeats.includes(seat) ? '-selected' : ''}`}
               onClick={() => handleSeatClick(seat)}
             >
-              {seat}
+              {seat.formattedSeat}
             </button>
-
-          ))}
         </div>
       ))}
     </div>

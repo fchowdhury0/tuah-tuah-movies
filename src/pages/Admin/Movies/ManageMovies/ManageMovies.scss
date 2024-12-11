@@ -1,24 +1,15 @@
 // ManageMovies.scss
-// Variables
-$primary-blue: #6299c3;
-$danger-red: #dc3545;
-$dark-bg: #1a1d1f;
-$text-light: #ffffff;
-$border-color: rgba(255, 255, 255, 0.1);
-$transition: all 0.3s ease;
-// Variables
-$primary-color: #6299c3;
-$secondary-color: #1889d5;
-$dark-bg: #212426;
-$darker-bg: #1a1d1f;
-$text-light: #ffffff;
-$text-muted: #a1a1a1;
-$transition: all 0.3s ease;
 
-.main {
+// Import Variables and Mixins
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+// Manage Movies Container
+.manage-movies {
   height: 100%;
   width: 100%;
   background: $dark-bg;
+  color: $text-light;
 
   .top-style {
     display: flex;
@@ -36,21 +27,20 @@ $transition: all 0.3s ease;
         font-weight: 600;
         cursor: pointer;
         transition: $transition;
+        color: $text-light;
 
         &.add-movie-button {
-          background: linear-gradient(135deg, $primary-blue, darken($primary-blue, 10%));
-          color: $text-light;
-          box-shadow: 0 4px 15px rgba($primary-blue, 0.3);
+          background: linear-gradient(135deg, $primary-btn-color, darken($primary-btn-color, 10%));
+          box-shadow: 0 4px 15px rgba($primary-btn-color, 0.3);
 
           &:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba($primary-blue, 0.4);
+            box-shadow: 0 6px 20px rgba($primary-btn-color, 0.4);
           }
         }
 
         &.delete-movie-button {
           background: linear-gradient(135deg, $danger-red, darken($danger-red, 10%));
-          color: $text-light;
           box-shadow: 0 4px 15px rgba($danger-red, 0.3);
 
           &:hover {
@@ -62,59 +52,112 @@ $transition: all 0.3s ease;
     }
   }
 
-
-  .form-input {
-    display: flex;
-    width: auto;
-    min-width: 20ch;
-    /* Minimum width to accommodate shorter texts */
-    max-width: 100%;
-    /* Maximum width to prevent overflow */
-    padding: 10px;
-    /* Adjust padding as needed */
-    font-size: 16px;
-    /* Adjust font size as needed */
-    box-sizing: border-box;
-    /* Ensures padding is included in the width */
-
-  }
-
   .form-container {
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
     background: lighten($dark-bg, 2%);
     border-bottom: 1px solid $border-color;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
 
-    .text-input {
-      width: 100%;
-      height: 100%;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid $border-color;
-      border-radius: 8px;
-      color: $text-light;
-      font-size: 1rem;
-      transition: $transition;
+    .add-movie-form,
+    .delete-movie-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
 
-      &:focus {
-        outline: none;
-        border-color: $primary-blue;
-        box-shadow: 0 0 0 2px rgba($primary-blue, 0.2);
-      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
 
-      &::placeholder {
-        color: rgba($text-light, 0.5);
+        label {
+          margin-bottom: 0.5rem;
+          color: $text-light;
+          font-weight: 500;
+        }
+
+        .input,
+        .textarea,
+        select {
+          padding: 0.75rem 1rem;
+          border: 1px solid $border-color;
+          border-radius: 8px;
+          font-size: 1rem;
+          background-color: rgba($text-light, 0.05);
+          color: $text-light;
+          transition: $transition;
+
+          &:focus {
+            outline: none;
+            border-color: $primary-btn-color;
+            box-shadow: 0 0 0 2px rgba($primary-btn-color, 0.2);
+            background-color: rgba($text-light, 0.1);
+          }
+
+          &::placeholder {
+            color: rgba($text-light, 0.5);
+          }
+        }
+
+        .textarea {
+          min-height: 100px;
+          resize: vertical;
+        }
+
+        .array-field {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.5rem;
+
+          .input {
+            flex: 1;
+          }
+
+          .remove-button {
+            @include button-style;
+            background-color: $danger-red;
+            color: $text-light;
+
+            &:hover {
+              background-color: darken($danger-red, 10%);
+            }
+          }
+        }
+
+        .add-button {
+          @include button-style;
+          background-color: $primary-btn-color;
+          color: $text-light;
+          align-self: flex-start;
+
+          &:hover {
+            background-color: darken($primary-btn-color, 10%);
+          }
+        }
+
+        .submit-button {
+          @include button-style;
+          background: linear-gradient(135deg, $primary-btn-color, $secondary-btn-color);
+          color: $text-light;
+          align-self: center;
+          padding: 0.75rem 1.5rem;
+
+          &:hover {
+            background: linear-gradient(135deg, lighten($primary-btn-color, 5%), lighten($secondary-btn-color, 5%));
+          }
+        }
+
+        .error-message {
+          color: $danger-red;
+          font-size: 0.875rem;
+          margin-top: 0.25rem;
+        }
       }
     }
   }
 
-  .date-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
   .admin-view {
     padding: 1.5rem;
     border-bottom: 1px solid $border-color;
@@ -127,7 +170,7 @@ $transition: all 0.3s ease;
       font-weight: 600;
 
       &.box1 {
-        border-left: 4px solid $primary-blue;
+        border-left: 4px solid $primary-btn-color;
       }
     }
   }
@@ -148,49 +191,63 @@ $transition: all 0.3s ease;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 2rem;
     }
-  }
-}
-.date-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-.add-showtime-button {
-  background-color: green;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(rgb(0, 85, 0), 0.4);
+    .error {
+      color: $danger-red;
+      font-size: 1rem;
+      text-align: center;
+    }
   }
-}
-.add-button {
-  width: fit-content;
-  padding: 1rem;
-  background: green;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  color: $text-light;
-  cursor: pointer;
-  transition: $transition;
-  text-align: center;
 
-  &:hover {
+  .date-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .add-showtime-button {
+    @include button-style;
+    background-color: green;
+    color: $text-light;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 85, 0, 0.4);
+    }
+  }
+
+  .add-button {
+    width: fit-content;
+    padding: 1rem;
     background: green;
-    transform: translateY(-2px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: $text-light;
+    cursor: pointer;
+    transition: $transition;
+    text-align: center;
+
+    &:hover {
+      background: darken(green, 10%);
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+    }
   }
 
-  &.active {
-    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
-    border-color: transparent;
-    box-shadow: 0 8px 20px rgba($primary-color, 0.3);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .main {
+  @media screen and (max-width: 768px) {
     .top-style {
       flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-container {
+      padding: 1rem;
     }
 
     section {
@@ -198,6 +255,19 @@ $transition: all 0.3s ease;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1rem;
       }
+    }
+
+    .button-container {
+      button {
+        width: 100%;
+      }
+    }
+
+    .add-button,
+    .remove-button,
+    .submit-button,
+    .add-showtime-button {
+      width: 100%;
     }
   }
 }
