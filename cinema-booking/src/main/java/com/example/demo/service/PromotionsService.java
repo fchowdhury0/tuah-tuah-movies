@@ -17,11 +17,15 @@ public class PromotionsService {
 
     private final PromotionsRepository promotionsRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public PromotionsService(PromotionsRepository promotionsRepository, UserRepository userRepository) {
+    public PromotionsService(PromotionsRepository promotionsRepository,
+                             UserRepository userRepository,
+                             EmailService emailService) {
         this.promotionsRepository = promotionsRepository;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     public Promotions save(Promotions promotion) {
@@ -67,5 +71,16 @@ public class PromotionsService {
                 .orElseThrow(() -> new RuntimeException("Promotion not found"));
         promotion.setUseCount(promotion.getUseCount() + 1);
         return promotionsRepository.save(promotion);
+    }
+
+    public void sendPromotionEmails(Promotions promotion, String emailSubject, String emailMessage) {
+        List<User> subscribedUsers = userRepository.findAll().stream()
+            .filter(User::getIsSubscribed)
+            .toList();
+
+        for (User user : subscribedUsers) {
+            String personalizedMessage = String.format("%s\n\nPromotion Code: %s", emailMessage, promotion.getPromoCode());
+            emailService.sendSimpleMessage(user.getEmail(), emailSubject, personalizedMessage);
+        }
     }
 }

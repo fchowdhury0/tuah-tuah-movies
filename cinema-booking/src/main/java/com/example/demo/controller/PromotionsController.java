@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.demo.dto.EmailRequest;
 import com.example.demo.entity.Promotions;
 import com.example.demo.service.PromotionsService;
 
@@ -57,5 +58,18 @@ public class PromotionsController {
     @PutMapping("/{id}")
     public Promotions updatePromotion(@PathVariable Integer id, @RequestBody Promotions promotion) {
         return promotionsService.update(id, promotion);
+    }
+
+    @PostMapping("/send-emails")
+    public ResponseEntity<String> sendPromotionEmails(@RequestBody EmailRequest emailRequest) {
+        try {
+            Promotions promotion = promotionsService.findById(emailRequest.getPromotionId())
+                .orElseThrow(() -> new RuntimeException("Promotion not found"));
+            promotionsService.sendPromotionEmails(promotion, emailRequest.getEmailSubject(), emailRequest.getEmailMessage());
+            return ResponseEntity.ok("Emails sent successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error sending promotion emails: " + e.getMessage());
+        }
     }
 }
