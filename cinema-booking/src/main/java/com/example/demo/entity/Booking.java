@@ -38,5 +38,40 @@ public class Booking {
     @OneToMany(mappedBy = "booking")
     private List<BookingTicket> bookingTickets;
 
+    public BigDecimal getTotalBookingCost() {
+        return totalBookingCost;
+    }
+
+    public void setTotalBookingCost(BigDecimal totalBookingCost) {
+        this.totalBookingCost = totalBookingCost;
+    }
+
+    public Integer getNumberOfTickets() {
+        return numberOfTickets;
+    }
+
+    public void setNumberOfTickets(Integer numberOfTickets) {
+        this.numberOfTickets = numberOfTickets;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public void setBookingTickets(List<BookingTicket> bookingTickets) {
+        this.bookingTickets = bookingTickets;
+    }
+
+    public void setBookingId(Integer bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public Integer getBookingId() {
+        return bookingId;
+    }
     // Getters, setters, constructors...
 }

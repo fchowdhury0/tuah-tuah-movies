@@ -42,29 +42,28 @@ public class ShowsController {
     Optional<Shows> show = showsRepository.findById(id);
     return show.orElse(null);
   }
+    @PutMapping("/{id}")
+    public Shows updateShow(@PathVariable Long id, @RequestBody Shows updatedShow) {
+        return showsRepository.findById(id)
+                .map(show -> {
+                    show.setShowTime(updatedShow.getShowTime());
+                    show.setShowDuration(updatedShow.getShowDuration());
+                    show.setShowRoom(updatedShow.getShowRoom());
+                    show.setMovieId(updatedShow.getMovieId());
+                    show.setSeatsRemaining(updatedShow.getSeatsRemaining());
+                    return showsRepository.save(show);
+                })
+                .orElseGet(() -> {
+                    updatedShow.setShowId(id);
+                    return showsRepository.save(updatedShow);
+                });
+    }
 
   @PostMapping
   public Shows createShow(@RequestBody Shows newShow) {
     return showsRepository.save(newShow);
   }
 
-  @PutMapping("/{id}")
-  public Shows updateShow(@PathVariable Long id, @RequestBody Shows updatedShow) {
-    return showsRepository.findById(id)
-        .map(show -> {
-          show.setShowDate(updatedShow.getShowDate());
-          show.setShowTime(updatedShow.getShowTime());
-          show.setShowDuration(updatedShow.getShowDuration());
-          show.setShowRoom(updatedShow.getShowRoom());
-          show.setMovieId(updatedShow.getMovieId());
-          show.setSeatsRemaining(updatedShow.getSeatsRemaining());
-          return showsRepository.save(show);
-        })
-        .orElseGet(() -> {
-          updatedShow.setShowId(id);
-          return showsRepository.save(updatedShow);
-        });
-  }
 
   @DeleteMapping("/{id}")
   public void deleteShow(@PathVariable Long id) {

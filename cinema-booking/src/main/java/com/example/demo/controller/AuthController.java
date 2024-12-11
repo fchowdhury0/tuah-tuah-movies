@@ -78,13 +78,30 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // Generate JWT token
-            String jwtToken = jwtUtil.generateToken(loginRequest.getUsername());
+            // authentication.getPrincipal() returns a UserDetails, not your JPA User
+            Object principal = authentication.getPrincipal();
+            if (!(principal instanceof org.springframework.security.core.userdetails.User)) {
+                // If it's not the default Spring Security UserDetails, handle accordingly
+                logger.error("Principal is not an instance of UserDetails");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication error");
+            }
 
-            logger.info("User logged in: " + loginRequest.getUsername());
+            // Extract username from the UserDetails
+            org.springframework.security.core.userdetails.User springUserDetails = 
+                (org.springframework.security.core.userdetails.User) principal;
+            String username = springUserDetails.getUsername();
+
+            // Now load the User entity from the database
+            User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found in the database"));
+
+            // Generate JWT token with role
+            String jwt = jwtUtil.generateTokenWithRole(user.getUsername(), user.getRole());
+
+            logger.info("User logged in: " + username);
 
             // Return JWT token in response
-            return ResponseEntity.ok(new JwtResponse(jwtToken));
+            return ResponseEntity.ok(new JwtResponse(jwt));
 
         } catch (DisabledException ex) {
             logger.warn("User account is not activated: " + loginRequest.getUsername());

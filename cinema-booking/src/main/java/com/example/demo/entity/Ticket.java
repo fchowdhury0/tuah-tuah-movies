@@ -34,6 +34,12 @@ public class Ticket {
         this.ticketPrice = ticketPrice;
     }
 
+    public String getTicketStatus() {
+        return ticketStatus;
+    }
 
+    public void setTicketStatus(String ticketStatus) {
+        this.ticketStatus = ticketStatus;
+    }
     // Getters, setters, constructors...
 }

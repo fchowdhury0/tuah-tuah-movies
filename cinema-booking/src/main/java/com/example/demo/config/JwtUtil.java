@@ -34,6 +34,16 @@ public class JwtUtil {
         return createToken(claims, user.getUsername(), ACTIVATION_SECRET_KEY, 1000 * 60 * 60 * 24); // 24-hour expiration
     }
 
+    public String generateTokenWithRole(String username, String role) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "ROLE_" + role.toUpperCase());
+        return createToken(claims, username, AUTH_SECRET_KEY, 1000 * 60 * 60 * 10);
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class), AUTH_SECRET_KEY);
+    }
+
     private String createToken(Map<String, Object> claims, String subject, String secretKey, long expirationTime) {
         return Jwts.builder()
                    .setClaims(claims)

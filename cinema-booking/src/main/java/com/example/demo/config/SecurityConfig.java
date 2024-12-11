@@ -46,13 +46,12 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(
-                    "/api/auth/**",
-                    "/api/movies/**",
-                    "/api/movies/sendConfirmationEmail",
-                    "/api/email/**",
-                    "/api/user/**"
-                ).permitAll()
+                .requestMatchers("/api/auth/**",
+                               "/api/movies/**",
+                               "/api/email/**",
+                               "/api/user/**",
+                               "/api/fees/**").permitAll()
+                // Change from hasRole to hasAuthority since roles are stored with ROLE_ prefix
                 .anyRequest().permitAll()
             )
             .sessionManagement(session -> session
@@ -62,7 +61,8 @@ public class SecurityConfig {
                 .authenticationEntryPoint((request, response, ex) -> {
                     logger.error("Authentication error for path: {} - Error: {}", 
                         request.getRequestURI(), ex.getMessage());
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, 
+                        "Access denied: " + ex.getMessage());
                 })
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

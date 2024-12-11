@@ -38,13 +38,16 @@ const OrderTickets = () => {
     setTickets((prev) => {
       const updatedCount = Math.max(0, prev[type] + increment); // Ensure no negative tickets
       const updatedTickets = { ...prev, [type]: updatedCount };
-      const newTotal = Object.values(updatedTickets).reduce((acc, count) => acc + count, 0);
-
-      if (newTotal > seatCount) {
+      
+      // Calculate total number of tickets selected
+      const totalTickets = Object.values(updatedTickets).reduce((sum, count) => sum + count, 0);
+      
+      // Check if total tickets would exceed seatCount
+      if (totalTickets > seatCount) {
         alert(`You cannot select more than ${seatCount} tickets!`);
-        return prev; // Prevent exceeding the allowed number of tickets
+        return prev; // Return previous state without changes
       }
-
+  
       calculateTotal(updatedTickets, ticketPrices);
       return updatedTickets;
     });
@@ -97,7 +100,7 @@ const OrderTickets = () => {
               <button 
                 className="calc-button" 
                 onClick={() => handleTicketChange(type, 1)} 
-                disabled={total >= seatCount}
+                disabled={Object.values(tickets).reduce((sum, count) => sum + count, 0) >= seatCount}
               >
                 +
               </button>

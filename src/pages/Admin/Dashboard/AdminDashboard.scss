@@ -1,92 +1,281 @@
+/* AdminDashboard.scss */
+
 // Variables
 $primary-blue: #6299c3;
-$dark-bg: #1a1d1f;
-$card-bg: lighten($dark-bg, 3%);
+$secondary-color: #1889d5;
+$dark-bg: #1a1d1f; // Darker background for better contrast
+$card-bg: lighten($dark-bg, 10%); // Increased lightening for better card visibility
 $text-light: #ffffff;
-$border-color: rgba(255, 255, 255, 0.1);
+$border-color: rgba(255, 255, 255, 0.2); // Enhanced border color for better separation
 $transition: all 0.3s ease;
 
+// Admin Dashboard Container
 .admin-dashboard {
   padding: 2rem;
   background: $dark-bg;
-  min-height: 100%;
+  min-height: 100vh; // Ensures full viewport height
   color: $text-light;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; // Adds space between sections
 
+  // Stats Grid Layout
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 2rem;
-
+    width: 100%;
+    
+    // Individual Stats Card
     .stats-card {
       background: $card-bg;
       padding: 1.5rem;
       border-radius: 12px;
       border: 1px solid $border-color;
       transition: $transition;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
       }
 
       h3 {
-        font-size: 1rem;
-        color: rgba($text-light, 0.7);
-        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        color: rgba($text-light, 0.8);
+        margin-bottom: 0.5rem;
       }
 
       .stats-value {
         font-size: 2.5rem;
-        font-weight: 600;
+        font-weight: 700;
         color: $primary-blue;
       }
     }
   }
 
+  // Quick Actions Section
   .quick-actions {
     background: $card-bg;
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 12px;
     border: 1px solid $border-color;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 
     h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: rgba($text-light, 0.9);
+      margin-bottom: 1rem;
+      text-align: center;
     }
 
     .action-buttons {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
+      justify-content: center;
 
       .action-btn {
         padding: 12px 24px;
         border: none;
         border-radius: 8px;
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
         transition: $transition;
         color: $text-light;
+        min-width: 150px;
+        text-align: center;
 
         &.add-movie {
           background: linear-gradient(135deg, $primary-blue, darken($primary-blue, 10%));
+
+          &:hover {
+            background: linear-gradient(135deg, lighten($primary-blue, 10%), darken($primary-blue, 5%));
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+          }
         }
 
         &.schedule {
           background: linear-gradient(135deg, #28a745, darken(#28a745, 10%));
+
+          &:hover {
+            background: linear-gradient(135deg, lighten(#28a745, 10%), darken(#28a745, 5%));
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+          }
         }
 
         &.promotion {
           background: linear-gradient(135deg, #ffc107, darken(#ffc107, 10%));
+
+          &:hover {
+            background: linear-gradient(135deg, lighten(#ffc107, 10%), darken(#ffc107, 5%));
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+          }
         }
 
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        &.prices {
+          background: linear-gradient(135deg, #17a2b8, darken(#17a2b8, 10%));
+
+          &:hover {
+            background: linear-gradient(135deg, lighten(#17a2b8, 10%), darken(#17a2b8, 5%));
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+          }
+        }
+
+        &.fees {
+          background: linear-gradient(135deg, #6c757d, darken(#6c757d, 10%));
+
+          &:hover {
+            background: linear-gradient(135deg, lighten(#6c757d, 10%), darken(#6c757d, 5%));
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+          }
+        }
+
+        &:active {
+          transform: scale(0.98);
         }
       }
+    }
+  }
+
+  // Loading and Error Messages
+  .loading,
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+
+    .spinner {
+      border: 6px solid rgba($text-light, 0.2);
+      border-top: 6px solid $primary-blue;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+
+    .error-message {
+      background: rgba(255, 0, 0, 0.1);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      color: #ff4d4f;
+      max-width: 400px;
+
+      h3 {
+        margin-bottom: 0.5rem;
+      }
+
+      .retry-button {
+        margin-top: 1rem;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #ff4d4f, darken(#ff4d4f, 10%));
+        border: none;
+        border-radius: 6px;
+        color: $text-light;
+        font-weight: 600;
+        cursor: pointer;
+        transition: $transition;
+
+        &:hover {
+          background: linear-gradient(135deg, lighten(#ff4d4f, 10%), darken(#ff4d4f, 5%));
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+
+    .loading-message {
+      font-size: 1.2rem;
+      color: $primary-blue;
+    }
+  }
+}
+
+// Keyframes for Spinner Animation
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .stats-card {
+    padding: 1rem;
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    .stats-value {
+      font-size: 2rem;
+    }
+  }
+
+  .quick-actions {
+    padding: 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+
+      .action-btn {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+  }
+
+  .loading,
+  .error-container {
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border-width: 4px;
+    }
+
+    .error-message {
+      padding: 1rem;
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      .retry-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .loading-message {
+      font-size: 1rem;
     }
   }
 }

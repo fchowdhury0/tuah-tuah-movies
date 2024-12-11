@@ -1,111 +1,259 @@
 // ManagePromotions.jsx
-
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 import './ManagePromotions.scss';
 
+const API_BASE_URL = 'http://localhost:8080';
+
 const ManagePromotions = () => {
+  const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [promotions, setPromotions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [newPromotion, setNewPromotion] = useState({
-    code: '',
-    discount: '',
+    promoCode: '',
+    startDate: '',
+    expDate: '',
     description: '',
-    expiryDate: '',
+    isActive: true
   });
 
   useEffect(() => {
-    axios.get('/api/admin/promotions')
-      .then(response => setPromotions(response.data))
-      .catch(error => console.error('Error fetching promotions:', error));
-  }, []);
+    const fetchData = async () => {
+      if (!auth.token) {
+        setError('You must be logged in to access this page');
+        setLoading(false);
+        navigate('/login');
+        return;
+      }
+      await fetchPromotions();
+    };
+    fetchData();
+  }, [auth.token, navigate]);
+
+  const fetchPromotions = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/promotions`, {
+        headers: {
+          'Authorization': `Bearer ${auth.token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      setPromotions(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching promotions:', err);
+      setError('Failed to load promotions');
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     setNewPromotion({
       ...newPromotion,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
-  const handleAddPromotion = (e) => {
+  const sendPromotionEmails = async (promotionData) => {
+    try {
+      await axios.post(
+        `${API_BASE_URL}/api/promotions/send-emails`,
+        promotionData,
+        {
+          headers: {
+            'Authorization': `Bearer ${auth.token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      setSuccess('Promotion created and emails sent successfully');
+    } catch (err) {
+      console.error('Error sending promotion emails:', err);
+      setError('Failed to send promotion emails');
+    }
+  };
+
+  const handleAddPromotion = async (e) => {
     e.preventDefault();
-    axios.post('/api/admin/promotions', newPromotion)
-      .then(response => {
-        setPromotions([...promotions, response.data]);
-        setNewPromotion({
-          code: '',
-          discount: '',
-          description: '',
-          expiryDate: '',
+    if (!auth.token) {
+      setError('You must be logged in to add promotions');
+      return;
+    }
+  
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/promotions`, 
+        newPromotion,
+        {
+          headers: {
+            'Authorization': `Bearer ${auth.token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+  
+      if (newPromotion.sendEmail) {
+        await sendPromotionEmails({
+          ...response.data,
+          emailSubject: newPromotion.emailSubject,
+          emailMessage: newPromotion.emailMessage
         });
-        alert('Promotion added successfully');
-      })
-      .catch(error => {
-        console.error('Error adding promotion:', error);
-        alert('Failed to add promotion');
+      }
+  
+      setSuccess('Promotion created successfully');
+      setError(null);
+      setNewPromotion({
+        promoCode: '',
+        startDate: '',
+        expDate: '',
+        description: '',
+        isActive: true,
+        emailSubject: '',
+        emailMessage: '',
+        sendEmail: false
       });
+      fetchPromotions();
+    } catch (err) {
+      console.error('Error creating promotion:', err);
+      setError('Failed to create promotion');
+      setSuccess(null);
+    }
   };
 
-  const handleDeletePromotion = (id) => {
-    axios.delete(`/api/admin/promotions/${id}`)
-      .then(() => {
-        setPromotions(promotions.filter(promotion => promotion.id !== id));
-        alert('Promotion deleted successfully');
-      })
-      .catch(error => {
-        console.error('Error deleting promotion:', error);
-        alert('Failed to delete promotion');
-      });
-  };
+  if (!auth.token) {
+    return <div className="error-message">Please log in to continue</div>;
+  }
 
+  if (loading) return <div className="loading">Loading promotions...</div>;
+  
   return (
     <div className="manage-promotions">
       <h2>Manage Promotions</h2>
+      
+      {success && <div className="success-message">{success}</div>}
+      {error && <div className="error-message">{error}</div>}
+      
+      <div className="form-group">
+        <label>
+          <input 
+            type="checkbox" 
+            name="sendEmail" 
+            checked={newPromotion.sendEmail} 
+            onChange={(e) => setNewPromotion({
+              ...newPromotion,
+              sendEmail: e.target.checked
+            })} 
+          />
+          Send Email to Subscribed Users
+        </label>
+      </div>
+
+      {newPromotion.sendEmail && (
+        <>
+          <div className="form-group">
+            <label>Email Subject:</label>
+            <input 
+              type="text" 
+              name="emailSubject" 
+              value={newPromotion.emailSubject} 
+              onChange={handleChange} 
+              required={newPromotion.sendEmail}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Email Message:</label>
+            <textarea 
+              name="emailMessage" 
+              value={newPromotion.emailMessage} 
+              onChange={handleChange} 
+              required={newPromotion.sendEmail}
+              rows="4"
+            />
+          </div>
+        </>
+      )}
+
       <form onSubmit={handleAddPromotion}>
         <h3>Add New Promotion</h3>
         <div className="form-group">
           <label>Promotion Code:</label>
-          <input type="text" name="code" value={newPromotion.code} onChange={handleChange} required />
+          <input 
+            type="text" 
+            name="promoCode" 
+            value={newPromotion.promoCode} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
+        
         <div className="form-group">
-          <label>Discount (%):</label>
-          <input type="number" name="discount" value={newPromotion.discount} onChange={handleChange} required />
+          <label>Start Date:</label>
+          <input 
+            type="date" 
+            name="startDate" 
+            value={newPromotion.startDate} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
-        <div className="form-group">
-          <label>Description:</label>
-          <input type="text" name="description" value={newPromotion.description} onChange={handleChange} />
-        </div>
+
         <div className="form-group">
           <label>Expiry Date:</label>
-          <input type="date" name="expiryDate" value={newPromotion.expiryDate} onChange={handleChange} />
+          <input 
+            type="date" 
+            name="expDate" 
+            value={newPromotion.expDate} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
-        <button type="submit">Add Promotion</button>
+
+        <div className="form-group">
+          <label>Description:</label>
+          <input 
+            type="text" 
+            name="description" 
+            value={newPromotion.description} 
+            onChange={handleChange} 
+          />
+        </div>
+
+        <button type="submit" className="submit-button">Add Promotion</button>
       </form>
 
-      <h3>Existing Promotions</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Discount</th>
-            <th>Description</th>
-            <th>Expiry Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {promotions.map(promotion => (
-            <tr key={promotion.id}>
-              <td>{promotion.code}</td>
-              <td>{promotion.discount}%</td>
-              <td>{promotion.description}</td>
-              <td>{promotion.expiryDate}</td>
-              <td>
-                <button onClick={() => handleDeletePromotion(promotion.id)}>Delete</button>
-              </td>
+      <div className="promotions-list">
+        <h3>Existing Promotions</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Start Date</th>
+              <th>Expiry Date</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Use Count</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {promotions.map(promotion => (
+              <tr key={promotion.promoId}>
+                <td>{promotion.promoCode}</td>
+                <td>{new Date(promotion.startDate).toLocaleDateString()}</td>
+                <td>{new Date(promotion.expDate).toLocaleDateString()}</td>
+                <td>{promotion.description}</td>
+                <td>{promotion.isActive ? 'Active' : 'Inactive'}</td>
+                <td>{promotion.useCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

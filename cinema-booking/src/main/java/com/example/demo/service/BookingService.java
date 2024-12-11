@@ -25,5 +25,12 @@ public class BookingService {
         return bookingRepository.findById(id);
     }
 
+    public Booking save(Booking booking) {
+        return bookingRepository.save(booking);
+    }
+
+    public void deleteById(Integer id) {
+        bookingRepository.deleteById(id);
+    }
     // Methods to create bookings, calculate totals, etc.
 }

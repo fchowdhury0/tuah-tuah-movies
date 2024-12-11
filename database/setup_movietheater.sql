@@ -197,6 +197,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TABLE IF NOT EXISTS booking_fee (
+    id SERIAL PRIMARY KEY,
+    fee NUMERIC(10, 2) NOT NULL DEFAULT 0.00
+);
+
+-- Insert an initial fee row if needed
+INSERT INTO booking_fee (fee) VALUES (0.00);
+
 --trigger
 CREATE TRIGGER check_card_limit
 BEFORE INSERT ON user_payment_card

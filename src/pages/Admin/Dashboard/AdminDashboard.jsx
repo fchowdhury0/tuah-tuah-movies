@@ -121,13 +121,13 @@ const AdminDashboard = () => {
       <div className="quick-actions">
         <h2>Quick Actions</h2>
         <div className="action-buttons">
-          <button className="action-btn add-movie" onClick={() => navigate('/admin/add-movie')}>
-            Add New Movie
+          <button className="action-btn add-movie" onClick={() => navigate('/admin/managemovies')}>
+            Manage Movies
           </button>
-          <button className="action-btn schedule" onClick={() => navigate('/admin/schedule-movie')}>
+          <button className="action-btn schedule" onClick={() => navigate('/admin/schedulemovie')}>
             Schedule Movie
           </button>
-          <button className="action-btn promotion" onClick={() => navigate('/admin/manage-promotions')}>
+          <button className="action-btn promotion" onClick={() => navigate('/admin/managepromotions')}>
             Manage Promotions
           </button>
           <button className="action-btn prices" onClick={() => navigate('/admin/manageprices')}>
