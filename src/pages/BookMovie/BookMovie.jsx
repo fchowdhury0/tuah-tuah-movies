@@ -36,6 +36,7 @@ const BookMovie = () => {
         console.log('current movieId: ' + currentMovie.id)
         setShows(filteredShows);
         setLoading(false);
+        console.log('Shows data:', show); // Log the data to verify
       })
       .catch((err) => {
         setError(err.message);
@@ -96,6 +97,8 @@ const BookMovie = () => {
       } 
     });
   };
+  const uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
+  console.log(uniqueDates)
 
   return (
     <div>
@@ -117,13 +120,13 @@ const BookMovie = () => {
           <div className="date-selector">
             <h2>Select Date</h2>
             <div className="date-buttons">
-              {movie.dates.map((date) => (
+              {uniqueDates.map((date) => (
                 <button
-                  key={date.toLocaleDateString()}
-                  className={`date-button ${selectedDate === date.toLocaleDateString() ? 'active' : ''}`}
-                  onClick={() => handleDateSelect(date.toLocaleDateString())}
+                  key={date}
+                  className={`date-button ${selectedDate === date ? 'active' : ''}`}
+                  onClick={() => handleDateSelect(date)}
                 >
-                  {date.toLocaleDateString('en-US', { 
+                  {new Date(date).toLocaleDateString('en-US', { 
                     weekday: 'short', 
                     month: 'short', 
                     day: 'numeric' 

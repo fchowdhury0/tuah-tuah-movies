@@ -13,84 +13,95 @@ import jakarta.persistence.Table;
 @Table(name = "shows", schema = "public")
 public class Shows {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "show_id")
-    private Long showId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "show_id")
+  private Long showId;
 
-    @Column(name = "show_time", nullable = false)
-    private LocalDateTime showTime;
+  @Column(name = "show_date", nullable = false)
+  private LocalDateTime showDate;
 
-    @Column(name = "show_duration", nullable = false)
-    private Integer showDuration;
+  @Column(name = "show_time", nullable = false)
+  private LocalDateTime showTime;
 
-    @Column(name = "show_room", nullable = false)
-    private Integer showRoom;
+  @Column(name = "show_duration", nullable = false)
+  private Integer showDuration;
 
-    @Column(name = "movie_id", nullable = false)
-    private Long movieId;
+  @Column(name = "show_room", nullable = false)
+  private Integer showRoom;
 
-    @Column(name = "seats_remaining", nullable = false)
-    private Integer seatsRemaining;
+  @Column(name = "movie_id", nullable = false)
+  private Long movieId;
 
-    // Constructors
-    public Shows() {
-    }
+  @Column(name = "seats_remaining", nullable = false)
+  private Integer seatsRemaining;
 
-    public Shows(LocalDateTime showTime, Integer showDuration, Integer showRoom, Long movieId, Integer seatsRemaining) {
-        this.showTime = showTime;
-        this.showDuration = showDuration;
-        this.showRoom = showRoom;
-        this.movieId = movieId;
-        this.seatsRemaining = seatsRemaining;
-    }
+  // Constructors
+  public Shows() {
+  }
 
-    // Getters and Setters
-    public Long getShowId() {
-        return showId;
-    }
+  public Shows(LocalDateTime showTime, Integer showDuration, Integer showRoom, Long movieId, Integer seatsRemaining) {
+    this.showTime = showTime;
+    this.showDuration = showDuration;
+    this.showRoom = showRoom;
+    this.movieId = movieId;
+    this.seatsRemaining = seatsRemaining;
+  }
 
-    public void setShowId(Long showId) {
-        this.showId = showId;
-    }
+  // Getters and Setters
+  public Long getShowId() {
+    return showId;
+  }
 
-    public LocalDateTime getShowTime() {
-        return showTime;
-    }
+  public void setShowId(Long showId) {
+    this.showId = showId;
+  }
 
-    public void setShowTime(LocalDateTime showTime) {
-        this.showTime = showTime;
-    }
+  public LocalDateTime getShowDate() {
+    return showDate;
+  }
 
-    public Integer getShowDuration() {
-        return showDuration;
-    }
+  public void setShowDate(LocalDateTime showDate) {
+    this.showDate = showDate;
+  }
 
-    public void setShowDuration(Integer showDuration) {
-        this.showDuration = showDuration;
-    }
+  public LocalDateTime getShowTime() {
+    return showTime;
+  }
 
-    public Integer getShowRoom() {
-        return showRoom;
-    }
+  public void setShowTime(LocalDateTime showTime) {
+    this.showTime = showTime;
+  }
 
-    public void setShowRoom(Integer showRoom) {
-        this.showRoom = showRoom;
-    }
+  public Integer getShowDuration() {
+    return showDuration;
+  }
 
-    public Long getMovieId() {
-        return movieId;
-    }
+  public void setShowDuration(Integer showDuration) {
+    this.showDuration = showDuration;
+  }
 
-    public void setMovieId(Long movieId) {
-        this.movieId = movieId;
-    }
+  public Integer getShowRoom() {
+    return showRoom;
+  }
 
-    public Integer getSeatsRemaining() {
-        return seatsRemaining;
-    }
+  public void setShowRoom(Integer showRoom) {
+    this.showRoom = showRoom;
+  }
 
-    public void setSeatsRemaining(Integer seatsRemaining) {
-        this.seatsRemaining = seatsRemaining;
-    }
+  public Long getMovieId() {
+    return movieId;
+  }
+
+  public void setMovieId(Long movieId) {
+    this.movieId = movieId;
+  }
+
+  public Integer getSeatsRemaining() {
+    return seatsRemaining;
+  }
+
+  public void setSeatsRemaining(Integer seatsRemaining) {
+    this.seatsRemaining = seatsRemaining;
+  }
 }
