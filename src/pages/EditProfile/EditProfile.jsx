@@ -18,6 +18,7 @@ const EditProfile = () => {
     email: "",
     firstName: "",
     lastName: "",
+    role: "customer",
     isSubscribed: false,
     userPaymentCards: []
   });
@@ -211,6 +212,7 @@ const EditProfile = () => {
 
     try {
       const updatedUser = { ...user };
+      console.log("updatedUser: " + JSON.stringify(updatedUser, null, 2))
       const response = await axiosInstance.put(
         `/api/user/${user.userId}`,
         updatedUser,
@@ -225,6 +227,7 @@ const EditProfile = () => {
         email: response.data.email,
         firstName: response.data.firstName,
         lastName: response.data.lastName,
+        role: "customer",
         isSubscribed: response.data.isSubscribed,
         userPaymentCards: response.data.userPaymentCards || []
       });

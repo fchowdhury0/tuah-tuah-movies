@@ -84,7 +84,6 @@ public class UserController {
             user.setLastName(updatedUser.getLastName());
             user.setStatus(updatedUser.getStatus());
             user.setUsername(updatedUser.getUsername());
-            user.setRole(updatedUser.getRole());
             user.setIsSubscribed(updatedUser.getIsSubscribed());
 
             User savedUser = userRepository.save(user);
