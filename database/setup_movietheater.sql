@@ -155,6 +155,13 @@ CREATE TABLE IF NOT EXISTS promotions (
 );
 COMMENT ON TABLE promotions IS 'Stores promotional codes along with their details.';
 
+CREATE TABLE IF NOT EXISTS pricing (
+	pricing_id SERIAL PRIMARY KEY,
+	category VARCHAR(20) NOT NULL,
+	base_price DECIMAL(10, 2) NOT NULL,
+	effective_date DATE NOT NULL DEFAULT CURRENT_DATE,
+	is_active BOOLEAN DEFAULT TRUE
+);
 
 --
 -- STORED PROCEDURES, TRIGGER FUNCTIONS AND TRIGGERS

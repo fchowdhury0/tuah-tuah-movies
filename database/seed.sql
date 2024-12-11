@@ -157,6 +157,13 @@ VALUES
     (20, 15.00),
     (21, 15.00);
 
+INSERT INTO pricing (category, base_price, is_active)
+VALUES
+    ('Adult', 15.00, TRUE),
+    ('Child', 10.00, TRUE),
+    ('Senior', 12.00, TRUE);
+
+
 --update show_seating_chart
 UPDATE show_seating_chart
 SET reservation_status = 'reserved'
