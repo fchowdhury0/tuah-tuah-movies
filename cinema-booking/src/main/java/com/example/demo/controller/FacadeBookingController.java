@@ -22,7 +22,7 @@ public class FacadeBookingController {
 
     @PostMapping("/book")
     public ResponseEntity<?> bookTickets(@RequestParam String username,
-                                         @RequestParam Integer showId,
+                                         @RequestParam Long showId,
                                          @RequestBody List<Integer> seatIds,
                                          @RequestParam String paymentCardNumber) {
         try {

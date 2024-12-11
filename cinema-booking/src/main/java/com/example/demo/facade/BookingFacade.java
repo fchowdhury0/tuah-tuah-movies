@@ -48,7 +48,7 @@ public class BookingFacade {
      * @param paymentCardNumber the payment card number to charge (simulated)
      * @return the created Booking object
      */
-    public Booking bookTickets(String username, Integer showId, List<Integer> seatIds, String paymentCardNumber) {
+    public Booking bookTickets(String username, Long showId, List<Integer> seatIds, String paymentCardNumber) {
         // 1. Validate user
         User user = userService.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
