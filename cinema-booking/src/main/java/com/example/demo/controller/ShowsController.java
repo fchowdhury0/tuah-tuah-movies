@@ -82,8 +82,8 @@ public class ShowsController {
       List<ShowSeatingChart> seatingCharts = showSeatingChartService.findByShowId(show.getShowId());
       for (ShowSeatingChart seatingChart : seatingCharts) {
         ticketService.deleteByShowSeatingId(seatingChart.getShowSeatingId());
-        showSeatingChartService.deleteByShowId(show.getShowId());
       }
+        showSeatingChartService.deleteByShowId(show.getShowId());
     }
   }
 }
