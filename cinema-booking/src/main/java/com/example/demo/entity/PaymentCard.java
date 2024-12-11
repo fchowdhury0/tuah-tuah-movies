@@ -36,8 +36,8 @@ public class PaymentCard {
     @Column(name = "card_state", nullable = false)
     private String cardState;
 
-    @Column(name = "cvv_hash", nullable = false)
-    private String cvvHash;
+    @Column(name = "cvv", nullable = false)
+    private String cvv;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -53,14 +53,14 @@ public class PaymentCard {
 
     public PaymentCard(String cardNumber, LocalDate cardExp, String cardBillingAddress,
                        String cardZip, String cardCity, String cardState,
-                       String cvvHash, String firstName, String lastName, boolean saveCard) {
+                       String cvv, String firstName, String lastName, boolean saveCard) {
         this.cardNumber = cardNumber;
         this.cardExp = cardExp;
         this.cardBillingAddress = cardBillingAddress;
         this.cardZip = cardZip;
         this.cardCity = cardCity;
         this.cardState = cardState;
-        this.cvvHash = cvvHash;
+        this.cvv = cvv;
         this.firstName = firstName;
         this.lastName = lastName;
         this.saveCard = saveCard;
@@ -124,12 +124,12 @@ public class PaymentCard {
         this.cardState = cardState;
     }
 
-    public String getCvvHash() {
-        return cvvHash;
+    public String getCvv() {
+        return cvv;
     }
 
-    public void setCvvHash(String cvvHash) {
-        this.cvvHash = cvvHash;
+    public void setCvvHash(String cvv) {
+        this.cvv = cvv;
     }
 
     public String getFirstName() {
