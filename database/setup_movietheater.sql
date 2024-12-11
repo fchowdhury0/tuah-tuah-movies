@@ -298,6 +298,26 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+ALTER TABLE promotions ALTER COLUMN created_by DROP NOT NULL;
+
+CREATE TABLE IF NOT EXISTS prices (
+    id BIGINT PRIMARY KEY,
+    adult_price DOUBLE PRECISION NOT NULL,
+    child_price DOUBLE PRECISION NOT NULL,
+    senior_price DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS password_reset_token (
+id SERIAL PRIMARY KEY,
+token VARCHAR(255) UNIQUE NOT NULL,
+user_id BIGINT NOT NULL,
+expiry_date TIMESTAMP NOT NULL,
+CONSTRAINT fk_user
+FOREIGN KEY(user_id)
+REFERENCES users(user_id)
+ON DELETE CASCADE
+);
+
 --trigger (works on insert)
 CREATE TRIGGER trigger_insert_user_payment_card
 AFTER INSERT ON payment_card
