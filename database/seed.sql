@@ -142,9 +142,9 @@ VALUES
     ('customer1', 'abcd1234', 'customer1@example.com', 'John', 'Doe', 'customer', TRUE);
 
 -- Payment Cards
-INSERT INTO paymentCard (card_number, card_exp, card_billing_address, card_zip, card_city, card_state, cvv_hash, first_name, last_name, save_card)
+INSERT INTO payment_card (card_number, card_exp, card_billing_address, card_zip, card_city, card_state, cvv, user_id, first_name, last_name, save_card)
 VALUES 
-    ('4111111111111111', '2025-12-31', '123 Main St', '12345', 'Anytown', 'GA', 'hashed_cvv', 'John', 'Doe', TRUE);
+    ('4111111111111111', '2025-12-31', '123 Main St', '12345', 'Anytown', 'GA', '000', 5, 'John', 'Doe', TRUE);
 
 -- Tickets
 INSERT INTO ticket (show_seating_id, ticket_price)
@@ -156,6 +156,13 @@ VALUES
     (19, 15.00), 
     (20, 15.00),
     (21, 15.00);
+
+INSERT INTO pricing (category, base_price, is_active)
+VALUES
+    ('Adult', 15.00, TRUE),
+    ('Child', 10.00, TRUE),
+    ('Senior', 12.00, TRUE);
+
 
 --update show_seating_chart
 UPDATE show_seating_chart

@@ -44,14 +44,15 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(100),
     role role_enum DEFAULT 'customer' NOT NULL, 
     status BOOLEAN DEFAULT TRUE,
-	is_subscribed BOOLEAN DEFAULT FALSE
-);
+	is_subscribed BOOLEAN DEFAULT FALSE,
+	max_cards_saved BOOLEAN DEFAULT FALSE
+	);
 
 COMMENT ON TABLE users IS 'Stores information on customers and admins, including login credentials, roles, and login status.';
 --COMMENT ON COLUMN users.role IS 'Defines the user role as either admin or customer. Default is customer.';
 --COMMENT ON COLUMN users.status IS 'Tracks the user login state. FALSE indicates logged out; TRUE indicates logged in.';
 
-CREATE TABLE IF NOT EXISTS paymentCard (
+CREATE TABLE IF NOT EXISTS payment_card (
     card_id SERIAL PRIMARY KEY,
     card_number VARCHAR(20) UNIQUE NOT NULL,
     card_exp DATE NOT NULL,
@@ -59,12 +60,13 @@ CREATE TABLE IF NOT EXISTS paymentCard (
     card_zip VARCHAR(10) NOT NULL,
     card_city VARCHAR(100) NOT NULL,
     card_state VARCHAR(10) NOT NULL, 
-    cvv_hash VARCHAR(255) NOT NULL,
+    cvv VARCHAR(255) NOT NULL,
+	user_id INT NOT NULL REFERENCES users(user_id),
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     save_card BOOLEAN DEFAULT FALSE
 );
-COMMENT ON TABLE paymentCard IS 'Stores payment card details used by users for booking and purchases.';
+COMMENT ON TABLE payment_card IS 'Stores payment card details used by users for booking and purchases.';
 
 CREATE TABLE IF NOT EXISTS shows (
     show_id SERIAL PRIMARY KEY,
@@ -121,7 +123,7 @@ CREATE TABLE IF NOT EXISTS purchases (
     user_id INT REFERENCES users(user_id),
     total_paid NUMERIC NOT NULL,
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_card INT REFERENCES paymentCard(card_id)    
+    card_id INT REFERENCES payment_card(card_id)    
 );
 COMMENT ON TABLE purchases IS 'Stores transaction details for each booking, such as payment method and total amount paid.';
 
@@ -135,7 +137,7 @@ COMMENT ON TABLE user_purchases IS 'Links tables users and purchases. Tracks cus
 CREATE TABLE IF NOT EXISTS user_payment_card (
     user_card_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id),
-    card_id INT REFERENCES paymentCard(card_id),
+    card_id INT REFERENCES payment_card(card_id),
 	CONSTRAINT unique_user_card UNIQUE (user_id, card_id)
 );
 COMMENT ON TABLE user_payment_card IS 'Links tables users and payment_card. Tracks credit card information for users for use in future transactions.';
@@ -153,12 +155,19 @@ CREATE TABLE IF NOT EXISTS promotions (
 );
 COMMENT ON TABLE promotions IS 'Stores promotional codes along with their details.';
 
+CREATE TABLE IF NOT EXISTS pricing (
+	pricing_id SERIAL PRIMARY KEY,
+	category VARCHAR(20) NOT NULL,
+	base_price DECIMAL(10, 2) NOT NULL,
+	effective_date DATE NOT NULL DEFAULT CURRENT_DATE,
+	is_active BOOLEAN DEFAULT TRUE
+);
 
 --
 -- STORED PROCEDURES, TRIGGER FUNCTIONS AND TRIGGERS
 --
 
--- TRIGGER FUNCTION: update promotion status to new if the current date falls between the start date and end date
+-- TRIGGER FUNCTION: update promotion is_active status to TRUE if the current date falls between the start date and end date
 CREATE OR REPLACE FUNCTION update_promotion_status() 
 RETURNS TRIGGER AS $$
 BEGIN
@@ -176,21 +185,22 @@ BEFORE INSERT OR UPDATE ON promotions
 FOR EACH ROW 
 EXECUTE FUNCTION update_promotion_status();
 
--- Trigger function: limiting saved payment cards to 2
+-- Trigger function: limiting saved payment cards to 3
 CREATE OR REPLACE FUNCTION limit_saved_cards()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM user_payment_card WHERE user_id = NEW.user_id) >= 2 THEN
-        RAISE EXCEPTION 'A user can only have up to 2 cards saved at once.';
+    IF (SELECT COUNT(*) FROM user_payment_card WHERE user_id = NEW.user_id) >= 3 THEN
+        RAISE EXCEPTION 'A user can only have up to 3 cards saved at once.';
     END IF;
+	
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- (IN PROG) Trigger: limiting saved payment cards to 2 )
---CREATE TRIGGER check_card_limit
---BEFORE INSERT ON user_payment_card
---FOR EACH ROW EXECUTE FUNCTION limit_saved_cards();
+--trigger
+CREATE TRIGGER check_card_limit
+BEFORE INSERT ON user_payment_card
+FOR EACH ROW EXECUTE FUNCTION limit_saved_cards();
 
 -- Trigger function: initialize seats remaining
 CREATE OR REPLACE PROCEDURE initialize_seats_remaining()
@@ -224,6 +234,7 @@ $$;
     END;
 $$ LANGUAGE plpgsql;
 
+--trigger
 CREATE TRIGGER adjust_seats_count
 AFTER INSERT OR UPDATE OF reservation_status ON show_seating_chart
 FOR EACH ROW EXECUTE FUNCTION update_seats_remaining();
@@ -242,7 +253,34 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql; 
 
+--trigger
 CREATE TRIGGER after_show_insert
 AFTER INSERT ON shows
 FOR EACH ROW
 EXECUTE FUNCTION populate_show_seating();
+
+--Stored Procedure: update user_payment_card with new cards if save_card on payment_card table is TRUE
+CREATE OR REPLACE FUNCTION insert_user_payment_card()
+RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.save_card = TRUE THEN 
+		INSERT INTO user_payment_card (user_id, card_id)
+		VALUES (NEW.user_id, NEW.card_id);
+
+		IF (SELECT COUNT(*) FROM user_payment_card WHERE user_id = NEW.user_id) = 3 THEN
+			UPDATE users
+			SET max_cards_saved = TRUE
+			WHERE user_id = NEW.user_id;
+		END IF;
+	END IF;
+
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger (works on insert)
+CREATE TRIGGER trigger_insert_user_payment_card
+AFTER INSERT ON payment_card
+FOR EACH ROW
+WHEN (NEW.save_card = TRUE) 
+EXECUTE FUNCTION insert_user_payment_card();
