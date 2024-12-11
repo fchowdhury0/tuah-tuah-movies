@@ -68,8 +68,9 @@ COMMENT ON TABLE paymentCard IS 'Stores payment card details used by users for b
 
 CREATE TABLE IF NOT EXISTS shows (
     show_id SERIAL PRIMARY KEY,
-    show_time TIME NOT NULL, 
-    show_duration INT NOT NULL, 
+	show_date DATE NOT NULL,
+    show_time TIME WITH TIME ZONE NOT NULL, 
+	show_duration INT NOT NULL, 
 	show_room INT NOT NULL,
     movie_id INT REFERENCES movies(movie_id),
     seats_remaining INT DEFAULT 0
