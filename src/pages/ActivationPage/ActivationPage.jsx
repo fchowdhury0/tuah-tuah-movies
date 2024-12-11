@@ -25,7 +25,21 @@ const ActivationPage = () => {
     } else {
       setStatus("No token found. Please check your activation link.");
     }
-  
+
+      if (token) {
+	  axios.get(`http://localhost:8080/api/auth/activate-account?token=${token}`)
+        .then((response) => {
+          setStatus("Account activated successfully!");
+          navigate('/login');
+        })
+        .catch((error) => {
+          console.error("Error activating account:", error);
+          setStatus("Error activating account. Please try again.");
+        });
+    } else {
+      setStatus("No token found. Please check your activation link.");
+    }
+  }, [navigate, location.search]);
 	// Make an API call to activate the account
 //	axios.get(`http://localhost:8080/api/auth/activate-account?token=${token}`)
 //        .then((response) => {
@@ -37,7 +51,7 @@ const ActivationPage = () => {
 //              setStatus("Error activating account. Please try again.");
 //        });
 //    }
-  }, [ navigate, location.search]);
+
 
   return (
     <div>

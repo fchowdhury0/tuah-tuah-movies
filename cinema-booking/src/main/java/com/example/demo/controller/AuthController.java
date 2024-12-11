@@ -236,6 +236,7 @@ public class AuthController {
         logger.info("Account activation initiated with token: {}", token);
 
         try {
+	    logger.info("entered try block");
             String username = jwtUtil.extractUsername(token);
 
             User user = userRepository.findByUsername(username)
@@ -247,6 +248,9 @@ public class AuthController {
             }
 
             user.setStatus(true);
+	    System.out.println("user set status to true");
+	    //	    user.setIsSubscribed(true);
+	    //	    logger.info("Setting is_subscribed to true for user: {}", username);
             userRepository.save(user);
             logger.info("User account activated: " + username);
 
