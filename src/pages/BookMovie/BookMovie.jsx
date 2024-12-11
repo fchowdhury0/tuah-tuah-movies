@@ -89,14 +89,15 @@ const BookMovie = () => {
     const selectedShow = filteredShowTimes.find(s => s.showId === selectedShowId);
     const selectedShowtime = selectedShow ? selectedShow.showTime : '';
 
-    navigate('/ordertickets', {
-      state: {
-        seatCount,
-        selectedSeats,
-        selectedDate,
-        selectedShowtime
-      }
-    });
+      navigate('/ordertickets', {
+	  state: {
+              seatCount,
+              selectedSeats,
+              selectedDate,
+              selectedShowtime,
+	      selectedMovie: currentMovie
+	  }
+      });
   };
 
   // Extract unique dates from the shows array using showTime

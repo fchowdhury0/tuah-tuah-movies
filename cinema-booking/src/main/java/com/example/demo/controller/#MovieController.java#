@@ -128,15 +128,15 @@ public class MovieController {
       @RequestParam(required = false) String seats) {
 
       System.out.println("Received email: " + email);
-    System.out.println("Email type: " + emailType);
-    System.out.println("Movie title: " + movieTitle);
-    System.out.println("Showtime: " + showtime);
-    System.out.println("Seats: " + seats);
-    
-    logger.info("Received email request - email: {}, type: {}, movie: {}, showtime: {}, seats: {}",
-        email, emailType, movieTitle, showtime, seats);
-
-    if (!isValidEmail(email)) {
+      System.out.println("Email type: " + emailType);
+      System.out.println("Movie title: " + movieTitle);
+      System.out.println("Showtime: " + showtime);
+      System.out.println("Seats: " + seats);
+      
+      logger.info("Received email request - email: {}, type: {}, movie: {}, showtime: {}, seats: {}",
+		  email, emailType, movieTitle, showtime, seats);
+      
+      if (!isValidEmail(email)) {
       logger.warn("Invalid email address: {}", email);
       return ResponseEntity.badRequest().body("Invalid email address.");
     }
