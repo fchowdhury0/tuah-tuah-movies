@@ -6,7 +6,11 @@ const seatingArray = [
   ['A1', 'A2', 'A3'],
   ['B1', 'B2', 'B3']
 ];
-const SeatingChart = ({ selectedSeats, setSelectedSeats }) => {
+const SeatingChart = ({ currentSeats, selectedSeats, setSelectedSeats }) => {
+
+  const reservedSeats = currentSeats.filter(seat => seat.reservationStatus === "reserved").map(seat => seat.seatId)
+  console.log("currentSeats: " + currentSeats)
+  console.log("reservedSeats: " + reservedSeats)
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +20,7 @@ const SeatingChart = ({ selectedSeats, setSelectedSeats }) => {
     fetchSeats();
   }, []);
 
-  const fetchSeats = () => {
+  const fetchSeats = async () => {
     fetch('http://localhost:8080/api/seating')
       .then((res) => {
         if (!res.ok) {
@@ -57,8 +61,9 @@ const SeatingChart = ({ selectedSeats, setSelectedSeats }) => {
       {seats.map((seat) => (
         <div key={seat}>
             <button
-              className={`seat${selectedSeats.includes(seat) ? '-selected' : ''}`}
+              className={`seat${selectedSeats.includes(seat) ? '-selected' : ''} ${reservedSeats.includes(seat.seatId) ? 'seat-disabled' : ''}`}
               onClick={() => handleSeatClick(seat)}
+              disabled={reservedSeats.includes(seat.seatId)}
             >
               {seat.formattedSeat}
             </button>

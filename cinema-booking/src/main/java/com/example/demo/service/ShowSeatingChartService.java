@@ -10,19 +10,23 @@ import com.example.demo.repository.ShowSeatingChartRepository;
 
 @Service
 public class ShowSeatingChartService {
-    private final ShowSeatingChartRepository repository;
+  private final ShowSeatingChartRepository repository;
 
-    public ShowSeatingChartService(ShowSeatingChartRepository repository) {
-        this.repository = repository;
-    }
+  public ShowSeatingChartService(ShowSeatingChartRepository repository) {
+    this.repository = repository;
+  }
 
-    public List<ShowSeatingChart> findAll() {
-        return repository.findAll();
-    }
+  public List<ShowSeatingChart> findAll() {
+    return repository.findAll();
+  }
 
-    public Optional<ShowSeatingChart> findById(Integer id) {
-        return repository.findById(id);
-    }
-    
-    // Methods for reserving seats, updating statuses, etc.
+  public Optional<ShowSeatingChart> findById(Integer id) {
+    return repository.findById(id);
+  }
+
+  public List<ShowSeatingChart> findByShowId(Integer id) {
+    return repository.findByShowId(id);
+  }
+
+  // Methods for reserving seats, updating statuses, etc.
 }

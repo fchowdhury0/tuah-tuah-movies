@@ -17,16 +17,52 @@ public class ShowSeatingChart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer showSeatingId;
 
-    @ManyToOne
-    @JoinColumn(name = "show_id", nullable = false)
-    private Shows show;
 
-    @ManyToOne
-    @JoinColumn(name = "seat_id", nullable = false)
-    private SeatingChart seat;
+    @Column(name = "show_id", nullable = false)
+    private Integer showId;
+
+
+    @Column(name = "seat_id", nullable = false)
+    private Integer seatId;
 
     @Column(name = "reservation_status", nullable = false)
     private String reservationStatus; // 'open', 'reserved', 'selected'
     
     // Getters, setters, constructors...
+
+        // Default constructor
+    public ShowSeatingChart() {
+    }
+
+    // Parameterized constructor
+    public ShowSeatingChart(Integer showId, Integer seatId, String reservationStatus) {
+        this.showId = showId;
+        this.seatId = seatId;
+        this.reservationStatus = reservationStatus;
+    }
+
+    // Getters and Setters
+    public Integer getShowId() {
+      return showId;
+  }
+
+  public void setShowId(Integer showId) {
+      this.showId = showId;
+  }
+
+  public Integer getSeatId() {
+      return seatId;
+  }
+
+  public void setSeatId(Integer seatId) {
+      this.seatId = seatId;
+  }
+
+  public String getReservationStatus() {
+      return reservationStatus;
+  }
+
+  public void setReservationStatus(String reservationStatus) {
+      this.reservationStatus = reservationStatus;
+  }
 }

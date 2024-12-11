@@ -51,3 +51,15 @@ $transition: all 0.3s ease;
 .seat-selected:hover {
   background-color: #04ff1556 !important;
 }
+.seat-disabled {
+  width: 60px;
+  margin: 5px;
+  padding: 1rem;
+  background: rgb(168, 0, 0);
+  border: 1px solid rgb(168, 0, 0);
+  border-radius: 12px;
+  color: $text-light;
+  cursor: pointer;
+  transition: $transition;
+  text-align: center;
+}

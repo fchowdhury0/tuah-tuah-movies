@@ -5,17 +5,17 @@ import SeatingChart from '../../components/Seating/SeatingChart';
 import './BookMovie.scss';
 
 const BookMovie = () => {
-  const { id } = useParams();
   const location = useLocation();
   const { currentMovie } = location.state || {};
-  
+
   const [show, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [seats, setSeats] = useState([]);
 
   useEffect(() => {
     if (currentMovie && currentMovie.id) {
-    fetchShows();
+      fetchShows();
     }
     console.log('Shows data:', show); // Log the data to verify
   }, [currentMovie]);
@@ -42,10 +42,29 @@ const BookMovie = () => {
         setError(err.message);
         setLoading(false);
       });
-
-
   };
-  
+
+  const fetchSeats = (show) => {
+    fetch(`http://localhost:8080/api/show-seats/${show.showId}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format received from API');
+        }
+        setSeats(data)
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+      console.log("seats: " + JSON.stringify(seats, null, 2))
+  }
+
 
   // Generate next 7 days for date selection
   const generateDates = () => {
@@ -89,6 +108,11 @@ const BookMovie = () => {
     console.log("showtimes: " + JSON.stringify(refilteredShowTimes, null, 2))
   };
 
+  const handleSelectShowTime = (show) => {
+    setSelectedShowtime(show.showTime)
+    fetchSeats(show)
+  }
+
   const handleSeatChange = (seat) => {
     setSelectedSeats((prev) =>
       prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
@@ -97,19 +121,19 @@ const BookMovie = () => {
 
   const handleBooking = () => {
     const seatCount = selectedSeats.length;
-    navigate('/ordertickets', { 
-      state: { 
-        seatCount, 
+    navigate('/ordertickets', {
+      state: {
+        seatCount,
         selectedSeats,
         selectedDate,
-        selectedShowtime 
-      } 
+        selectedShowtime
+      }
     });
   };
   const uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
   console.log(uniqueDates)
 
-  
+
 
   return (
     <div>
@@ -127,7 +151,7 @@ const BookMovie = () => {
         </div>
         <div className="showtimes">
           <h1>{currentMovie.title}</h1>
-          
+
           <div className="date-selector">
             <h2>Select Date</h2>
             <div className="date-buttons">
@@ -137,10 +161,10 @@ const BookMovie = () => {
                   className={`date-button ${selectedDate === date ? 'active' : ''}`}
                   onClick={() => handleDateSelect(date)}
                 >
-                  {new Date(date).toLocaleDateString('en-US', { 
-                    weekday: 'short', 
-                    month: 'short', 
-                    day: 'numeric' 
+                  {new Date(date).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
                   })}
                 </button>
               ))}
@@ -151,9 +175,9 @@ const BookMovie = () => {
           <ul className="showtime-list">
             {showTime.map((show, index) => (
               <li key={index}>
-                <button 
+                <button
                   className={`showtime-button ${selectedShowtime === show.showTime ? 'active' : ''}`}
-                  onClick={() => setSelectedShowtime(show.showTime)}
+                  onClick={() => handleSelectShowTime(show)}
                 >
                   {new Date(show.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </button>
@@ -165,8 +189,9 @@ const BookMovie = () => {
           <div className="seating-section">
             <h5>Screen</h5>
             <div className="seating-container">
-              <SeatingChart 
-                selectedSeats={selectedSeats} 
+              <SeatingChart
+                currentSeats={seats}
+                selectedSeats={selectedSeats}
                 setSelectedSeats={setSelectedSeats}
               />
             </div>
@@ -177,9 +202,9 @@ const BookMovie = () => {
             <p>Selected Date: {selectedDate}</p>
             <p>Selected Showtime: {selectedShowtime}</p>
             <p>Number of Seats Selected: {selectedSeats.length}</p>
-            <button 
+            <button
               className="continue-button"
-              onClick={handleBooking} 
+              onClick={handleBooking}
               disabled={selectedSeats.length === 0 || !selectedShowtime}
             >
               Continue to Checkout

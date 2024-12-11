@@ -26,8 +26,8 @@ public class ShowSeatingChartController {
     }
 
     @GetMapping("/{id}")
-    public ShowSeatingChart getShowSeat(@PathVariable Integer id) {
-        return showSeatingChartService.findById(id).orElse(null);
+    public List<ShowSeatingChart> getShowSeat(@PathVariable Integer id) {
+      return showSeatingChartService.findByShowId(id);
     }
 
     // Endpoints for reserving/canceling seats could go here
