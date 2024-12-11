@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
-    role role_enum DEFAULT 'customer' NOT NULL, 
+    role VARCHAR(255) DEFAULT 'customer' NOT NULL, 
     status BOOLEAN DEFAULT TRUE,
 	is_subscribed BOOLEAN DEFAULT FALSE,
 	max_cards_saved BOOLEAN DEFAULT FALSE
