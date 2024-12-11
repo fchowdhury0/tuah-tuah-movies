@@ -1,8 +1,10 @@
+/* Checkout.jsx */
+
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer.jsx';
 import NavBar from '../../components/NavBar/NavBar.jsx';
-
+import './Checkout.scss';
 
 const Checkout = () => {
   const location = useLocation();
@@ -29,15 +31,14 @@ const Checkout = () => {
     }
   };
 
-  const handleEdit = (e) => {
-    navigate('/bookmovie')
-
+  const handleEdit = () => {
+    navigate('/bookmovie');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-      console.log('Tickets:', tickets);
+    console.log('Tickets:', tickets);
     console.log('Total:', total);
     console.log('User Info:', userInfo);
     console.log('Payment Info:', paymentInfo);
@@ -47,23 +48,20 @@ const Checkout = () => {
         tickets,
         total,
         userInfo,
-        paymentInfo
-      }
+        paymentInfo,
+      },
     });
   };
 
   const handleCancel = () => {
     navigate('/home');
-  }
-  const handleCheckout = () => {
-    navigate('/home');
-  }
+  };
 
   return (
-    <div className="main-checkout" style={{ color: 'white' }}>
-	<NavBar />
-	<h1>Checkout</h1>
-	<div className="checkout-container">
+    <div className="main-checkout">
+      <NavBar />
+      <h1>Checkout</h1>
+      <div className="checkout-container">
         <h2>Your Cart</h2>
         <div>
           {Object.entries(tickets).map(([type, count]) => (
@@ -75,60 +73,106 @@ const Checkout = () => {
         <h2>Total Amount: ${total.toFixed(2)}</h2>
         <h2>Shipping Information</h2>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={userInfo.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={userInfo.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="address"
-            placeholder="Billing Address"
-            value={userInfo.address}
-            onChange={handleChange}
-            required
-          />
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Full Name"
+              value={userInfo.name}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={userInfo.email}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="address">Billing Address</label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              placeholder="Billing Address"
+              value={userInfo.address}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
 
           <h2>Payment Information</h2>
-          <input
-            type="text"
-            name="cardNumber"
-            placeholder="Card Number"
-            value={paymentInfo.cardNumber}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="expirationDate"
-            placeholder="Expiration Date (MM/YY)"
-            value={paymentInfo.expirationDate}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="cvv"
-            placeholder="CVV"
-            value={paymentInfo.cvv}
-            onChange={handleChange}
-            required
-          />
+          <div className="form-group">
+            <label htmlFor="cardNumber">Card Number</label>
+            <input
+              type="text"
+              id="cardNumber"
+              name="cardNumber"
+              placeholder="Card Number"
+              value={paymentInfo.cardNumber}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="expirationDate">Expiration Date (MM/YY)</label>
+            <input
+              type="text"
+              id="expirationDate"
+              name="expirationDate"
+              placeholder="Expiration Date (MM/YY)"
+              value={paymentInfo.expirationDate}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="cvv">CVV</label>
+            <input
+              type="text"
+              id="cvv"
+              name="cvv"
+              placeholder="CVV"
+              value={paymentInfo.cvv}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
 
-          <button onClick={handleChange} className="submit-button" type="submit">Complete Checkout</button>
-          <button onClick={handleCheckout} className="cancel-button" type="submit">Cancel</button>
-          <button onClick={handleEdit} className="submit-button" type="submit">Edit Order</button>
+          <div className="button-group">
+            <button className="submit-button" type="submit">
+              Complete Checkout
+            </button>
+            <button
+              onClick={handleCancel}
+              className="cancel-button"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleEdit}
+              className="edit-button"
+              type="button"
+            >
+              Edit Order
+            </button>
+          </div>
         </form>
       </div>
       <Footer />
@@ -137,4 +181,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
