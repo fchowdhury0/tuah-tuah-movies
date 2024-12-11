@@ -71,13 +71,22 @@ const BookMovie = () => {
   });
 
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
+  const [showTime, setShowTimes] = useState([]);
   const [selectedShowtime, setSelectedShowtime] = useState('');
   const [selectedSeats, setSelectedSeats] = useState([]);
   const navigate = useNavigate();
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
+    console.log("selectedDate: " + selectedDate)
+    console.log("show.showDate: " + show[0].showDate)
+    const filteredShowTimes = show
+      .filter(show => show.movieId === currentMovie.id);
+    const refilteredShowTimes = filteredShowTimes
+      .filter(show => new Date(show.showDate).toLocaleDateString() === date)
+    setShowTimes(refilteredShowTimes)
     setSelectedShowtime(''); // Reset showtime when date changes
+    console.log("showtimes: " + JSON.stringify(refilteredShowTimes, null, 2))
   };
 
   const handleSeatChange = (seat) => {
@@ -99,6 +108,8 @@ const BookMovie = () => {
   };
   const uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
   console.log(uniqueDates)
+
+  
 
   return (
     <div>
@@ -138,13 +149,13 @@ const BookMovie = () => {
 
           <h2>Available Showtimes</h2>
           <ul className="showtime-list">
-            {movie.showtimesByDate[selectedDate]?.map((time, index) => (
+            {showTime.map((show, index) => (
               <li key={index}>
                 <button 
-                  className={`showtime-button ${selectedShowtime === time ? 'active' : ''}`}
-                  onClick={() => setSelectedShowtime(time)}
+                  className={`showtime-button ${selectedShowtime === show.showTime ? 'active' : ''}`}
+                  onClick={() => setSelectedShowtime(show.showTime)}
                 >
-                  {time}
+                  {new Date(show.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </button>
               </li>
             ))}
