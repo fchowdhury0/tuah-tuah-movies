@@ -73,7 +73,6 @@ public class BookingFacade {
             // Here, you might query the ShowSeatingChart entity and link it.
             // For simplicity, just set the ticket price and status.
             ticket.setTicketPrice(price);
-            ticket.setTicketStatus("confirmed");
             Ticket savedTicket = ticketService.save(ticket);
             
             totalTicketPrice = totalTicketPrice.add(BigDecimal.valueOf(price));

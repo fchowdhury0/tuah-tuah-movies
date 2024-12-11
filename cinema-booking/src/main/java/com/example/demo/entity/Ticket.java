@@ -21,10 +21,7 @@ public class Ticket {
     private Long showSeatingId;
 
     @Column(name = "ticket_price", nullable = false)
-    private Double ticketPrice;
-    
-    @Column(name = "ticket_status", nullable = false)
-    private String ticketStatus;
+    private Double ticketPrice;    
 
     public double getTicketPrice() {
         return ticketPrice;
@@ -34,12 +31,5 @@ public class Ticket {
         this.ticketPrice = ticketPrice;
     }
 
-    public String getTicketStatus() {
-        return ticketStatus;
-    }
-
-    public void setTicketStatus(String ticketStatus) {
-        this.ticketStatus = ticketStatus;
-    }
     // Getters, setters, constructors...
 }

@@ -94,15 +94,24 @@ const EditMovie = () => {
   const handleDeleteMovie = async () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this movie?');
     if (confirmDelete) {
-    try {
-      await axios.delete(`http://localhost:8080/api/movies/${currentMovie.id}`);
-      navigate("/admin/managemovies")
-    } catch (error) {
-      console.error('Error deleting movie:', error);
+      try {
+        await axios.delete(`http://localhost:8080/api/shows/seatingCharts/movie/${currentMovie.id}`);
+      } catch (error) {
+        console.error('Error deleting movie:', error);
+      }
+      try {
+        await axios.delete(`http://localhost:8080/api/shows/movie/${currentMovie.id}`);
+      } catch (error) {
+        console.error('Error deleting movie:', error);
+      }
+      try {
+        await axios.delete(`http://localhost:8080/api/movies/${currentMovie.id}`);
+        navigate("/admin/managemovies")
+      } catch (error) {
+        console.error('Error deleting movie:', error);
+      }
     }
-  }
   };
-
   let uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
   uniqueDates = uniqueDates.reverse()
   console.log(uniqueDates)
