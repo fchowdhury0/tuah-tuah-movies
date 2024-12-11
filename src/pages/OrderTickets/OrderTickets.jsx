@@ -58,7 +58,8 @@ const OrderTickets = () => {
     for (const type in updatedTickets) {
       newTotal += updatedTickets[type] * (prices[type] || 0);
     }
-    setTotal(newTotal);
+      const salesTax = newTotal * 0.05;
+      setTotal(newTotal);
   };
 
   const handleOrderSubmit = () => {

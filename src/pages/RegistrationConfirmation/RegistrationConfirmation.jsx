@@ -1,9 +1,9 @@
 // src/components/RegistrationConfirmation.jsx
 
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './RegistrationConfirmation.css';
-import axios from 'axios';
 
 const RegistrationConfirmation = ({ email }) => {
   useEffect(() => {
@@ -33,7 +33,9 @@ const RegistrationConfirmation = ({ email }) => {
     sendConfirmationEmail();
   }, [email]);
 
-
+{/*
+const RegistrationConfirmation = () => {
+    
   return (
     <div className="confirmation-container">
       <div className="confirmation-card">
@@ -44,10 +46,10 @@ const RegistrationConfirmation = ({ email }) => {
           src="/images/success.svg" maybe add an image here
           alt="Success"
           className="confirmation-image"
-        /> */}
+        /> 
       </div>
     </div>
   );
+  */}
 };
-
 export default RegistrationConfirmation;

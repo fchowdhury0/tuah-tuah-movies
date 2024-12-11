@@ -4,7 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const OrderConfirmation = () => {
     const location = useLocation();
-    const { tickets, total, userInfo, paymentInfo, selectedMovie, selectedShowtime, selectedSeats } = location.state || {};
+    const { tickets, total, userInfo, paymentInfo, selectedMovie, selectedShowtime, selectedSeats } = location.state || {
+    };
+    const finalTotal = total + total*0.05 + total*0.05;
     const navigate = useNavigate();
 
     const sendConfirmationEmail = async () => {
@@ -21,7 +23,8 @@ const OrderConfirmation = () => {
                     emailType: 'booking',
                     movieTitle: selectedMovie?.title || 'Your movie',
                     showtime: selectedShowtime || 'Selected time',
-                    seats: seatInfo
+                    seats: seatInfo,
+		    total: finalTotal.toFixed(2)
 		    
 		}
             );
@@ -48,7 +51,7 @@ const OrderConfirmation = () => {
                     {type.charAt(0).toUpperCase() + type.slice(1)} Tickets: {count}
                 </p>
             ))}
-            <h3>Total Amount: ${total.toFixed(2)}</h3>
+            <h3>Total Amount (including 5% sales tax and 5% fee): ${finalTotal.toFixed(2)}</h3>
             <h3>User Information</h3>
             <p>Name: {userInfo.name}</p>
             <p>Email: {userInfo.email}</p>

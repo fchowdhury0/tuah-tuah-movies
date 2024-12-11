@@ -26,18 +26,20 @@ const ForgotPassword = () => {
         navigate('/login');
       }, 3000);
     } catch (err) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else if (err.response?.data?.error) {
-        setError(err.response.data.error);
-      } else {
-        setError('Failed to send password reset email. Please try again.');
-      }
+	console.log('Error sending email:', err);
+	if (err.response?.data?.message) {
+	    console.log('unable to send email');
+            setError(err.response.data.message);
+	} else if (err.response?.data?.error) {
+            setError(err.response.data.error);
+	} else {
+            setError('Failed to send password reset email. Please try again.');
+	}
     } finally {
-      setIsSubmitting(false);
+	setIsSubmitting(false);
     }
   };
-
+    
   return (
     <div className="forgot-password-page">
       <div className="forgot-password-container">
