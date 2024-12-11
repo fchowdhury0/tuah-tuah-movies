@@ -36,7 +36,7 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(name = "role")
     private String role;
 
     private boolean status;
