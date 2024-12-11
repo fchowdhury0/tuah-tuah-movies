@@ -96,13 +96,22 @@ const ManagePromotions = () => {
           }
         }
       );
-  
+
       if (newPromotion.sendEmail) {
-        await sendPromotionEmails({
-          ...response.data,
-          emailSubject: newPromotion.emailSubject,
-          emailMessage: newPromotion.emailMessage
-        });
+        await axios.post(
+          `${API_BASE_URL}/api/promotions/send-emails`,
+          {
+            promotionId: response.data.promoId,
+            emailSubject: newPromotion.emailSubject,
+            emailMessage: newPromotion.emailMessage
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${auth.token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
       }
   
       setSuccess('Promotion created successfully');
@@ -139,45 +148,44 @@ const ManagePromotions = () => {
       {error && <div className="error-message">{error}</div>}
       
       <div className="form-group">
-        <label>
-          <input 
-            type="checkbox" 
-            name="sendEmail" 
-            checked={newPromotion.sendEmail} 
-            onChange={(e) => setNewPromotion({
-              ...newPromotion,
-              sendEmail: e.target.checked
-            })} 
-          />
-          Send Email to Subscribed Users
-        </label>
-      </div>
-
-      {newPromotion.sendEmail && (
-        <>
-          <div className="form-group">
-            <label>Email Subject:</label>
+          <label>
             <input 
-              type="text" 
-              name="emailSubject" 
-              value={newPromotion.emailSubject} 
-              onChange={handleChange} 
-              required={newPromotion.sendEmail}
+              type="checkbox" 
+              name="sendEmail" 
+              checked={newPromotion.sendEmail} 
+              onChange={(e) => setNewPromotion({
+                ...newPromotion,
+                sendEmail: e.target.checked
+              })} 
             />
-          </div>
+            Send Email to Subscribed Users
+          </label>
+        </div>
 
-          <div className="form-group">
-            <label>Email Message:</label>
-            <textarea 
-              name="emailMessage" 
-              value={newPromotion.emailMessage} 
-              onChange={handleChange} 
-              required={newPromotion.sendEmail}
-              rows="4"
-            />
-          </div>
-        </>
-      )}
+        {newPromotion.sendEmail && (
+          <>
+            <div className="form-group">
+              <label>Email Subject:</label>
+              <input 
+                type="text" 
+                name="emailSubject" 
+                value={newPromotion.emailSubject || ''} 
+                onChange={handleChange} 
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Email Message:</label>
+              <textarea 
+                name="emailMessage" 
+                value={newPromotion.emailMessage || ''} 
+                onChange={handleChange} 
+                required
+                rows="4"
+              />
+            </div>
+          </>
+        )}
 
       <form onSubmit={handleAddPromotion}>
         <h3>Add New Promotion</h3>
