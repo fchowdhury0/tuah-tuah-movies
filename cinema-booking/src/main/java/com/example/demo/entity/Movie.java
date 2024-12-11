@@ -50,7 +50,7 @@ public class Movie {
     @NotNull
     private String status;
 
-    @NotNull
+    @Column(name = "imdb_id")
     private String imdbId;
 
     @Column(name = "posterurl")
@@ -62,7 +62,7 @@ public class Movie {
     // All-Args Constructor
     public Movie(String title, String category, String castMembers, String director, String producer,
                  String synopsis, String reviews, String trailerUrl, String ratingCode,
-                 LocalDate showDate, LocalDate releaseDate, String status,
+                 LocalDate releaseDate, String status,
                  String imdbId, String posterUrl) {
         this.title = title;
         this.category = category;

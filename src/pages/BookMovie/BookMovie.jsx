@@ -65,31 +65,7 @@ const BookMovie = () => {
     console.log("seats: " + JSON.stringify(seats, null, 2))
   }
 
-
-  // Generate next 7 days for date selection
-  const generateDates = () => {
-    const dates = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
-      dates.push(date);
-    }
-    return dates;
-  };
-
-  const [movie] = useState({
-    title: currentMovie.title,
-    dates: generateDates(),
-    showtimesByDate: {
-      // Example showtimes for each date
-      [new Date().toLocaleDateString()]: ['12:00 PM', '2:30 PM', '5:00 PM', '7:30 PM'],
-      [new Date(Date.now() + 86400000).toLocaleDateString()]: ['1:00 PM', '3:30 PM', '6:00 PM', '8:30 PM'],
-      // Add more dates as needed
-    },
-    availableSeats: Array.from({ length: 50 }, (_, i) => `Seat ${i + 1}`),
-  });
-
-  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
+  const [selectedDate, setSelectedDate] = useState('');
   const [showTime, setShowTimes] = useState([]);
   const [selectedShowtime, setSelectedShowtime] = useState('');
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -113,12 +89,6 @@ const BookMovie = () => {
     fetchSeats(show)
   }
 
-  const handleSeatChange = (seat) => {
-    setSelectedSeats((prev) =>
-      prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
-    );
-  };
-
   const handleBooking = () => {
     const seatCount = selectedSeats.length;
     navigate('/ordertickets', {
@@ -130,10 +100,9 @@ const BookMovie = () => {
       }
     });
   };
-  const uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
+  let uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
+  uniqueDates = uniqueDates.reverse()
   console.log(uniqueDates)
-
-
 
   return (
     <div>
@@ -203,7 +172,7 @@ const BookMovie = () => {
           <div className="booking-summary">
             <h4>Booking Summary</h4>
             <p>Selected Date: {selectedDate}</p>
-            <p>Selected Showtime: {selectedShowtime}</p>
+            <p>Selected Showtime: {new Date(selectedShowtime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
             <p>Number of Seats Selected: {selectedSeats.length}</p>
             <button
               className="continue-button"

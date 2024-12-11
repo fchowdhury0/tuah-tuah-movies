@@ -7,11 +7,11 @@ import './AddMovie.scss';
 const AddMovieForm = ({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
   <Form className="add-movie-form" onSubmit={handleSubmit}>
     <div className="form-group">
-      <label htmlFor="movieTitle">Movie Title</label>
+      <label htmlFor="title">Movie Title</label>
       <Field
         type="text"
-        id="movieTitle"
-        name="movieTitle"
+        id="title"
+        name="title"
         placeholder="Enter movie title"
         className="input"
         required
@@ -32,29 +32,25 @@ const AddMovieForm = ({ values, handleChange, handleBlur, handleSubmit, isSubmit
     </div>
 
     <div className="form-group">
+      <label htmlFor="status">Status</label>
+      <Field as="select" id="status" name="status" className="input" required>
+        <option value="">Select Status</option>
+        <option value="Currently Running">Currently Running</option>
+        <option value="Coming Soon">Coming Soon</option>
+        {/* Add more categories as needed */}
+      </Field>
+    </div>
+
+    <div className="form-group">
       <label>Cast</label>
-      <FieldArray name="cast">
-        {({ push, remove }) => (
-          <div>
-            {values.cast && values.cast.length > 0 && values.cast.map((actor, index) => (
-              <div key={index} className="array-field">
-                <Field
-                  name={`cast.${index}`}
-                  placeholder={`Actor ${index + 1}`}
-                  className="input"
-                  required
-                />
-                <button type="button" onClick={() => remove(index)} className="remove-button">
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={() => push('')} className="add-button">
-              Add Actor
-            </button>
-          </div>
-        )}
-      </FieldArray>
+      <Field
+        type="text"
+        id="castMembers"
+        name="castMembers"
+        placeholder="Actor 1, Actor 2, Actor 3..."
+        className="input"
+        required
+      />
     </div>
 
     <div className="form-group">
@@ -105,30 +101,30 @@ const AddMovieForm = ({ values, handleChange, handleBlur, handleSubmit, isSubmit
     </div>
 
     <div className="form-group">
-      <label htmlFor="trailerImageUrl">Trailer Picture URL</label>
+      <label htmlFor="posterUrl">Poster Image URL</label>
       <Field
         type="url"
-        id="trailerImageUrl"
-        name="trailerImageUrl"
-        placeholder="Enter trailer image URL"
+        id="posterUrl"
+        name="posterUrl"
+        placeholder="Enter poster image URL"
         className="input"
       />
     </div>
 
     <div className="form-group">
-      <label htmlFor="trailerVideoUrl">Trailer Video URL</label>
+      <label htmlFor="trailerUrl">Trailer Video URL</label>
       <Field
         type="url"
-        id="trailerVideoUrl"
-        name="trailerVideoUrl"
+        id="trailerUrl"
+        name="trailerUrl"
         placeholder="Enter trailer video URL"
         className="input"
       />
     </div>
 
     <div className="form-group">
-      <label htmlFor="mpaaRating">MPAA-US Film Rating</label>
-      <Field as="select" id="mpaaRating" name="mpaaRating" className="input" required>
+      <label htmlFor="ratingCode">MPAA-US Film Rating</label>
+      <Field as="select" id="ratingCode" name="ratingCode" className="input" required>
         <option value="">Select Rating</option>
         <option value="G">G - General Audiences</option>
         <option value="PG">PG - Parental Guidance Suggested</option>

@@ -42,7 +42,21 @@ const ManageMovies = () => {
 
   const handleAddMovie = async (formData, { setSubmitting, resetForm }) => {
     try {
-      const { showTimes, ...dataToSend } = formData; // Exclude showTimes
+      const transformedData = {
+        title: formData.movieTitle,
+        category: formData.category,
+        director: formData.director,
+        ratingCode: formData.mpaaRating,
+        producer: formData.producer,
+        reviews: formData.reviews,
+        status: formData.status,
+        synopsis: formData.synopsis,
+        posterUrl: formData.trailerImageUrl,
+        trailerUrl: formData.trailerVideoUrl,
+        cast: formData.cast,
+      };
+      console.log(transformedData)
+      const { showTimes, ...dataToSend } = transformedData; // Exclude showTimes
       const response = await axios.post('http://localhost:8080/api/movies', dataToSend);
       console.log('Movie added:', response.data);
       fetchMovies();
@@ -112,16 +126,17 @@ const ManageMovies = () => {
         <div className="form-container">
           <Formik
             initialValues={{
-              movieTitle: '',
+              title: '',
               category: '',
-              cast: [''],
+              status: '',
+              castMembers: '',
               director: '',
               producer: '',
               synopsis: '',
               reviews: '',
-              trailerImageUrl: '',
-              trailerVideoUrl: '',
-              mpaaRating: '',
+              posterUrl: '',
+              trailerUrl: '',
+              ratingCode: '',
             }}
             onSubmit={handleAddMovie}
           >
