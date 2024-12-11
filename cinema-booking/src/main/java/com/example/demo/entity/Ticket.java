@@ -17,9 +17,8 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ticketId;
 
-    @ManyToOne
-    @JoinColumn(name = "show_seating_id", nullable = false)
-    private ShowSeatingChart showSeatingChart;
+    @Column(name = "show_seating_id", nullable = false)
+    private Long showSeatingId;
 
     @Column(name = "ticket_price", nullable = false)
     private Double ticketPrice;

@@ -29,8 +29,13 @@ public class TicketService {
         ticketRepository.deleteById(id);
     }
 
+    public void deleteByShowSeatingId(Long showSeatingId) {
+      ticketRepository.deleteByShowSeatingId(showSeatingId);
+  }
+
     public Ticket save(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
+
     // Additional logic for pricing, creation, etc.
 }

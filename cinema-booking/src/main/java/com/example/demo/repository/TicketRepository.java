@@ -5,6 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Ticket;
 
+import jakarta.transaction.Transactional;
+
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
+
+  @Transactional
+  void deleteByShowSeatingId(Long showSeatingId);
 }

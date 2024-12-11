@@ -13,56 +13,58 @@ import jakarta.persistence.Table;
 @Table(name = "show_seating_chart")
 public class ShowSeatingChart {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer showSeatingId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long showSeatingId;
 
+  @Column(name = "show_id", nullable = false)
+  private Integer showId;
 
-    @Column(name = "show_id", nullable = false)
-    private Integer showId;
+  @Column(name = "seat_id", nullable = false)
+  private Integer seatId;
 
+  @Column(name = "reservation_status", nullable = false)
+  private String reservationStatus; // 'open', 'reserved', 'selected'
 
-    @Column(name = "seat_id", nullable = false)
-    private Integer seatId;
+  // Getters, setters, constructors...
 
-    @Column(name = "reservation_status", nullable = false)
-    private String reservationStatus; // 'open', 'reserved', 'selected'
-    
-    // Getters, setters, constructors...
+  // Default constructor
+  public ShowSeatingChart() {
+  }
 
-        // Default constructor
-    public ShowSeatingChart() {
-    }
+  // Parameterized constructor
+  public ShowSeatingChart(Integer showId, Integer seatId, String reservationStatus) {
+    this.showId = showId;
+    this.seatId = seatId;
+    this.reservationStatus = reservationStatus;
+  }
 
-    // Parameterized constructor
-    public ShowSeatingChart(Integer showId, Integer seatId, String reservationStatus) {
-        this.showId = showId;
-        this.seatId = seatId;
-        this.reservationStatus = reservationStatus;
-    }
+  // Getters and Setters
+  public Long getShowSeatingId() {
+    return showSeatingId;
+  }
 
-    // Getters and Setters
-    public Integer getShowId() {
-      return showId;
+  public Integer getShowId() {
+    return showId;
   }
 
   public void setShowId(Integer showId) {
-      this.showId = showId;
+    this.showId = showId;
   }
 
   public Integer getSeatId() {
-      return seatId;
+    return seatId;
   }
 
   public void setSeatId(Integer seatId) {
-      this.seatId = seatId;
+    this.seatId = seatId;
   }
 
   public String getReservationStatus() {
-      return reservationStatus;
+    return reservationStatus;
   }
 
   public void setReservationStatus(String reservationStatus) {
-      this.reservationStatus = reservationStatus;
+    this.reservationStatus = reservationStatus;
   }
 }
