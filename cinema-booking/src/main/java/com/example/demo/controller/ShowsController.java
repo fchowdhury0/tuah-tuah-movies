@@ -43,7 +43,6 @@ public class ShowsController {
     public Shows updateShow(@PathVariable Long id, @RequestBody Shows updatedShow) {
         return showsRepository.findById(id)
                 .map(show -> {
-                    show.setShowDate(updatedShow.getShowDate());
                     show.setShowTime(updatedShow.getShowTime());
                     show.setShowDuration(updatedShow.getShowDuration());
                     show.setShowRoom(updatedShow.getShowRoom());
