@@ -190,7 +190,7 @@ const ManageMovies = () => {
       {error && <div className="error">Error: {error}</div>}
 
       <section>
-        <h2>Currently Running</h2>
+        <h2>Active Movies</h2>
         <div className="container">
           {loading ? (
             <div>Loading movies...</div>

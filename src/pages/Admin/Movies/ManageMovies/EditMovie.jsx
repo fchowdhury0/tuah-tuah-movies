@@ -92,7 +92,7 @@ const EditMovie = () => {
     fetchSeats(show)
   }
   const handleDeleteMovie = async () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this movie?');
+    const confirmDelete = window.confirm('Are you sure you want to delete this movie?  This will also delete all its current showtimes and bookings.');
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:8080/api/shows/seatingCharts/movie/${currentMovie.id}`);
@@ -129,8 +129,9 @@ const EditMovie = () => {
             <p>{currentMovie.synopsis}</p>
             <p><strong>GENRE:</strong>{currentMovie.category}</p>
           </div>
-
-          <button onClick={handleDeleteMovie}>Delete Movie</button>
+          <div className="button-container">
+          <button className="delete-movie-button"onClick={handleDeleteMovie}>Delete Movie</button>
+          </div>
         </div>
         <div className="showtimes">
           <h1>{currentMovie.title}</h1>
