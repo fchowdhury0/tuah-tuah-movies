@@ -1,7 +1,10 @@
-// Prices.java
+// src/main/java/com/example/demo/entity/Prices.java
+
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,12 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "pricing") // Updated table name from "prices" to "pricing"
+@Table(name = "pricing") // Ensure the table name is correct
 public class Prices {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pricing_id") // Ensure this column exists in the "pricing" table
+    @Column(name = "pricing_id")
     private Long pricingId;
 
     @Column(name = "base_price")
@@ -33,6 +36,7 @@ public class Prices {
 
     // Getters and Setters
 
+    @JsonProperty("pricingId") // Ensures consistent JSON property name
     public Long getPricingId() {
         return pricingId;
     }
@@ -65,6 +69,7 @@ public class Prices {
         this.effectiveDate = effectiveDate;
     }
 
+    @JsonProperty("isActive")
     public Boolean getIsActive() {
         return isActive;
     }
