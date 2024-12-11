@@ -62,7 +62,7 @@ const BookMovie = () => {
         setError(err.message);
         setLoading(false);
       });
-      console.log("seats: " + JSON.stringify(seats, null, 2))
+    console.log("seats: " + JSON.stringify(seats, null, 2))
   }
 
 
@@ -184,18 +184,21 @@ const BookMovie = () => {
               </li>
             ))}
           </ul>
-
-          <h3>Select Seats:</h3>
-          <div className="seating-section">
-            <h5>Screen</h5>
-            <div className="seating-container">
-              <SeatingChart
-                currentSeats={seats}
-                selectedSeats={selectedSeats}
-                setSelectedSeats={setSelectedSeats}
-              />
-            </div>
-          </div>
+          {selectedShowtime !== '' && (
+            <>
+              <h3>Select Seats:</h3>
+              <div className="seating-section">
+                <h5>Screen</h5>
+                <div className="seating-container">
+                  <SeatingChart
+                    currentSeats={seats}
+                    selectedSeats={selectedSeats}
+                    setSelectedSeats={setSelectedSeats}
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="booking-summary">
             <h4>Booking Summary</h4>
