@@ -7,67 +7,73 @@ import './OrderTickets.scss';
 const API_BASE_URL = 'http://localhost:8080';
 
 const OrderTickets = () => {
-  const { state } = useLocation();
-  const { seatCount, selectedSeats, selectedMovie, selectedShowtime } = state || { seatCount: 0, selectedSeats: [], selectedMovie: {}, selectedShowtime: '' };
-
-  const [tickets, setTickets] = useState({
-    Adult: 0,
-    Child: 0,
-    Senior: 0,
-  });
-
-  const [ticketPrices, setTicketPrices] = useState({});
-  const [total, setTotal] = useState(0);
-  const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/tickets/prices`)
-      .then(response => {
-        const prices = {};
-        response.data.forEach(price => {
-          prices[price.category] = price.basePrice;
-        });
-        setTicketPrices(prices);
-      })
-      .catch(err => {
-        console.error('Error fetching ticket prices:', err);
-        setError('Failed to load ticket prices. Please try again later.');
-      });
-  }, []);
-
-  const handleTicketChange = (type, increment) => {
-    setTickets(prev => {
-      const updatedCount = Math.max(0, prev[type] + increment);
-      const updatedTickets = { ...prev, [type]: updatedCount };
-      const totalTickets = Object.values(updatedTickets).reduce((sum, count) => sum + count, 0);
-
-      if (totalTickets > seatCount) {
-        alert(`You cannot select more than ${seatCount} tickets!`);
-        return prev;
-      }
-
-      calculateTotal(updatedTickets, ticketPrices);
-      return updatedTickets;
+    const { state } = useLocation();
+    const { seatCount, selectedSeats, selectedMovie, selectedShowtime } = state || { seatCount: 0, selectedSeats: [], selectedMovie: {}, selectedShowtime: '' };
+    
+    const [tickets, setTickets] = useState({
+	Adult: 0,
+	Child: 0,
+	Senior: 0,
     });
-  };
-
-  const calculateTotal = (updatedTickets, prices) => {
-    let newTotal = 0;
-    for (const type in updatedTickets) {
-      newTotal += updatedTickets[type] * (prices[type] || 0);
-    }
-      const salesTax = newTotal * 0.05;
-      setTotal(newTotal);
-  };
-
-  const handleOrderSubmit = () => {
-    console.log('Tickets ordered:', tickets);
-    console.log('Total amount:', total);
-    setTickets({ Adult: 0, Child: 0, Senior: 0 });
-    setTotal(0);
-    navigate('/checkout', { state: { tickets, total, seatCount, selectedSeats, selectedMovie, selectedShowtime } });
+    
+    const [ticketPrices, setTicketPrices] = useState({});
+    const [total, setTotal] = useState(0);
+    const [error, setError] = useState(null);
+    
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+	axios.get(`${API_BASE_URL}/api/tickets/prices`)
+	    .then(response => {
+		const prices = {};
+		response.data.forEach(price => {
+		    prices[price.category] = price.basePrice;
+		});
+		setTicketPrices(prices);
+	    })
+	    .catch(err => {
+		console.error('Error fetching ticket prices:', err);
+		setError('Failed to load ticket prices. Please try again later.');
+	    });
+    }, []);
+    
+    const handleTicketChange = (type, increment) => {
+	setTickets(prev => {
+	    const updatedCount = Math.max(0, prev[type] + increment);
+	    const updatedTickets = { ...prev, [type]: updatedCount };
+	    const totalTickets = Object.values(updatedTickets).reduce((sum, count) => sum + count, 0);
+	    
+	    if (totalTickets > seatCount) {
+		alert(`You cannot select more than ${seatCount} tickets!`);
+		return prev;
+	    }
+	    
+	    calculateTotal(updatedTickets, ticketPrices);
+	    return updatedTickets;
+	});
+    };
+    
+    const calculateTotal = (updatedTickets, prices) => {
+	let newTotal = 0;
+	for (const type in updatedTickets) {
+	    newTotal += updatedTickets[type] * (prices[type] || 0);
+	}
+	const salesTax = newTotal * 0.05;
+	setTotal(newTotal);
+    };
+    
+    const handleOrderSubmit = () => {
+	console.log('Tickets ordered:', tickets);
+	console.log('SELECTED MOVIE: ', selectedMovie.title);
+	console.log('Total amount:', total);
+	setTickets({ Adult: 0, Child: 0, Senior: 0 });
+	setTotal(0);
+      navigate('/checkout', { state: { tickets, total, seatCount, selectedSeats, selectedMovie, selectedShowtime } });
+      console.log('tickets: ', tickets);
+      console.log('selectedSeats:', selectedSeats);
+      console.log('selectedMovie: ', selectedMovie);
+      console.log('navigate \n', state);
+//      console.log('movie \n', movie);
   };
 
   if (error) {
