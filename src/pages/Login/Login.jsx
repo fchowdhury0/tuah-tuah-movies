@@ -41,11 +41,11 @@ const Login = () => {
         const decoded = jwtDecode(jwt);
         console.log("Decoded token:", decoded);
 
-        // Check role - ensure the role is included in the token claims
-        // If your backend sets `role` in lowercase:
-        const userRole = decoded.role ? decoded.role.toLowerCase() : null;
+        // Check for ROLE_ADMIN specifically
+        const userRole = decoded.role?.toUpperCase();
+        console.log("User role:", userRole);
 
-        if (userRole === 'admin') {
+        if (userRole === 'ROLE_ADMIN') {
           navigate('/admin');
         } else {
           navigate('/home');

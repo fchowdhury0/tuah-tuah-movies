@@ -84,9 +84,10 @@ public class UserController {
             user.setLastName(updatedUser.getLastName());
             user.setStatus(updatedUser.getStatus());
             user.setUsername(updatedUser.getUsername());
+            user.setRole(updatedUser.getRole());
 
             User savedUser = userRepository.save(user);
-            logger.info("Updated user: {}", id);
+            logger.info("Updated user: {} with role: {}", id, updatedUser.getRole());
             return ResponseEntity.ok(savedUser);
         } catch (ResourceNotFoundException e) {
             logger.error("User not found for update: {}", id);

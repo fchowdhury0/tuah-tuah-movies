@@ -4,147 +4,232 @@
 @import '../../../styles/variables';
 @import '../../../styles/mixins';
 
+// Variables
+$background-dark: #1a1d21;
+$surface-dark: #2c2f33;
+$border-color: #4a4e53;
+$text-primary: #ffffff;
+$text-secondary: #b0b3b8;
+$success-color: #4caf50;
+$warning-color: #ffc107;
+$danger-color: #f44336;
+
+// Mixins
+@mixin card-style {
+  background-color: $surface-dark;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@mixin input-style {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid $border-color;
+  border-radius: 8px;
+  background-color: rgba(64, 68, 72, 0.8);
+  color: $text-primary;
+  font-size: 16px;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: $primary-btn-color;
+    background-color: rgba(80, 86, 90, 0.9);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($primary-btn-color, 0.2);
+  }
+}
+
 .admin-view {
-  padding: 20px;
-  background-color: rgba(33, 36, 38, 0.95);
-  color: #fff;
+  padding: 2rem;
+  background-color: $background-dark;
+  min-height: 100vh;
+  color: $text-primary;
 
   h2 {
-    margin-bottom: 20px;
-    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: $text-primary;
+    border-bottom: 2px solid $border-color;
+    padding-bottom: 1rem;
   }
 
   .form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    background-color: #2c2f33;
-    padding: 20px;
-    border: 1px solid #4a4e53;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    @include card-style;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: grid;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
 
     .input,
     select {
-      padding: 10px;
-      border: 1px solid #555;
-      border-radius: 4px;
-      font-size: 16px;
-      background-color: #404448;
-      color: #fff;
+      @include input-style;
 
-      &:focus {
-        border-color: $primary-btn-color;
-        outline: none;
-        background-color: #50565a;
+      &:hover {
+        border-color: lighten($border-color, 10%);
       }
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,...");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
     }
 
     .button {
       @include button-style;
-      width: 100px;
+      width: auto;
+      min-width: 120px;
+      align-self: flex-end;
+      padding: 12px 24px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
 
       &:disabled {
-        background: linear-gradient(
-          135deg,
-          darken($primary-btn-color, 20%),
-          darken($secondary-btn-color, 20%)
-        );
+        opacity: 0.7;
         cursor: not-allowed;
-        box-shadow: none;
       }
-    }
-  }
 
-  .button {
-    @include button-style;
-    background: linear-gradient(135deg, $primary-btn-color, $secondary-btn-color);
-    margin-bottom: 20px;
-
-    &:hover {
-      background: linear-gradient(
-        135deg,
-        lighten($primary-btn-color, 5%),
-        lighten($secondary-btn-color, 5%)
-      );
+      &:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
     }
   }
 
   .box {
-    background-color: #2c2f33;
-    padding: 20px;
-    border: 1px solid #4a4e53;
-    border-radius: 8px;
+    @include card-style;
+    padding: 2rem;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
     h3 {
-      margin-bottom: 15px;
-      color: #fff;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: $text-primary;
     }
 
     ul {
-      list-style: none;
-      padding: 0;
+      display: grid;
+      gap: 1rem;
 
       li {
-        display: flex;
+        display: grid;
+        grid-template-columns: 2fr 3fr auto;
         align-items: center;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #555;
+        padding: 1rem;
+        border: 1px solid $border-color;
+        border-radius: 8px;
+        background-color: rgba($surface-dark, 0.5);
+        transition: all 0.2s ease;
 
-        &:last-child {
-          border-bottom: none;
+        &:hover {
+          background-color: lighten($surface-dark, 5%);
+          transform: translateX(4px);
+        }
+
+        .user-info {
+          display: grid;
+          gap: 0.5rem;
         }
 
         strong {
           color: $primary-btn-color;
+          font-size: 1.1rem;
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 0.875rem;
+          font-weight: 500;
+
+          &.active {
+            background-color: rgba($success-color, 0.2);
+            color: lighten($success-color, 10%);
+          }
+
+          &.inactive {
+            background-color: rgba($danger-color, 0.2);
+            color: lighten($danger-color, 10%);
+          }
         }
 
         .button {
           @include button-style;
-          background-color: #ffc107;
+          background-color: $warning-color;
           color: #212529;
+          padding: 8px 16px;
+          font-size: 0.9rem;
+          transition: all 0.2s ease;
 
           &:hover {
-            background-color: #e0a800;
+            background-color: darken($warning-color, 10%);
+            transform: translateY(-2px);
           }
         }
       }
-    }
-
-    p {
-      color: #b0b3b8;
     }
   }
 }
 
-// Responsive Styles
+// Responsive Design
+@media (max-width: 1024px) {
+  .admin-view {
+    padding: 1.5rem;
+    
+    .box ul li {
+      grid-template-columns: 1fr 2fr auto;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .admin-view {
-    padding: 10px;
+    padding: 1rem;
 
     .form-container {
-      padding: 15px;
-    }
-
-    .button {
-      padding: 8px 16px;
-      font-size: 0.9rem;
+      padding: 1.5rem;
     }
 
     .box {
-      padding: 15px;
+      padding: 1.5rem;
 
-      ul {
-        li {
-          flex-direction: column;
-          align-items: flex-start;
+      ul li {
+        grid-template-columns: 1fr;
+        gap: 1rem;
 
-          .button {
-            margin-top: 10px;
-          }
+        .button {
+          width: 100%;
         }
       }
     }
   }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-container, .box {
+  animation: fadeIn 0.3s ease-out;
 }
