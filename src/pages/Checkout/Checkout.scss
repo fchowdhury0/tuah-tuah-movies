@@ -50,8 +50,52 @@
         margin: 5px 0;
       }
     }
+.promo-code-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 
-    form {
+  label {
+    font-size: 16px;
+    color: $primary-text-color;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  .promo-code-input {
+    @extend .input-field;
+    border-color: $bright-blue;
+
+    &:focus {
+      border-color: $bright-blue;
+      box-shadow: 0 0 8px rgba(24, 137, 213, 0.5);
+    }
+  }
+
+  .apply-button {
+    @include button-style;
+    padding: 12px 20px;
+    margin-top: 10px;
+    background-color: $bright-blue;
+    color: #fff;
+    font-size: 16px;
+
+    &:hover {
+      background-color: lighten($bright-blue, 10%);
+    }
+
+    &:active {
+      background-color: darken($bright-blue, 10%);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+    }
+  }
+}	
+
+	form {
       display: flex;
       flex-direction: column;
 

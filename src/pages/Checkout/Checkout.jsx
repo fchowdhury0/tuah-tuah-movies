@@ -166,7 +166,18 @@ const Checkout = () => {
               className="input-field"
             />
           </div>
-          <div className="form-group">
+	    <div class="promo-code-container">
+		<label for="promo-code" class="promo-code-label">Promo Code:</label>
+		<input
+		    type="text"
+		    id="promo-code"
+		    name="promo-code"
+		    class="promo-code-input"
+		    placeholder="Enter promo code" />
+		<button type="button" class="promo-code-button">Add Promo Code</button>
+	    </div>
+
+            <div className="form-group">
             <label htmlFor="expirationDate">Expiration Date (MM/YY)</label>
             <input
               type="text"
