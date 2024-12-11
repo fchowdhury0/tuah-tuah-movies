@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import SeatingChart from '../../components/Seating/SeatingChart';
@@ -9,6 +9,43 @@ const BookMovie = () => {
   const location = useLocation();
   const { currentMovie } = location.state || {};
   
+  const [show, setShows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (currentMovie && currentMovie.id) {
+    fetchShows();
+    }
+    console.log('Shows data:', show); // Log the data to verify
+  }, [currentMovie]);
+
+  const fetchShows = () => {
+    fetch('http://localhost:8080/api/shows')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format received from API');
+        }
+        const filteredShows = data.filter(show => show.movieId === currentMovie.id);
+        console.log('current movieId: ' + currentMovie.id)
+        setShows(filteredShows);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+
+
+  };
+  
+
   // Generate next 7 days for date selection
   const generateDates = () => {
     const dates = [];

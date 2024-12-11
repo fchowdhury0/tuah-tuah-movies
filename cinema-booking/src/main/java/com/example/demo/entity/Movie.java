@@ -17,7 +17,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long movie_id;
 
     @NotNull
     @Size(min = 1, max = 255)
@@ -25,6 +25,7 @@ public class Movie {
 
     private String category;
 
+    @Column(name="cast_members")
     private String castMembers;
 
     private String director;
@@ -40,10 +41,10 @@ public class Movie {
     @Column(name = "trailerurl")
     private String trailerUrl;
 
+    @Column(name = "ratingcode")
     private String ratingCode;
 
-    private LocalDate showDate;
-
+    @Column(name = "releasedate")
     private LocalDate releaseDate;
 
     @NotNull
@@ -72,7 +73,6 @@ public class Movie {
         this.reviews = reviews;
         this.trailerUrl = trailerUrl;
         this.ratingCode = ratingCode;
-        this.showDate = showDate;
         this.releaseDate = releaseDate;
         this.status = status;
         this.imdbId = imdbId;
@@ -81,11 +81,11 @@ public class Movie {
 
     // Getters and Setters
     public Long getId() {
-        return id;
+        return movie_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.movie_id = id;
     }
 
     public String getTitle() {
@@ -160,14 +160,7 @@ public class Movie {
         this.ratingCode = ratingCode;
     }
 
-    public LocalDate getShowDate() {
-        return showDate;
-    }
-
-    public void setShowDate(LocalDate showDate) {
-        this.showDate = showDate;
-    }
-
+    
     public LocalDate getReleaseDate() {
         return releaseDate;
     }

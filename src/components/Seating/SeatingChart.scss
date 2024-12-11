@@ -8,7 +8,7 @@ $text-muted: #a1a1a1;
 $transition: all 0.3s ease;
 
 .seating-chart {
-  width: 200px;
+  width: 950px;
   padding: 2px;
   display: flex;
   flex-direction: row;
@@ -22,7 +22,7 @@ $transition: all 0.3s ease;
 }
 
 .seat {
-  width: fit-content;
+  width: 60px;
   margin: 5px;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
@@ -35,7 +35,7 @@ $transition: all 0.3s ease;
 
 }
 .seat-selected {
-  width: fit-content;
+  width: 60px;
   margin: 5px;
   padding: 1rem;
   background: green;
