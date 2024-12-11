@@ -1,8 +1,5 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +8,8 @@ import com.example.demo.dto.PaymentCardRequest;
 import com.example.demo.entity.PaymentCard;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserPaymentCard;
+import com.example.demo.factory.DefaultPaymentCardFactory;
+import com.example.demo.factory.PaymentCardFactory;
 import com.example.demo.repository.PaymentCardRepository;
 import com.example.demo.repository.UserPaymentCardRepository;
 import com.example.demo.repository.UserRepository;
@@ -29,34 +28,27 @@ public class UserPaymentCardServiceImpl implements UserPaymentCardService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    
+    // Use a factory to create payment cards
+    private PaymentCardFactory paymentCardFactory = new DefaultPaymentCardFactory();
 
     @Override
     public UserPaymentCard addPaymentCard(PaymentCardRequest request) {
         // Get user
         User user = userRepository.findById(request.getUserId())
             .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Parse expiry date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
-        LocalDate expiry = LocalDate.parse("01/" + request.getExpiryDate(), 
-            DateTimeFormatter.ofPattern("dd/MM/yy"));
-
-        // Create and save payment card
-        PaymentCard paymentCard = new PaymentCard();
-        paymentCard.setCardNumber(request.getCardNumber());
-        paymentCard.setCardExp(expiry);
-        paymentCard.setCardBillingAddress(request.getBillingAddress());
-        paymentCard.setCardZip(request.getZip());
-        paymentCard.setCardCity(request.getCity());
-        paymentCard.setCardState(request.getState());
-        paymentCard.setCvvHash(passwordEncoder.encode(request.getCvv()));
-        paymentCard.setFirstName(user.getFirstName());
-        paymentCard.setLastName(user.getLastName());
-        paymentCard.setSaveCard(request.isSaveCard());
+        
+        // Hash the CVV
+        String hashedCvv = passwordEncoder.encode(request.getCvv());
+        
+        // Create payment card using the factory method
+        PaymentCard paymentCard = paymentCardFactory.createPaymentCard(
+            request, user.getFirstName(), user.getLastName(), hashedCvv
+        );
 
         PaymentCard savedPaymentCard = paymentCardRepository.save(paymentCard);
 
-        // Create and save user payment card link
+        // Link User and PaymentCard
         UserPaymentCard userPaymentCard = new UserPaymentCard(user, savedPaymentCard);
         return userPaymentCardRepository.save(userPaymentCard);
     }
