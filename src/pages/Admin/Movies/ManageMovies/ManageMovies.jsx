@@ -43,22 +43,24 @@ const ManageMovies = () => {
   const handleAddMovie = async (formData, { setSubmitting, resetForm }) => {
     try {
       const transformedData = {
-        title: formData.movieTitle,
+        title: formData.title,
         category: formData.category,
         director: formData.director,
-        ratingCode: formData.mpaaRating,
+        ratingCode: formData.ratingCode,
         producer: formData.producer,
         reviews: formData.reviews,
         status: formData.status,
         synopsis: formData.synopsis,
-        posterUrl: formData.trailerImageUrl,
-        trailerUrl: formData.trailerVideoUrl,
-        cast: formData.cast,
+        posterUrl: formData.posterUrl,
+        trailerUrl: formData.trailerUrl,
+        castMembers: formData.castMembers,
       };
-      console.log(transformedData)
-      const { showTimes, ...dataToSend } = transformedData; // Exclude showTimes
-      const response = await axios.post('http://localhost:8080/api/movies', dataToSend);
+  
+      console.log(transformedData);
+  
+      const response = await axios.post('http://localhost:8080/api/movies', transformedData);
       console.log('Movie added:', response.data);
+  
       fetchMovies();
       resetForm();
       setShowAdd(false);
@@ -69,6 +71,7 @@ const ManageMovies = () => {
       setSubmitting(false);
     }
   };
+  
 
   const handleDeleteMovie = async (values, { setSubmitting, resetForm }) => {
     try {
