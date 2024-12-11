@@ -46,13 +46,12 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(
-                    "/api/auth/**",
-                    "/api/movies/**",
-                    "/api/movies/sendConfirmationEmail",
-                    "/api/email/**",
-                    "/api/user/**"
-                ).permitAll()
+                .requestMatchers("/api/fees/**").permitAll()
+                .requestMatchers("/api/auth/**",
+                                "/api/movies/**",
+                                "/api/movies/sendConfirmationEmail",
+                                "/api/email/**",
+                                "/api/user/**").permitAll()
                 .anyRequest().permitAll()
             )
             .sessionManagement(session -> session

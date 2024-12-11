@@ -1,6 +1,5 @@
-/* Checkout.jsx */
-
-import React, { useState } from 'react';
+import axios from 'axios'; // Ensure axios is imported
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer.jsx';
 import NavBar from '../../components/NavBar/NavBar.jsx';
@@ -10,17 +9,37 @@ const Checkout = () => {
   const location = useLocation();
   const { tickets, total } = location.state || { tickets: {}, total: 0 };
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]); // Assume cart items will be passed or fetched
+
+  const [bookingFee, setBookingFee] = useState(0);
+  const [loadingFee, setLoadingFee] = useState(true);
+  const [feeError, setFeeError] = useState(null);
+
   const [userInfo, setUserInfo] = useState({
     name: '',
     email: '',
     address: '',
   });
+
   const [paymentInfo, setPaymentInfo] = useState({
     cardNumber: '',
     expirationDate: '',
     cvv: '',
   });
+
+  useEffect(() => {
+    // Fetch the booking fee from the server
+    axios.get('http://localhost:8080/api/fees/booking-fee')
+    .then(response => {
+      const fee = response.data.fee;
+      setBookingFee(fee);
+      setLoadingFee(false);
+    })
+    .catch(error => {
+      console.error('Error fetching booking fee:', error);
+      setFeeError('Failed to fetch booking fee.');
+      setLoadingFee(false);
+    });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,15 +57,20 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Calculate final total with fee
+    const finalTotal = total + bookingFee;
+
     console.log('Tickets:', tickets);
-    console.log('Total:', total);
+    console.log('Base Total:', total);
+    console.log('Booking Fee:', bookingFee);
+    console.log('Final Total:', finalTotal);
     console.log('User Info:', userInfo);
     console.log('Payment Info:', paymentInfo);
 
     navigate('/orderconfirmation', {
       state: {
         tickets,
-        total,
+        total: finalTotal,
         userInfo,
         paymentInfo,
       },
@@ -56,6 +80,8 @@ const Checkout = () => {
   const handleCancel = () => {
     navigate('/home');
   };
+
+  const finalTotal = total + bookingFee;
 
   return (
     <div className="main-checkout">
@@ -70,7 +96,20 @@ const Checkout = () => {
             </p>
           ))}
         </div>
-        <h2>Total Amount: ${total.toFixed(2)}</h2>
+        <div className="fee-section">
+          {loadingFee ? (
+            <p>Loading booking fee...</p>
+          ) : feeError ? (
+            <p style={{color: 'red'}}>{feeError}</p>
+          ) : (
+            <>
+              <p>Base Total: ${total.toFixed(2)}</p>
+              <p>Booking Fee: ${bookingFee.toFixed(2)}</p>
+              <h2>Final Total: ${finalTotal.toFixed(2)}</h2>
+            </>
+          )}
+        </div>
+
         <h2>Shipping Information</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -155,7 +194,7 @@ const Checkout = () => {
           </div>
 
           <div className="button-group">
-            <button className="submit-button" type="submit">
+            <button className="submit-button" type="submit" disabled={loadingFee || feeError}>
               Complete Checkout
             </button>
             <button

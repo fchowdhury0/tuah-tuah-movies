@@ -15,7 +15,7 @@ const BookMovie = () => {
 
   const [selectedDate, setSelectedDate] = useState('');
   const [filteredShowTimes, setFilteredShowTimes] = useState([]);
-  const [selectedShowtime, setSelectedShowtime] = useState('');
+  const [selectedShowId, setSelectedShowId] = useState(null); // Track selection by showId
   const [selectedSeats, setSelectedSeats] = useState([]);
   const navigate = useNavigate();
 
@@ -75,16 +75,20 @@ const BookMovie = () => {
       return showTimeDate.toLocaleDateString() === date;
     });
     setFilteredShowTimes(filtered);
-    setSelectedShowtime(''); // Reset showtime when date changes
+    setSelectedShowId(null); // Reset selection when date changes
   };
 
   const handleSelectShowTime = (show) => {
-    setSelectedShowtime(show.showTime);
+    setSelectedShowId(show.showId); // Store unique ID
     fetchSeats(show);
   };
 
   const handleBooking = () => {
     const seatCount = selectedSeats.length;
+    // You may also want to pass the selected show information if needed
+    const selectedShow = filteredShowTimes.find(s => s.showId === selectedShowId);
+    const selectedShowtime = selectedShow ? selectedShow.showTime : '';
+
     navigate('/ordertickets', {
       state: {
         seatCount,
@@ -107,6 +111,10 @@ const BookMovie = () => {
   if (error) {
     return <div style={{color: 'red'}}>Error: {error}</div>;
   }
+
+  // Find the currently selected show's time for display
+  const currentlySelectedShow = filteredShowTimes.find(s => s.showId === selectedShowId);
+  const currentlySelectedShowtime = currentlySelectedShow ? new Date(currentlySelectedShow.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
   return (
     <div>
@@ -150,10 +158,10 @@ const BookMovie = () => {
                 weekday: 'long', month: 'long', day: 'numeric'
               })}</h2>
               <ul className="showtime-list">
-                {filteredShowTimes.map((show, index) => (
-                  <li key={index}>
+                {filteredShowTimes.map((show) => (
+                  <li key={show.showId}>
                     <button
-                      className={`showtime-button ${selectedShowtime === show.showTime ? 'active' : ''}`}
+                      className={`showtime-button ${selectedShowId === show.showId ? 'active' : ''}`}
                       onClick={() => handleSelectShowTime(show)}
                     >
                       {new Date(show.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -164,7 +172,7 @@ const BookMovie = () => {
             </>
           )}
 
-          {selectedShowtime !== '' && (
+          {selectedShowId && (
             <>
               <h3>Select Seats:</h3>
               <div className="seating-section">
@@ -183,12 +191,12 @@ const BookMovie = () => {
           <div className="booking-summary">
             <h4>Booking Summary</h4>
             <p>Selected Date: {selectedDate || 'None'}</p>
-            <p>Selected Showtime: {selectedShowtime ? new Date(selectedShowtime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'None'}</p>
+            <p>Selected Showtime: {currentlySelectedShowtime || 'None'}</p>
             <p>Number of Seats Selected: {selectedSeats.length}</p>
             <button
               className="continue-button"
               onClick={handleBooking}
-              disabled={selectedSeats.length === 0 || !selectedShowtime}
+              disabled={selectedSeats.length === 0 || !selectedShowId}
             >
               Continue to Checkout
             </button>
