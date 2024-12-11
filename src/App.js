@@ -38,6 +38,9 @@ import RegistrationConfirmation from './pages/RegistrationConfirmation/Registrat
 // Forgot Password Pages
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
 
+// Reset Password Page
+import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
+
 // 404 Page
 import NotFound from './pages/NotFound/NotFound.jsx';
 
@@ -90,6 +93,10 @@ const App = () => {
     {
       path: "/forgot-password",
       element: <ForgotPassword />
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPassword />
     },
     {
       path: '/admin',

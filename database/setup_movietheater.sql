@@ -155,6 +155,18 @@ CREATE TABLE IF NOT EXISTS promotions (
 );
 COMMENT ON TABLE promotions IS 'Stores promotional codes along with their details.';
 
+CREATE TABLE password_reset_token (
+    id SERIAL PRIMARY KEY,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    user_id BIGINT NOT NULL,
+    expiry_date TIMESTAMP NOT NULL,
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id) 
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+);
+COMMENT ON TABLE password_reset_token IS 'Stores password reset tokens for users.';
+
 CREATE TABLE IF NOT EXISTS pricing (
 	pricing_id SERIAL PRIMARY KEY,
 	category VARCHAR(20) NOT NULL,
