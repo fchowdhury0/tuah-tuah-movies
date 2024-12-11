@@ -1,9 +1,7 @@
-// src/components/RegistrationConfirmation.jsx
-
-import React, {useEffect} from 'react';
 import axios from 'axios';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './RegistrationConfirmation.css';
+import './RegistrationConfirmation.scss';
 
 const RegistrationConfirmation = ({ email }) => {
   useEffect(() => {
@@ -22,8 +20,6 @@ const RegistrationConfirmation = ({ email }) => {
             params: { email }, // Email passed as a query parameter
           }
         );
-	  console.log('error');
-	  
         console.log(response.data); // Log success message
       } catch (error) {
         console.error("Error sending confirmation email:", error.response?.data || error.message);
@@ -33,23 +29,20 @@ const RegistrationConfirmation = ({ email }) => {
     sendConfirmationEmail();
   }, [email]);
 
-{/*
-const RegistrationConfirmation = () => {
-    
   return (
     <div className="confirmation-container">
       <div className="confirmation-card">
         <h2>Registration Successful!</h2>
         <p>Thank you for registering. Your account has been created successfully.</p>
-        <p>You can now <Link style={{color: "#0f6ab5"}}to="/login">log in</Link> to your account.</p>
+        <p>You can now <Link style={{ color: "#0f6ab5" }} to="/login">log in</Link> to your account.</p>
         {/* <img
-          src="/images/success.svg" maybe add an image here
+          src="/images/success.svg" // maybe add an image here
           alt="Success"
           className="confirmation-image"
-        /> 
+        /> */}
       </div>
     </div>
   );
-  */}
 };
+
 export default RegistrationConfirmation;

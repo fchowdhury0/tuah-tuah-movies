@@ -72,13 +72,15 @@ const SeatingChart = ({ currentSeats, selectedSeats, setSelectedSeats }) => {
 
   return (
     <div className="seating-chart">
-      {rowKeys.map((row) => (
-        <div key={row} className="row-container">
-          <span className="row-label">{row}</span>
-          {seatRows[row].map((seat) => (
+      <div className="walkway-left"></div>
+      
+      {/* Iterate using rowKeys */}
+      {rowKeys.map((rowKey) => (
+        <div key={rowKey} className="row-container">
+          {seatRows[rowKey].map((seat) => (
             <button
               key={seat.seatId}
-              className={`seat${selectedSeats.includes(seat) ? '-selected' : ''} ${reservedSeats.includes(seat.seatId) ? 'seat-disabled' : ''}`}
+              className={`seat ${selectedSeats.includes(seat) ? 'seat-selected' : ''} ${reservedSeats.includes(seat.seatId) ? 'seat-disabled' : ''}`}
               onClick={() => handleSeatClick(seat)}
               disabled={reservedSeats.includes(seat.seatId)}
             >

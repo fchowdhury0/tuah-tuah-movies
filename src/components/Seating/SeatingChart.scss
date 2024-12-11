@@ -9,64 +9,98 @@ $transition: all 0.3s ease;
 
 .seating-chart {
   width: 100%;
-  max-width: 950px;
+  height: 100%;
   padding: 20px;
-  display: flex;
-  flex-direction: column; /* Arrange rows vertically */
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(10, auto) 20px; // Adjust number of rows as needed
+  gap: 10px;
   background-color: $darker-bg;
   border-radius: 10px;
 
+  // Define grid areas for walkways
+  .walkway-left {
+    grid-column: 3 / 4;
+    background-color: darkgray;
+    width: 20px;
+    height: 100%;
+  }
+
+  .walkway-right {
+    grid-column: 6 / 7;
+    background-color: darkgray;
+    width: 20px;
+    height: 100%;
+  }
+
+  .horizontal-walk {
+    grid-column: 1 / -1;
+    grid-row: 11 / 12;
+    background-color: darkgray;
+    height: 20px;
+    width: 100%;
+  }
+
   .row-container {
-    width: 950px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 1 / 7; // Span all columns if needed
+  }
+
+  .seat {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    background: $primary-color;
+    border: 1px solid $secondary-color;
+    border-radius: 8px;
+    color: $text-light;
+    cursor: pointer;
+    transition: $transition;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+
+    &-selected {
+      background: green;
+      border: 1px solid green;
+
+      &:hover {
+        background-color: #04ff1556 !important;
+      }
+    }
+
+    &-disabled {
+      background: rgb(168, 0, 0);
+      border: 1px solid rgb(168, 0, 0);
+      cursor: not-allowed;
+    }
   }
 }
 
-.row{
-  display: flex;
-  flex-basis: 100%;
-  justify-content: space-between;
-}
+// Responsive Design
+@media screen and (max-width: 768px) {
+  .seating-chart {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(8, auto) 15px;
+    gap: 8px;
 
-.seat {
-  width: 60px;
-  margin: 5px;
-  padding: 1rem;
-  background: $primary-color;
-  border: 1px solid $secondary-color;
-  border-radius: 12px;
-  color: $text-light;
-  cursor: pointer;
-  transition: $transition;
-  text-align: center;
+    .walkway-left,
+    .walkway-right {
+      width: 15px;
+    }
 
-}
-.seat-selected {
-  width: 60px;
-  margin: 5px;
-  padding: 1rem;
-  background: green;
-  border: 1px solid green;
-  border-radius: 12px;
-  color: $text-light;
-  cursor: pointer;
-  transition: $transition;
-  text-align: center;
+    .horizontal-walk {
+      height: 15px;
+    }
 
-
-}
-.seat-selected:hover {
-  background-color: #04ff1556 !important;
-}
-.seat-disabled {
-  width: 60px;
-  margin: 5px;
-  padding: 1rem;
-  background: rgb(168, 0, 0);
-  border: 1px solid rgb(168, 0, 0);
-  border-radius: 12px;
-  color: $text-light;
-  cursor: pointer;
-  transition: $transition;
-  text-align: center;
+    .seat {
+      width: 35px;
+      height: 35px;
+      font-size: 0.7rem;
+    }
+  }
 }
