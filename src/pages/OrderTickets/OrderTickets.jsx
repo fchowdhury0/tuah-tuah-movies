@@ -8,26 +8,28 @@ const API_BASE_URL = 'http://localhost:8080';
 
 const OrderTickets = () => {
   const { state } = useLocation();
-    const { seatCount, selectedSeats, selectedMovie, selectedShowtime } = state || { seatCount: 0, selectedSeats: [], selectedMovie: {}, selectedShowtime: '' };
-
+  const { seatCount, selectedSeats, selectedMovie, selectedShowtime } = state || { seatCount: 0, selectedSeats: [], selectedMovie: {}, selectedShowtime: '' };
 
   const [tickets, setTickets] = useState({
-    adult: 0,
-    child: 0,
-    senior: 0,
+    Adult: 0,
+    Child: 0,
+    Senior: 0,
   });
 
-  const [ticketPrices, setTicketPrices] = useState(null); 
+  const [ticketPrices, setTicketPrices] = useState({});
   const [total, setTotal] = useState(0);
   const [error, setError] = useState(null);
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch current prices from the backend
     axios.get(`${API_BASE_URL}/api/tickets/prices`)
       .then(response => {
-        setTicketPrices(response.data);
+        const prices = {};
+        response.data.forEach(price => {
+          prices[price.category] = price.basePrice;
+        });
+        setTicketPrices(prices);
       })
       .catch(err => {
         console.error('Error fetching ticket prices:', err);
@@ -36,29 +38,25 @@ const OrderTickets = () => {
   }, []);
 
   const handleTicketChange = (type, increment) => {
-    setTickets((prev) => {
-      const updatedCount = Math.max(0, prev[type] + increment); // Ensure no negative tickets
+    setTickets(prev => {
+      const updatedCount = Math.max(0, prev[type] + increment);
       const updatedTickets = { ...prev, [type]: updatedCount };
-      
-      // Calculate total number of tickets selected
       const totalTickets = Object.values(updatedTickets).reduce((sum, count) => sum + count, 0);
-      
-      // Check if total tickets would exceed seatCount
+
       if (totalTickets > seatCount) {
         alert(`You cannot select more than ${seatCount} tickets!`);
-        return prev; // Return previous state without changes
+        return prev;
       }
-  
+
       calculateTotal(updatedTickets, ticketPrices);
       return updatedTickets;
     });
   };
 
   const calculateTotal = (updatedTickets, prices) => {
-    if (!prices) return; // If prices not yet loaded, do nothing
     let newTotal = 0;
     for (const type in updatedTickets) {
-      newTotal += updatedTickets[type] * prices[type];
+      newTotal += updatedTickets[type] * (prices[type] || 0);
     }
     setTotal(newTotal);
   };
@@ -66,17 +64,16 @@ const OrderTickets = () => {
   const handleOrderSubmit = () => {
     console.log('Tickets ordered:', tickets);
     console.log('Total amount:', total);
-    setTickets({ adult: 0, child: 0, senior: 0 });
+    setTickets({ Adult: 0, Child: 0, Senior: 0 });
     setTotal(0);
-      navigate('/checkout', { state: { tickets, total, seatCount, selectedSeats, selectedMovie, selectedShowtime } });
+    navigate('/checkout', { state: { tickets, total, seatCount, selectedSeats, selectedMovie, selectedShowtime } });
   };
 
   if (error) {
     return <div className="error-message">{error}</div>;
   }
 
-  // If prices haven't loaded yet, show a loading message
-  if (!ticketPrices) {
+  if (Object.keys(ticketPrices).length === 0) {
     return <div className="loading-message">Loading ticket prices...</div>;
   }
 
@@ -88,7 +85,7 @@ const OrderTickets = () => {
       <div className="ticket-type-container">
         {Object.keys(tickets).map((type) => (
           <div key={type} className="ticket-type">
-            <span>{type.charAt(0).toUpperCase() + type.slice(1)} Ticket</span>
+            <span>{type} Ticket</span>
             <div className="ticket-controls">
               <button 
                 className="calc-button" 
@@ -109,10 +106,7 @@ const OrderTickets = () => {
           </div>
         ))}
       </div>
-      {/* Display the total */}
-      <h2 className="total-display">Total: ${total.toFixed(2)}</h2> {/* Format total to two decimal places */}
-
-      {/* Button to proceed to checkout */}
+      <h2 className="total-display">Total: ${total.toFixed(2)}</h2>
       <button 
         className="continue-button" 
         onClick={handleOrderSubmit} 
@@ -120,10 +114,7 @@ const OrderTickets = () => {
       >
         Continue to Checkout
       </button>
-      
-      {/* Display success or error messages */}
       {error && <div className="error-message">{error}</div>}
-      {/* Add success message handling if needed */}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+// src/components/ManagePrices.jsx
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
@@ -7,17 +8,13 @@ const API_BASE_URL = 'http://localhost:8080';
 
 const ManagePrices = () => {
   const { auth } = useContext(AuthContext);
-  const [prices, setPrices] = useState({
-    adult: '',
-    child: '',
-    senior: '',
-  });
+  const [prices, setPrices] = useState([]);
+  const [formPrices, setFormPrices] = useState({});
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ensure we have a token before making the request
     if (!auth.loading && auth.token) {
       axios.get(`${API_BASE_URL}/api/tickets/prices`, {
         headers: {
@@ -26,6 +23,11 @@ const ManagePrices = () => {
       })
         .then(response => {
           setPrices(response.data);
+          const initialForm = {};
+          response.data.forEach(price => {
+            initialForm[price.category] = price.basePrice;
+          });
+          setFormPrices(initialForm);
           setLoading(false);
         })
         .catch(error => {
@@ -34,15 +36,14 @@ const ManagePrices = () => {
           setLoading(false);
         });
     } else if (!auth.loading && !auth.token) {
-      // If no token is present, handle it (e.g., redirect or show an error)
       setError('You must be logged in to view prices.');
       setLoading(false);
     }
-  }, [auth]); // Rerun if auth changes
+  }, [auth]);
 
   const handleChange = (e) => {
-    setPrices({
-      ...prices,
+    setFormPrices({
+      ...formPrices,
       [e.target.name]: e.target.value,
     });
   };
@@ -54,11 +55,19 @@ const ManagePrices = () => {
       return;
     }
 
-    axios.post(`${API_BASE_URL}/api/tickets/prices`, prices, {
-      headers: {
-        'Authorization': `Bearer ${auth.token}`, // Use token from auth
-      },
-    })
+    const updatePromises = prices.map(price => {
+      return axios.put(`${API_BASE_URL}/api/tickets/prices/${price.pricingId}`, {
+        basePrice: parseFloat(formPrices[price.category]),
+        effectiveDate: price.effectiveDate,
+        isActive: price.isActive,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${auth.token}`,
+        },
+      });
+    });
+
+    Promise.all(updatePromises)
       .then(() => {
         setSuccess('Prices updated successfully');
         setError(null);
@@ -83,54 +92,28 @@ const ManagePrices = () => {
       
       <div className="current-prices">
         <h3>Current Prices</h3>
-        <p><strong>Adult:</strong> ${prices.adult}</p>
-        <p><strong>Child:</strong> ${prices.child}</p>
-        <p><strong>Senior:</strong> ${prices.senior}</p>
+        {prices.map(price => (
+          <p key={price.pricingId}><strong>{price.category}:</strong> ${price.basePrice}</p>
+        ))}
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="adult">Adult Ticket Price:</label>
-          <input 
-            type="number" 
-            id="adult"
-            name="adult" 
-            value={prices.adult} 
-            onChange={handleChange} 
-            required 
-            min="0" 
-            step="0.01"
-            placeholder="Enter adult ticket price"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="child">Child Ticket Price:</label>
-          <input 
-            type="number" 
-            id="child"
-            name="child" 
-            value={prices.child} 
-            onChange={handleChange} 
-            required 
-            min="0" 
-            step="0.01"
-            placeholder="Enter child ticket price"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="senior">Senior Ticket Price:</label>
-          <input 
-            type="number" 
-            id="senior"
-            name="senior" 
-            value={prices.senior} 
-            onChange={handleChange} 
-            required 
-            min="0" 
-            step="0.01"
-            placeholder="Enter senior ticket price"
-          />
-        </div>
+        {prices.map(price => (
+          <div className="form-group" key={price.pricingId}>
+            <label htmlFor={price.category}>{price.category} Ticket Price:</label>
+            <input 
+              type="number" 
+              id={price.category}
+              name={price.category} 
+              value={formPrices[price.category]} 
+              onChange={handleChange} 
+              required 
+              min="0" 
+              step="0.01"
+              placeholder={`Enter ${price.category.toLowerCase()} ticket price`}
+            />
+          </div>
+        ))}
         <button type="submit">Update Prices</button>
       </form>
     </div>
