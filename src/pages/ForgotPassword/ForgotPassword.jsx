@@ -18,22 +18,18 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/api/movies/sendConfirmationEmail',
-        null,
-        {
-          params: {
-            email: email,
-            emailType: 'password'
-          }
-        }
+        'http://localhost:8080/api/auth/request-password-reset',
+        { email: email }
       );
       setMessage('Password reset instructions have been sent to your email.');
       setTimeout(() => {
         navigate('/login');
       }, 3000);
     } catch (err) {
-      if (err.response?.data) {
-        setError(err.response.data);
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else if (err.response?.data?.error) {
+        setError(err.response.data.error);
       } else {
         setError('Failed to send password reset email. Please try again.');
       }

@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.config.JwtUtil;
 import com.example.demo.dto.JwtResponse;
 import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.PasswordResetRequest;
 import com.example.demo.dto.RegistrationRequest;
+import com.example.demo.entity.PasswordResetToken;
 import com.example.demo.entity.PaymentCard;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserPaymentCard;
+import com.example.demo.repository.PasswordResetTokenRepository;
 import com.example.demo.repository.PaymentCardRepository;
 import com.example.demo.repository.UserPaymentCardRepository;
 import com.example.demo.repository.UserRepository;
@@ -262,5 +268,45 @@ public class AuthController {
         }
     }
 
-    // Other methods...
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
+
+    @PostMapping("/request-password-reset")
+    public ResponseEntity<?> requestPasswordReset(@RequestBody PasswordResetRequest request) {
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
+        if (!userOpt.isPresent()) {
+            return ResponseEntity.badRequest().body("User with this email does not exist.");
+        }
+
+        User user = userOpt.get();
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken resetToken = new PasswordResetToken(token, user, LocalDateTime.now().plusHours(24));
+        tokenRepository.save(resetToken);
+
+        emailService.sendForgotPasswordEmail(user, token);
+
+        return ResponseEntity.ok("Password reset instructions have been sent to your email.");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        Optional<PasswordResetToken> tokenOpt = tokenRepository.findByToken(token);
+        if (!tokenOpt.isPresent()) {
+            return ResponseEntity.badRequest().body("Invalid password reset token.");
+        }
+
+        PasswordResetToken resetToken = tokenOpt.get();
+        if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.badRequest().body("Password reset token has expired.");
+        }
+
+        User user = resetToken.getUser();
+        String hashedPassword = passwordEncoder.encode(newPassword); // Ensure encoding
+        user.setPasswordHash(hashedPassword);
+        userRepository.save(user);
+
+        tokenRepository.delete(resetToken);
+
+        return ResponseEntity.ok("Password has been reset successfully.");
+    }
 }

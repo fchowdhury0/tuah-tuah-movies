@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import NavBar from '../../../../components/NavBar/NavBar.jsx';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import './ManageMovies.scss';
 import SeatingChart from '../../../../components/Seating/SeatingChart.jsx';
@@ -90,17 +91,26 @@ const EditMovie = () => {
     setSelectedShowtime(show.showTime)
     fetchSeats(show)
   }
-
-  const handleBooking = () => {
-    const seatCount = selectedSeats.length;
-    navigate('/ordertickets', {
-      state: {
-        seatCount,
-        selectedSeats,
-        selectedDate,
-        selectedShowtime
+  const handleDeleteMovie = async () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this movie?  This will also delete all its current showtimes and bookings.');
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:8080/api/shows/seatingCharts/movie/${currentMovie.id}`);
+      } catch (error) {
+        console.error('Error deleting movie:', error);
       }
-    });
+      try {
+        await axios.delete(`http://localhost:8080/api/shows/movie/${currentMovie.id}`);
+      } catch (error) {
+        console.error('Error deleting movie:', error);
+      }
+      try {
+        await axios.delete(`http://localhost:8080/api/movies/${currentMovie.id}`);
+        navigate("/admin/managemovies")
+      } catch (error) {
+        console.error('Error deleting movie:', error);
+      }
+    }
   };
   let uniqueDates = [...new Set(show.map(show => new Date(show.showDate).toLocaleDateString()))];
   uniqueDates = uniqueDates.reverse()
@@ -118,6 +128,9 @@ const EditMovie = () => {
           <div className="movie-text">
             <p>{currentMovie.synopsis}</p>
             <p><strong>GENRE:</strong>{currentMovie.category}</p>
+          </div>
+          <div className="button-container">
+          <button className="delete-movie-button"onClick={handleDeleteMovie}>Delete Movie</button>
           </div>
         </div>
         <div className="showtimes">

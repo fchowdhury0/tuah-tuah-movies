@@ -7,8 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.ShowSeatingChart;
 
+import jakarta.transaction.Transactional;
+
 @Repository
 public interface ShowSeatingChartRepository extends JpaRepository<ShowSeatingChart, Integer> {
 
-  List<ShowSeatingChart> findByShowId(Integer showId);
+  List<ShowSeatingChart> findByShowId(Long showId);
+
+  @Transactional
+  void deleteByShowId(Long showId);
 }

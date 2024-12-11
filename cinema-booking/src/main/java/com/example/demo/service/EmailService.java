@@ -7,6 +7,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.User;
+import com.example.demo.repository.PasswordResetTokenRepository;
+
 @Service
 public class EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
@@ -73,30 +76,33 @@ public class EmailService {
         }
     }
 
-    public void sendForgotPasswordEmail(String to) {
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
+
+    public void sendForgotPasswordEmail(User user, String token) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(FROM_EMAIL);
-            message.setTo(to);
+            message.setTo(user.getEmail());
             message.setSubject("Password Reset Request");
-            String resetLink = "http://localhost:3000/reset-password";
+            String resetLink = "http://localhost:3000/reset-password?token=" + token;
             String text = String.format("""
-                Hello,
-                
+                Hello %s,
+
                 You have requested to reset your password.
                 Please click on the link below to reset your password:
                 %s
-                
+
                 If you did not request this password reset, please ignore this email.
-                
+
                 Best regards,
                 Hawk Tuah Movies Team
-                """, resetLink);
+                """, user.getFirstName(), resetLink);
             message.setText(text);
             mailSender.send(message);
-            logger.info("Password reset email sent to: {}", to);
+            logger.info("Password reset email sent to: {}", user.getEmail());
         } catch (Exception e) {
-            logger.error("Error sending password reset email to {}: {}", to, e.getMessage());
+            logger.error("Error sending password reset email to {}: {}", user.getEmail(), e.getMessage());
             throw new RuntimeException("Failed to send password reset email", e);
         }
     }

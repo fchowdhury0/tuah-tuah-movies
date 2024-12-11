@@ -239,6 +239,7 @@
       box-shadow: 0 8px 20px rgba($primary-color, 0.3);
     }
   }
+  
 
   @media screen and (max-width: 768px) {
     .top-style {
@@ -268,6 +269,72 @@
     .submit-button,
     .add-showtime-button {
       width: 100%;
+    }
+  }
+  .button-container {
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: $transition;
+      color: $text-light;
+
+      &.add-movie-button {
+        background: linear-gradient(135deg, $primary-btn-color, darken($primary-btn-color, 10%));
+        box-shadow: 0 4px 15px rgba($primary-btn-color, 0.3);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba($primary-btn-color, 0.4);
+        }
+      }
+
+      &.delete-movie-button {
+        background: linear-gradient(135deg, $danger-red, darken($danger-red, 10%));
+        box-shadow: 0 4px 15px rgba($danger-red, 0.3);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba($danger-red, 0.4);
+        }
+      }
+
+    }
+  }
+}
+
+.button-container {
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    color: $text-light;
+
+    &.add-movie-button {
+      background: linear-gradient(135deg, $primary-btn-color, darken($primary-btn-color, 10%));
+      box-shadow: 0 4px 15px rgba($primary-btn-color, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba($primary-btn-color, 0.4);
+      }
+    }
+
+    &.delete-movie-button {
+      background: linear-gradient(135deg, $danger-red, darken($danger-red, 10%));
+      box-shadow: 0 4px 15px rgba($danger-red, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba($danger-red, 0.4);
+      }
     }
   }
 }

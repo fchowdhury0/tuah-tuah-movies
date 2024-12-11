@@ -38,6 +38,9 @@ import ActivationPage from './pages/ActivationPage/ActivationPage.jsx';
 // Forgot Password Pages
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
 
+// Reset Password Page
+import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
+
 // 404 Page
 import NotFound from './pages/NotFound/NotFound.jsx';
 
@@ -94,6 +97,10 @@ const App = () => {
       {
       path: '/activate-account', // Added this route for activation
       element: <ActivationPage />
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPassword />
     },
     {
       path: '/admin',

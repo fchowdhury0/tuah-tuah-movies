@@ -59,15 +59,34 @@ const ManagePromotions = () => {
     });
   };
 
+  const sendPromotionEmails = async (promotionData) => {
+    try {
+      await axios.post(
+        `${API_BASE_URL}/api/promotions/send-emails`,
+        promotionData,
+        {
+          headers: {
+            'Authorization': `Bearer ${auth.token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      setSuccess('Promotion created and emails sent successfully');
+    } catch (err) {
+      console.error('Error sending promotion emails:', err);
+      setError('Failed to send promotion emails');
+    }
+  };
+
   const handleAddPromotion = async (e) => {
     e.preventDefault();
     if (!auth.token) {
       setError('You must be logged in to add promotions');
       return;
     }
-
+  
     try {
-      await axios.post(
+      const response = await axios.post(
         `${API_BASE_URL}/api/promotions`, 
         newPromotion,
         {
@@ -78,6 +97,23 @@ const ManagePromotions = () => {
         }
       );
 
+      if (newPromotion.sendEmail) {
+        await axios.post(
+          `${API_BASE_URL}/api/promotions/send-emails`,
+          {
+            promotionId: response.data.promoId,
+            emailSubject: newPromotion.emailSubject,
+            emailMessage: newPromotion.emailMessage
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${auth.token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+      }
+  
       setSuccess('Promotion created successfully');
       setError(null);
       setNewPromotion({
@@ -85,7 +121,10 @@ const ManagePromotions = () => {
         startDate: '',
         expDate: '',
         description: '',
-        isActive: true
+        isActive: true,
+        emailSubject: '',
+        emailMessage: '',
+        sendEmail: false
       });
       fetchPromotions();
     } catch (err) {
@@ -108,6 +147,46 @@ const ManagePromotions = () => {
       {success && <div className="success-message">{success}</div>}
       {error && <div className="error-message">{error}</div>}
       
+      <div className="form-group">
+          <label>
+            <input 
+              type="checkbox" 
+              name="sendEmail" 
+              checked={newPromotion.sendEmail} 
+              onChange={(e) => setNewPromotion({
+                ...newPromotion,
+                sendEmail: e.target.checked
+              })} 
+            />
+            Send Email to Subscribed Users
+          </label>
+        </div>
+
+        {newPromotion.sendEmail && (
+          <>
+            <div className="form-group">
+              <label>Email Subject:</label>
+              <input 
+                type="text" 
+                name="emailSubject" 
+                value={newPromotion.emailSubject || ''} 
+                onChange={handleChange} 
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Email Message:</label>
+              <textarea 
+                name="emailMessage" 
+                value={newPromotion.emailMessage || ''} 
+                onChange={handleChange} 
+                required
+                rows="4"
+              />
+            </div>
+          </>
+        )}
+
       <form onSubmit={handleAddPromotion}>
         <h3>Add New Promotion</h3>
         <div className="form-group">

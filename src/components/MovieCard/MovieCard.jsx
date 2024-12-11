@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import convertYouTubeUrl from '../../utils/convertYouTubeUrl';
 import TrailerModal from '../TrailerModal/TrailerModal.jsx';
 import './MovieCard.css';
@@ -36,7 +37,6 @@ const MovieCard = ({ movie, isAdmin }) => {
         {isAdmin ? (
           <div className="movie-buttons">
             <button className="edit-button" onClick={handleEditMovie}>Edit</button>
-            <button className="book-button">Delete</button>
           </div>
         ) : (
           <div className="movie-buttons">

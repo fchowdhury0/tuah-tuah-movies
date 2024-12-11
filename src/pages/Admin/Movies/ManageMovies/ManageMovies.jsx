@@ -33,6 +33,7 @@ const ManageMovies = () => {
         throw new Error('Invalid data format received from API');
       }
       setMovies(response.data);
+      console.log("movies: " +movies);
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -188,12 +189,8 @@ const ManageMovies = () => {
 
       {error && <div className="error">Error: {error}</div>}
 
-      <div className="admin-view">
-        <div className="box box1">Active Movies</div>
-      </div>
-
       <section>
-        <h2>Currently Running</h2>
+        <h2>Active Movies</h2>
         <div className="container">
           {loading ? (
             <div>Loading movies...</div>

@@ -16,6 +16,10 @@ $transition: all 0.3s ease;
   align-items: center;
   background-color: $darker-bg;
   border-radius: 10px;
+
+  .row-container {
+    width: 950px;
+  }
 }
 
 .row{

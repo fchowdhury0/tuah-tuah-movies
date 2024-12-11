@@ -24,8 +24,12 @@ public class ShowSeatingChartService {
     return repository.findById(id);
   }
 
-  public List<ShowSeatingChart> findByShowId(Integer id) {
+  public List<ShowSeatingChart> findByShowId(Long id) {
     return repository.findByShowId(id);
+  }
+
+  public void deleteByShowId(Long showId) {
+    repository.deleteByShowId(showId);
   }
 
   // Methods for reserving seats, updating statuses, etc.
