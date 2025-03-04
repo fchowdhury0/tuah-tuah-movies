@@ -6,24 +6,65 @@ We were instructed to create a full-stack implementation of a movie theater webs
 
 For this project, we used a **React** frontend, bootstrapped with **Create React App**, and incorporated **Formik**, **Yup**, and **Sass** for form handling and styling. The backend was built using **Spring Boot** with **Maven**, handling the server-side logic and API endpoints.
 
-My main responsibility was the design, creation, and implementation of the database for our movie theater. We used **PostgreSQL**, a **Relational Database Management System (RDBMS)** that uses SQL. For our purposes, we decided to use a localized seeded database, which we could update using a database creation ``.sql`` script and a ``seed.sql`` script to populate the database with example movies and showtimes.
-
+My main responsibility was the design, creation, and implementation of the database for our movie theater. We used **PostgreSQL**, a **Relational Database Management System (RDBMS)** that uses SQL. For our purposes, we decided to use a localized seeded database, which we could update using a database creation ``setup_movietheater.sql`` script and a ``seed.sql`` script to create the schema of the database and populate the tables with users, movies, showtimes, etc.
 
 In order to create the database from the ground up in a manner that would prevent any inconsistencies as the website was scaled, I made a list of tables along with the columns in each table and a primary key(PK). Then I determined how tables would be linked with one another, on a one-to-one or one-to-many basis; foriegn keys(FKs) would be referenced in each table accordingly. 
 
 Below, I have included the Entity-Relationship Diagram (ERD) for our movie theater site, depicting the various tables and how they are linked to one another.
 
-__DATABASE DESIGN PHILOSOPHY__: 
+## Database Design Philosophy  
 
-![Alt text](images/movietheater.png)
+### Entity-Relationship Diagram (ERD)  
 
-In the ERD above, a particular movie is tracked by a PK movie_id and can have 1 or many shows, each of which has PK show_id and represents a particular showtime of the movie with its own date, time, and seating chart. The seating charts are linked to their respective shows using the foriegn key(FK) show_id. 
+Below, I have included the **Entity-Relationship Diagram (ERD)** for our movie theater site, depicting the various tables and how they are linked to one another.
 
-Because each showing of a movie will have to track which seats are available or unavailable, it is necessary here to use a third "linking table" to track seating avaialable for a particular show_id in the shows table. This prevents data redundency and improves the scalability of the database. 
+![Movie Theater ERD](images/movietheater.png)
 
-Using this method, the first table shows tracks each show_id as a particular showing of a referenced movie_id(FK), while the second table seating_chart table tracks only a grid template for the theater's seating chart, which is assumed to be the same in each theater showroom, and tracks a particular seat_id, its row and seat_number. For example, seat_id=3 could be in row A seat 3. Finally, a third table 3 is necessary to link each show with its own seating chart, so that show_seating_id, the primary key for this table, can track the reservation_status (reserved or open) of a particular show_id(FK) and seat_id(FK), which link to first two tables. 
+### Database Structure  
 
-In this manner, the database is able to track which seats are available or already reserved for a particular showing of a particular movie--and this information can then be displayed to the user when they are viewing the seating chart for a particular showing on the front-end during the ticket booking process. The user is then able to choose their seats from the seats still avaialable and proceed to buy tickets, and the database will then be updated to mark their seats as reserved so that no two users purchasing tickets will have reserved the same seats for the same showing. 
+In order to create the database from the ground up in a manner that would prevent any inconsistencies as the website scaled, I followed these steps:  
+
+1. **Table Definition**  
+   - Listed out tables along with their respective columns.  
+   - Defined a **primary key (PK)** for each table.  
+
+2. **Establishing Relationships**  
+   - Determined **one-to-one** and **one-to-many** relationships.  
+   - Referenced **foreign keys (FKs)** accordingly.  
+
+### Explanation of the ERD  
+
+- A **movie** is tracked by a **PK `movie_id`** and can have **one or many** showings.  
+- Each showing is recorded in the `shows` table, with a **PK `show_id`** and details such as **date, time, and seating chart**.  
+- The **seating chart** is linked to its respective showing via **FK `show_id`**.  
+
+### Handling Seat Reservations  
+
+Because each movie showing must track **seat availability**, a third **"linking table"** is required to **prevent data redundancy** and **improve scalability**.  
+
+#### Breakdown of Related Tables:  
+
+1. **`shows` table**  
+   - Tracks each `show_id` as a particular showing of a referenced **`movie_id (FK)`**.  
+
+2. **`seating_chart` table**  
+   - Stores a **grid template** for the theater’s seating arrangement.  
+   - Defines each **`seat_id`**, **row**, and **seat_number**.  
+   - Example: `seat_id = 3` → Row A, Seat 3.  
+
+3. **`show_seating` table (linking table)**  
+   - Links each `show_id (FK)` with `seat_id (FK)`.  
+   - Tracks **seat reservation status** (`reserved` or `open`).  
+
+### Functionality  
+
+- The database tracks which seats are available or reserved for a specific showing.  
+- This information is displayed on the **frontend** during the **ticket booking process**.  
+- Users can select available seats, complete their purchase, and the database updates the **reservation status** to ensure no double bookings.  
+
+
+
+Further information about the tech stack, dependencies, and how to run the project can be found below. 
 
 
 # Getting Started with Create React App
