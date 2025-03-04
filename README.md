@@ -27,26 +27,11 @@ We were tasked with developing a **full-stack movie theater website** where user
   - `setup_movietheater.sql` – for schema creation  
   - `seed.sql` – for inserting sample data like users, movies, showtimes, etc.)  
 
-## Database Design  
+## Database Design   
 
 ![Movie Theater ERD](images/movietheater.png)
 
 As the primary **database architect** for this project, I focused on designing a **scalable and normalized schema** to ensure **data integrity** as the website expanded.  
-
-### Key Steps in Database Development:  
-1. **Defined tables** with appropriate **columns and primary keys (PKs)**.  
-2. **Established relationships** between tables using **one-to-one** and **one-to-many** mappings.  
-3. **Implemented foreign keys (FKs)** to maintain **referential integrity**.  
-
-## Database Design Philosophy  
-
-### Entity-Relationship Diagram (ERD)  
-
-Below, I have included the **Entity-Relationship Diagram (ERD)** for our movie theater site, depicting the various tables and how they are linked to one another.
-
-![Movie Theater ERD](images/movietheater.png)
-
-### Database Structure  
 
 In order to create the database from the ground up in a manner that would prevent any inconsistencies as the website scaled, I followed these steps:  
 
@@ -56,7 +41,13 @@ In order to create the database from the ground up in a manner that would preven
 
 2. **Establishing Relationships**  
    - Determined **one-to-one** and **one-to-many** relationships.  
-   - Referenced **foreign keys (FKs)** accordingly.  
+   - Referenced **foreign keys (FKs)** accordingly.   
+
+### Entity-Relationship Diagram (ERD)  
+
+Below, I have included the **Entity-Relationship Diagram (ERD)** for our movie theater site, depicting the various tables and how they are linked to one another.
+
+![Movie Theater ERD](images/movietheater.png)
 
 ### Explanation of the ERD  
 
