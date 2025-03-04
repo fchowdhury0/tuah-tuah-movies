@@ -36,11 +36,6 @@ As the primary **database architect** for this project, I focused on designing a
 2. **Established relationships** between tables using **one-to-one** and **one-to-many** mappings.  
 3. **Implemented foreign keys (FKs)** to maintain **referential integrity**.  
 
-Below is the **Entity-Relationship Diagram (ERD)** for our movie theater database, illustrating the tables and their relationships.  
-
-![Movie Theater ERD](images/movietheater.png)  
-
-
 ## Database Design Philosophy  
 
 ### Entity-Relationship Diagram (ERD)  
