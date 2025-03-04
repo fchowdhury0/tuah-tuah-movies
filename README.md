@@ -6,7 +6,8 @@ We were tasked with developing a **full-stack movie theater website** where user
 - **Create an account** and log in.  
 - **Add up to three payment cards** to their account.  
 - **Browse available movies** stored in a **localized, seeded database**.  
-- **Book tickets** for a specific movie showing.  
+- **Book tickets** for a specific movie showing.
+- and more...
 
 ## Tech Stack  
 
