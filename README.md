@@ -1,3 +1,12 @@
+# READ FIRST 
+
+This project was created in collaboration with 3 other students for my Data Structures class.
+
+We were instructed to create a full stack implementation of a movie theater website on which the user could create an account, log in, add up to (but no more than) 3 cards to their account, browse the available movies (stored on the localized seeded database), and book tickets for a particular viewing of the movie they have chosen.
+
+My main responsibility was for the design, creation, and implementation of the database for our movie theater. For our database we used the Relational Database Management System(RDBMS) Postgres, which uses the SQL language. For our purposes we decided to use a localized seeded database, which we could update using a database creation .sql script and a seed.sql script to fill the database with example movies and showtimes. It took considerable planning to ensure that the database would not
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
