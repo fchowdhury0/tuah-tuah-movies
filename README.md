@@ -69,8 +69,8 @@ Because each movie showing must track **seat availability**, a third **"linking 
    - Defines each **`seat_id`**, **row**, and **seat_number**.  
    - Example: `seat_id = 3` → Row A, Seat 3.  
 
-3. **`show_seating` table (linking table)**  
-   - Links each `show_id (FK)` with `seat_id (FK)`.  
+3. **`show_seating_chart` table (linking table)**  
+   - Links each `show_id (FK)` with `seat_id (FK)` to a `show_seating_id (PK)`
    - Tracks **seat reservation status** (`reserved` or `open`).  
 
 ### Functionality  
