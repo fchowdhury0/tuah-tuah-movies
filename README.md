@@ -29,6 +29,8 @@ We were tasked with developing a **full-stack movie theater website** where user
 
 ## Database Design  
 
+![Movie Theater ERD](images/movietheater.png)
+
 As the primary **database architect** for this project, I focused on designing a **scalable and normalized schema** to ensure **data integrity** as the website expanded.  
 
 ### Key Steps in Database Development:  
