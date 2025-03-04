@@ -1,16 +1,44 @@
-# READ FIRST 
+# READ FIRST  
 
-This project was created in collaboration with 3 other students for my Data Structures class.
+This project was created in collaboration with three other students for my **Data Structures** class.  
 
-We were instructed to create a full-stack implementation of a movie theater website on which the user could create an account, log in, add up to (but no more than) three cards to their account, browse the available movies (stored in a localized seeded database), and book tickets for a particular viewing of the movie they have chosen.
+We were tasked with developing a **full-stack movie theater website** where users could:  
+- **Create an account** and log in.  
+- **Add up to three payment cards** to their account.  
+- **Browse available movies** stored in a **localized, seeded database**.  
+- **Book tickets** for a specific movie showing.  
 
-For this project, we used a **React** frontend, bootstrapped with **Create React App**, and incorporated **Formik**, **Yup**, and **Sass** for form handling and styling. The backend was built using **Spring Boot** with **Maven**, handling the server-side logic and API endpoints.
+## Tech Stack  
 
-My main responsibility was the design, creation, and implementation of the database for our movie theater. We used **PostgreSQL**, a **Relational Database Management System (RDBMS)** that uses SQL. For our purposes, we decided to use a localized seeded database, which we could update using a database creation ``setup_movietheater.sql`` script and a ``seed.sql`` script to create the schema of the database and populate the tables with users, movies, showtimes, etc.
+### Frontend  
+- **React** (bootstrapped with **Create React App**)  
+- **Formik** & **Yup** (form handling & validation)  
+- **Sass** (styling)  
 
-In order to create the database from the ground up in a manner that would prevent any inconsistencies as the website was scaled, I made a list of tables along with the columns in each table and a primary key(PK). Then I determined how tables would be linked with one another, on a one-to-one or one-to-many basis; foriegn keys(FKs) would be referenced in each table accordingly. 
+### Backend  
+- **Spring Boot** (server-side logic & API endpoints)  
+- **Maven** (dependency management)  
 
-Below, I have included the Entity-Relationship Diagram (ERD) for our movie theater site, depicting the various tables and how they are linked to one another.
+### Database  
+- **PostgreSQL** (**Relational Database Management System - RDBMS**)  
+- **SQL** (for schema definition & queries)  
+- **Seeded Local Database** (populated using:  
+  - `setup_movietheater.sql` – for schema creation  
+  - `seed.sql` – for inserting sample data like users, movies, showtimes, etc.)  
+
+## Database Design  
+
+As the primary **database architect** for this project, I focused on designing a **scalable and normalized schema** to ensure **data integrity** as the website expanded.  
+
+### Key Steps in Database Development:  
+1. **Defined tables** with appropriate **columns and primary keys (PKs)**.  
+2. **Established relationships** between tables using **one-to-one** and **one-to-many** mappings.  
+3. **Implemented foreign keys (FKs)** to maintain **referential integrity**.  
+
+Below is the **Entity-Relationship Diagram (ERD)** for our movie theater database, illustrating the tables and their relationships.  
+
+![Movie Theater ERD](images/movietheater.png)  
+
 
 ## Database Design Philosophy  
 
