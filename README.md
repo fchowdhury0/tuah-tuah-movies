@@ -2,9 +2,28 @@
 
 This project was created in collaboration with 3 other students for my Data Structures class.
 
-We were instructed to create a full stack implementation of a movie theater website on which the user could create an account, log in, add up to (but no more than) 3 cards to their account, browse the available movies (stored on the localized seeded database), and book tickets for a particular viewing of the movie they have chosen.
+We were instructed to create a full-stack implementation of a movie theater website on which the user could create an account, log in, add up to (but no more than) three cards to their account, browse the available movies (stored in a localized seeded database), and book tickets for a particular viewing of the movie they have chosen.
 
-My main responsibility was for the design, creation, and implementation of the database for our movie theater. For our database we used the Relational Database Management System(RDBMS) Postgres, which uses the SQL language. For our purposes we decided to use a localized seeded database, which we could update using a database creation .sql script and a seed.sql script to fill the database with example movies and showtimes. It took considerable planning to ensure that the database would not
+For this project, we used a **React** frontend, bootstrapped with **Create React App**, and incorporated **Formik**, **Yup**, and **Sass** for form handling and styling. The backend was built using **Spring Boot** with **Maven**, handling the server-side logic and API endpoints.
+
+My main responsibility was the design, creation, and implementation of the database for our movie theater. We used **PostgreSQL**, a **Relational Database Management System (RDBMS)** that uses SQL. For our purposes, we decided to use a localized seeded database, which we could update using a database creation ``.sql`` script and a ``seed.sql`` script to populate the database with example movies and showtimes.
+
+
+In order to create the database from the ground up in a manner that would prevent any inconsistencies as the website was scaled, I made a list of tables along with the columns in each table and a primary key(PK). Then I determined how tables would be linked with one another, on a one-to-one or one-to-many basis; foriegn keys(FKs) would be referenced in each table accordingly. 
+
+Below, I have included the Entity-Relationship Diagram (ERD) for our movie theater site, depicting the various tables and how they are linked to one another.
+
+__DATABASE DESIGN PHILOSOPHY__: 
+
+![Alt text](images/movietheater.png)
+
+In the ERD above, a particular movie is tracked by a PK movie_id and can have 1 or many shows, each of which has PK show_id and represents a particular showtime of the movie with its own date, time, and seating chart. The seating charts are linked to their respective shows using the foriegn key(FK) show_id. 
+
+Because each showing of a movie will have to track which seats are available or unavailable, it is necessary here to use a third "linking table" to track seating avaialable for a particular show_id in the shows table. This prevents data redundency and improves the scalability of the database. 
+
+Using this method, the first table shows tracks each show_id as a particular showing of a referenced movie_id(FK), while the second table seating_chart table tracks only a grid template for the theater's seating chart, which is assumed to be the same in each theater showroom, and tracks a particular seat_id, its row and seat_number. For example, seat_id=3 could be in row A seat 3. Finally, a third table 3 is necessary to link each show with its own seating chart, so that show_seating_id, the primary key for this table, can track the reservation_status (reserved or open) of a particular show_id(FK) and seat_id(FK), which link to first two tables. 
+
+In this manner, the database is able to track which seats are available or already reserved for a particular showing of a particular movie--and this information can then be displayed to the user when they are viewing the seating chart for a particular showing on the front-end during the ticket booking process. The user is then able to choose their seats from the seats still avaialable and proceed to buy tickets, and the database will then be updated to mark their seats as reserved so that no two users purchasing tickets will have reserved the same seats for the same showing. 
 
 
 # Getting Started with Create React App
